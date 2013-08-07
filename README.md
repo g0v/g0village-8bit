@@ -7,7 +7,7 @@ g0village 8bit
 Uses https://github.com/louisstow/Crafty
 
 初部的腳本是由 persona 修改而來
-https://github.com/racklin/Persona-4-8-bit-RPG
+https://github.com/quantsini/Persona-4-8-bit-RPG
 
 
 TODO
