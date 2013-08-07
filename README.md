@@ -12,7 +12,7 @@ https://github.com/quantsini/Persona-4-8-bit-RPG
 
 DEMO
 ==========
-* https://g0v.github.io/g0village-8bit/
+* http://g0v.github.io/g0village-8bit/
 
 TODO
 ----------
