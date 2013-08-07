@@ -10,6 +10,10 @@ Uses https://github.com/louisstow/Crafty
 https://github.com/quantsini/Persona-4-8-bit-RPG
 
 
+DEMO
+==========
+* https://g0v.github.io/g0village-8bit/
+
 TODO
 ----------
 把各腳本由 html 分離出各別的 js
