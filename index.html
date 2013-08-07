@@ -62,7 +62,8 @@
 				Crafty.scene("titleScreen", function() {
 					loadManager = Crafty.e("AssetLoadManager");
 					// add music
-					Crafty.audio.add("introMusic", ["assets/intro.mp3","assets/intro.ogg"]);
+					Crafty.audio.add("introMusic",
+                                        ["assets/people-sing.mp3","assets/people-sing.ogg"]);
 					Crafty.audio.play("introMusic", -1);
 					Crafty.background("black");
 
