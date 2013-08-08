@@ -86,7 +86,7 @@
 				var d = (0.5 + 0.5*Math.cos(x/10))*1
 				var crstage = Crafty.canvas.context.getImageData(0,0,640,440);
 				var texture = canvas.texture(crstage);
-				canvas.draw(texture).sepia(0.85).bulgePinch(320,220,400,0.05).brightnessContrast(-0.1,0.2).vignette(0,1).noise(0.10).update();
+				canvas.draw(texture).sepia(0.90).bulgePinch(320,220,400,0.05).brightnessContrast(-0.1,0.1).vignette(0,1).noise(0.10).update();
 				x = x + 1;
 			}
 			animloop = function(){

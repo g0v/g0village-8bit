@@ -89,19 +89,45 @@ window.overworldScene = function() {
     yukkikoScript = (function() {
             var counter = 0;
             var space = function() {
-                    if (counter === 1) {
-                            counter = 0;
-                            vnEngine.hideDialog();
-                            vnEngine.showInteraction();
-                            return;
-                    }
-                    vnEngine.hideInteraction();
-                    vnEngine.setName("Yukkiko");
-                    vnEngine.setPortrait("assets/yukkiko.png");
-                    vnEngine.setText("DERP");
-                    vnEngine.showDialog();
+                    if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
+                            switch (counter) {
+                                    case 0:
+                                            vnEngine.hideInteraction();
 
-                    counter++;
+                                            vnEngine.setName("萌典小精靈");
+                                            vnEngine.setText(Hero.name + " 你好!");
+                                            vnEngine.setPortrait("assets/yukkiko.png");
+                                            vnEngine.showDialog();
+                                            break;
+                                    case 1:
+                                            vnEngine.setText("你知道「萌」這個字的意思嗎？");
+                                            $.when(vnEngine.animateMessage()).then( function() {
+                                                    $.when(vnEngine.promptQuestion(["人民","發芽的幼苗","事情開始時的徵兆","..."])).then( function(choice) {
+                                                            switch (choice) {
+                                                                    case 1:
+                                                                            vnEngine.setText("沒錯！");
+                                                                            break;
+                                                                    case 2:
+                                                                            vnEngine.setText("答對了！");
+                                                                            break;
+                                                                    case 3:
+                                                                            vnEngine.setText("完全正確！");
+                                                            }
+                                                            vnEngine.animateMessage();
+                                                    });
+                                            })
+                                            break;
+                                    default:
+                                            counter = -1;
+                                            vnEngine.hideDialog();
+                                            vnEngine.showInteraction();
+                            }
+                            counter++;
+                    } else if (vnEngine.isWriting()) {
+                            console.log("is writing");
+                            vnEngine.forceTextFinish();
+                    }
+                    console.log(counter);
             }
             var leave = function() {
                     vnEngine.hideDialog();
