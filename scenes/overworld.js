@@ -353,12 +353,8 @@ window.overworldScene = function() {
                     y:y*32,
             }).collision(new Crafty.polygon([0,32],[32,32],[32,20],[0,20]));
     }
-    var makeSmallSignAt = function(x,y) {
-            Crafty.e("2D, Canvas, smallSign, Collision, NPC, Collidable").attr({
-                    x:x*32,
-                    y:y*32,
-            }).collision(new Crafty.polygon([0,32],[32,32],[32,20],[0,20]))
-            .setupScript({
+    var setupSign = function(text, entity, url) {
+        entity.setupScript({
                     state: false,
                     count: 0,
                     enterCallback: function () {
@@ -373,23 +369,35 @@ window.overworldScene = function() {
                             if (this.count === 0) {
                                     vnEngine.hideInteraction();
                                     vnEngine.setPortrait("assets/empty.png");
-                                    vnEngine.setText(">  這裡是 g0v 新手村！");
+                                    vnEngine.setText("> " + text);
                                     vnEngine.setName("");
                                     vnEngine.showDialog();
                                     this.count = 1;
                             } else {
                                     vnEngine.showInteraction();
                                     vnEngine.hideDialog();
+                                    if (url) { window.open(url) };
                                     this.count = 0;
                             }
                     }
             });
-    }
-    var makeBigSignAt = function(x,y) {
-            Crafty.e("2D, Canvas, bigSign, Collision, RespectZIndex, Collidable").attr({
+    };
+    var makeSmallSignAt = function(x,y) {
+        setupSign("這裡是 g0v 新手村！",
+            Crafty.e("2D, Canvas, smallSign, Collision, NPC, Collidable").attr({
                     x:x*32,
                     y:y*32,
-            }).collision(new Crafty.polygon([0,32],[32,32],[32,20],[0,20]));
+            }).collision(new Crafty.polygon([0,32],[32,32],[32,20],[0,20]))
+        );
+    };
+    var makeBigSignAt = function(x,y) {
+        setupSign("零時政府首頁：http://g0v.tw/",
+            Crafty.e("2D, Canvas, bigSign, Collision, NPC, RespectZIndex, Collidable").attr({
+                    x:x*32,
+                    y:y*32,
+                    z:10,
+            }).collision(new Crafty.polygon([0,32],[32,32],[32,20],[0,20])), "http://g0v.tw/"
+        );
     }
     var makeBoundary = function(x,y,w,h) {
 
