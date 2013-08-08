@@ -20,7 +20,7 @@ window.overworldScene = function() {
      *
      *lol abstract the shit out of this. maybe write a higher level language like ren'py that handles the visual novel portions?
      */
-    yosukeScript = (function() {
+    hlbScript = (function() {
             var counter = 0;
             var space = function() {
                     if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
@@ -30,20 +30,20 @@ window.overworldScene = function() {
 
                                             vnEngine.setName("售票亭老板");
                                             vnEngine.setText("Hey partner!");
-                                            vnEngine.setPortrait("assets/yosuke.png");
+                                            vnEngine.setPortrait("assets/hlb.png");
                                             vnEngine.showDialog();
                                             break;
                                     case 1:
                                             vnEngine.setText(Hero.name + "! 你有買 Fire.app 嗎?");
                                             $.when(vnEngine.animateMessage()).then( function() {
-                                                    $.when(vnEngine.promptQuestion(["Yep","Nope","..."])).then( function(choice) {
+                                                    $.when(vnEngine.promptQuestion(["有!","沒有!","..."])).then( function(choice) {
                                                             switch (choice) {
                                                                     case 1:
-                                                                            vnEngine.setPortrait("assets/yosukehappy.png");
-                                                                            vnEngine.setText("Cool! Let's go there sometime...");
+                                                                            vnEngine.setPortrait("assets/hlb.png");
+                                                                            vnEngine.setText("Cool!");
                                                                             break;
                                                                     case 2:
-                                                                            vnEngine.setPortrait("assets/yosukesad.png");
+                                                                            vnEngine.setPortrait("assets/hlb.png");
                                                                             vnEngine.setText("Aww man.");
                                                                             break;
                                                                     case 3:
@@ -54,7 +54,7 @@ window.overworldScene = function() {
                                             })
                                             break;
                                     case 2:
-                                            vnEngine.setText("> Yosuke pats your back hard.");
+                                            vnEngine.setText("你去找右上角的高村長聊聊吧!");
                                             $.when(vnEngine.animateMessage()).then( function() {
                                                     //derp
                                             });
@@ -118,7 +118,7 @@ window.overworldScene = function() {
                     enterCallback: enter
             }
     })()
-    chieScript = (function() {
+    clkaoScript = (function() {
             var counter = 0;
             var choice1 = 0;
             var space = function() {
@@ -240,7 +240,7 @@ window.overworldScene = function() {
             x: 510,
             y: 199
     })
-    .setupScript(chieScript)
+    .setupScript(clkaoScript)
     .wander();
 
     var yukkiko = Crafty.e("2D, Canvas, yukkikoSprite, NPC").attr({
@@ -253,7 +253,7 @@ window.overworldScene = function() {
             x: 410,
             y: 413,
     })
-    .setupScript(yosukeScript)
+    .setupScript(hlbScript)
     .wander();
 
     var player1 = Crafty.e("Player").attr({
