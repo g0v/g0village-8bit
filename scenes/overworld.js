@@ -86,7 +86,7 @@ window.overworldScene = function() {
                     enterCallback: enter
             }
     })()
-    yukkikoScript = (function() {
+    moeScript = (function() {
             var counter = 0;
             var space = function() {
                     if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
@@ -96,7 +96,7 @@ window.overworldScene = function() {
 
                                             vnEngine.setName("萌典小精靈");
                                             vnEngine.setText(Hero.name + " 你好!");
-                                            vnEngine.setPortrait("assets/yukkiko.png");
+                                            vnEngine.setPortrait("assets/moe.png");
                                             vnEngine.showDialog();
                                             break;
                                     case 1:
@@ -250,8 +250,8 @@ window.overworldScene = function() {
     Crafty.sprite(32, "assets/soujisprite.png", {
             playerSprite: [1,0]
     });
-    Crafty.sprite(32, "assets/yukkikosprite.png", {
-            yukkikoSprite: [1,0]
+    Crafty.sprite(32, "assets/moesprite.png", {
+            moeSprite: [1,0]
     });
     Crafty.sprite(32, "assets/yosukesprite.png", {
             yosukeSprite: [1,0]
@@ -270,11 +270,11 @@ window.overworldScene = function() {
     .setupScript(clkaoScript)
     .wander();
 
-    var yukkiko = Crafty.e("2D, Canvas, yukkikoSprite, NPC").attr({
+    var moe = Crafty.e("2D, Canvas, moeSprite, NPC").attr({
             x: 278,
             y: 519,
     })
-    .setupScript(yukkikoScript)
+    .setupScript(moeScript)
     .wander();
     var yosuke = Crafty.e("2D, Canvas, yosukeSprite, NPC").attr({
             x: 410,
