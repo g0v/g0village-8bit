@@ -63,9 +63,19 @@ window.battleScene = function() {
                     counter=6;
                     break;
                 case 6:
+                    btEngine.setText(HeroPartner.name + "> " + HeroPartner.bio);
+                    btEngine.animateMessage();
+                    counter=7;
+                    break;
+                case 7:
+                    btEngine.setText(Hero.name + "> 好啦！看前面～ 打戰別喇賽！");
+                    btEngine.animateMessage();
+                    counter=8;
+                    break;
+                case 8:
                     btEngine.setText("還沒寫完！ Reload Browser 試試伙伴的手氣吧!");
                     btEngine.animateMessage();
-                    counter=6;
+                    counter=8;
                     break;
             }
         };

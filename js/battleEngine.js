@@ -53,6 +53,7 @@ Crafty.c("BattleEngine", {
 				y: 300,
 				h: 25,
 				w: 570,
+                alpha: 0,
 				z: 103
 			}).color("transparent").fontColor("black");
 		this._checkDialog = Crafty.e("2D, Color, Canvas, Text")
@@ -404,7 +405,7 @@ Crafty.c("BattleEngine", {
 					alpha: 0
 				}, 10, function() {
 				self._orangeBG.attr( {
-						alpha: 1
+						alpha: 0
 					});
 				self._characterBG.tween( {
 						alpha: 1,
