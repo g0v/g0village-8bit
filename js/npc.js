@@ -1,6 +1,6 @@
 Crafty.c("NPC", {
     init: function () {
-        Crafty.sprite(32, "charShadow.png", {
+        Crafty.sprite(32, "assets/charShadow.png", {
             charShadow: [0, 0]
         });
         this._wandering = false;
