@@ -33,6 +33,7 @@ window.titleScreenScene = function() {
                     if (e.key === 13) {
                             Crafty.audio.mute();
                             Crafty.audio.mute();
+                            Hero.name = prompt("勇者，你叫什麼名字");
                             loadManager.loadScene(["assets/yosukehappy.png", "assets/yosukesad.png","assets/clkaoask.png", "assets/clkaoangry.png", "assets/tree.png","assets/palmTree.png","assets/rock.png","assets/bush.png","assets/smalltree.png","assets/background.png","assets/tileset32.png","assets/darkbackground.png","assets/orangebackground.png", "assets/chiesprite.png","assets/igor.png","assets/kanji.png","assets/kanjiangry.png","assets/kanjiconfused.png","assets/soujisprite.png","assets/teddie.png","assets/teddiehappy.png","assets/teddiesad.png","assets/yosukesprite.png","assets/yukkiko.png","assets/yukkikosad.png","assets/yukkikosprite.png","assets/clkao.png","assets/yosuke.png","assets/clkaohungry.png"], "overworld");
                     }
             });

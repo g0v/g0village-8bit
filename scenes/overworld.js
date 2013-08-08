@@ -34,7 +34,7 @@ window.overworldScene = function() {
                                             vnEngine.showDialog();
                                             break;
                                     case 1:
-                                            vnEngine.setText("你有買 Fire.app 嗎?");
+                                            vnEngine.setText(Hero.name + "! 你有買 Fire.app 嗎?");
                                             $.when(vnEngine.animateMessage()).then( function() {
                                                     $.when(vnEngine.promptQuestion(["Yep","Nope","..."])).then( function(choice) {
                                                             switch (choice) {
@@ -128,19 +128,19 @@ window.overworldScene = function() {
                                             vnEngine.hideInteraction();
 
                                             vnEngine.setName("高村長");
-                                            vnEngine.setText("Hey you!");
+                                            vnEngine.setText("唷~ " + Hero.name + "!");
                                             vnEngine.setPortrait("assets/clkao.png");
                                             vnEngine.showDialog();
                                             break;
                                     case 1:
-                                            vnEngine.setText("> 你看來沒事做，去領個專案寫！！");
+                                            vnEngine.setText("你看來沒事做，去領個專案寫！！");
                                             vnEngine.animateMessage();
                                             break;
                                     case 2:
                                             vnEngine.setPortrait("assets/clkaohungry.png");
-                                            vnEngine.setText("你想要開始一個專案了嗎?");
+                                            vnEngine.setText( Hero.name + "! 你想要開始一個專案了嗎?");
                                             $.when(vnEngine.animateMessage()).then( function() {
-                                                    $.when(vnEngine.promptQuestion(["I do!","No","我要挑戰村長"])).then( function(choice) {
+                                                    $.when(vnEngine.promptQuestion(["我很樂意!","不想耶!","我要挑戰村長!!!"])).then( function(choice) {
                                                             choice1 = choice;
 
                                                             switch (choice1) {
@@ -151,18 +151,18 @@ window.overworldScene = function() {
                                                                             vnEngine.animateMessage();
                                                                             break;
                                                                     case 2:
-                                                                            vnEngine.setText("> 破少年！.");
+                                                                            vnEngine.setText("破少年！");
 
                                                                             vnEngine.animateMessage();
                                                                             counter = -2;
                                                                             break;
                                                                     case 3:
                                                                             counter = -2;
-                                                                            vnEngine.setText("> 那沒什麼好說的，戰鬥吧！");
+                                                                            vnEngine.setText("那沒什麼好說的，戰鬥吧！");
                                                                             $.when(vnEngine.animateMessage()).then(function() {
                                                                                 Crafty.audio.mute();
                                                                                 Crafty.audio.mute();
-            loadManager.loadScene(["assets/g0v-240-invert.png","assets/pushenter.png"], "titleScreen");
+                                                                                loadManager.loadScene(["assets/background_taiwan.png","assets/pushenter.png", "assets/dq3_battle.mp3"], "battle");
                                                                             });
                                                                             break;
                                                             }
@@ -172,7 +172,7 @@ window.overworldScene = function() {
                                     case 3:
                                             switch (choice1) {
                                                     case 1:
-                                                            vnEngine.setText("> 那你先到 http://g0v.tw/join.html 看完加入我們文案.");
+                                                            vnEngine.setText("那你先到 http://g0v.tw/join.html 看完加入我們文案.");
 
                                                             vnEngine.animateMessage();
                                                             break;
@@ -187,7 +187,7 @@ window.overworldScene = function() {
                                     case 4:
 
                                             vnEngine.setPortrait("assets/clkaoangry.png");
-                                            vnEngine.setText("What. Hey! 你沒有 github 帳號!");
+                                            vnEngine.setText("什麼! " + Hero.name +"! 你沒有 github 帳號!");
 
                                             vnEngine.animateMessage();
                                             break;
