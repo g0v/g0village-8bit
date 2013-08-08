@@ -44,10 +44,10 @@ window.overworldScene = function() {
                                                                             break;
                                                                     case 2:
                                                                             vnEngine.setPortrait("assets/hlb.png");
-                                                                            vnEngine.setText("Aww man.");
+                                                                            vnEngine.setText("如果您有需要使用 Fire.app 參與 g0v 專案，歡迎找我領取一套。");
                                                                             break;
                                                                     case 3:
-                                                                            vnEngine.setText("..Huh? Why the silent treatment?");
+                                                                            vnEngine.setText("... 沉默是什麼意思呀?");
                                                             }
                                                             vnEngine.animateMessage();
                                                     });
