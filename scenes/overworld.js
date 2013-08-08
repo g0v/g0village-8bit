@@ -187,12 +187,13 @@ window.overworldScene = function() {
                                             }
                                             break;
                                     case 4:
-
+                                            window.open("http://g0v.tw/join.html");
+                                    /*
                                             vnEngine.setPortrait("assets/clkaoangry.png");
                                             vnEngine.setText("什麼! " + Hero.name +"! 你沒有 github 帳號!");
-
-                                            vnEngine.animateMessage();
                                             break;
+                                            */
+
                                     default:
                                             counter = -1;
                                             vnEngine.hideDialog();
