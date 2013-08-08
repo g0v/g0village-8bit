@@ -25,36 +25,31 @@ window.battleScene = function() {
                 default:
                     btEngine.setName(Boss.name);
                     btEngine.setPortrait(Boss.avatar);
-                    btEngine.setText(Boss.name + "> " + Hero.name + "! 戰鬥數值是由 github 的數值換算而來。");
+                    btEngine.setText(Boss.name + "> 單憑你一個人，想要挑戰我，那是不可能的！");
                     btEngine.showDialog();
                     counter=1;
                     break;
                 case 1:
-                    btEngine.setText(Boss.name + "> " + "HP 是 contributions，而 LV 是 followers.");
+                    btEngine.setText(Hero.name + "> 召喚 GitHub 上的 g0v 伙伴！");
                     btEngine.animateMessage();
-                    counter=2;
+                    counter++;
                     break;
                 case 2:
-                    btEngine.setText("單憑你一個人，你想要挑戰我！ 那是不可能的！");
+                    btEngine.setText(HeroPartner.name + " 趕來幫助 " + Hero.name + "。");
                     btEngine.animateMessage();
-                    counter=3;
+                    counter++;
                     break;
                 case 3:
-                    btEngine.setText(Hero.name + "> 召喚 github 上的 g0v 伙伴！");
+                    btEngine.setText("（夥伴的 HP/LV 是由 contribution/followers 換算而來。）");
                     btEngine.animateMessage();
-                    counter=4;
+                    counter++;
                     break;
                 case 4:
-                    btEngine.setText(HeroPartner.name + " 趕來幫助 " + Hero.name);
-                    btEngine.animateMessage();
-                    counter=5;
-                    break;
-                case 5:
                     btEngine._heroPartnerBG.attr({alpha: 1});
                     btEngine._heroPartnerName.attr({alpha: 1});
                     btEngine._heroPartnerHP.attr({alpha: 1});
                     btEngine._heroPartnerLV.attr({alpha: 1});
-                    btEngine.setText(HeroPartner.name + "> 那我們一起對抗挖坑給人家跳的 " + Boss.name + "吧！");
+                    btEngine.setText(HeroPartner.name + "> 我們一起對抗挖坑給人家跳的 " + Boss.name + "吧！");
                     btEngine.animateMessage();
                     counter=6;
                     break;
@@ -64,12 +59,12 @@ window.battleScene = function() {
                     counter=7;
                     break;
                 case 7:
-                    btEngine.setText(Hero.name + "> 好啦！看前面～ 打戰別喇賽！");
+                    btEngine.setText(Hero.name + "> 衝啊！");
                     btEngine.animateMessage();
                     counter=8;
                     break;
                 case 8:
-                    btEngine.setText("還沒寫完！ Reload Browser 試試伙伴的手氣吧!");
+                    btEngine.setText("/* 還沒寫完！Reload Browser 試試伙伴的手氣吧! */");
                     btEngine.animateMessage();
                     counter=8;
                     break;
