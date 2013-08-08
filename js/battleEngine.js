@@ -1,6 +1,11 @@
 Crafty.c("BattleEngine", {
     init: function() {
-		Crafty.sprite(1, "assets/orangebackground.png", {
+
+        Crafty.sprite(1, "assets/heroinfobox.png", {
+            heroinfoboxbg: [0, 0, 150, 120]
+        });
+
+        Crafty.sprite(1, "assets/orangebackground.png", {
 			orangebg: [0, 0, 640, 100]
 		});
 		Crafty.sprite(1, "assets/darkbackground.png", {
@@ -68,6 +73,127 @@ Crafty.c("BattleEngine", {
 		this._choiceSecondText = Crafty.e("2D, Color, Canvas, Text").text(" ").fontColor("white").color("transparent").attr({x:45, y:210, h: 25, w: 300, z: 100});
 		this._choiceThirdText = Crafty.e("2D, Color, Canvas, Text").text(" ").fontColor("white").color("transparent").attr({x:45, y:240, h: 25, w: 300, z: 100});
 
+        this._heroBG = Crafty.e("2D, Canvas, heroinfoboxbg, Tween")
+            .attr({
+                x: 50,
+                y: 5,
+                rotation: 0, // 5
+                alpha: 1, // 1
+                z: 200
+            });
+        this._heroName = Crafty.e("2D, Color, Canvas, Text")
+            .attr( {
+                x: 65,
+                y: 20,
+                h: 30,
+                w: 100,
+                z: 203
+            })
+            .color("transparent")
+            .fontColor("white").text(Hero.name);
+        this._heroHP = Crafty.e("2D, Color, Canvas, Text")
+            .attr( {
+                x: 120,
+                y: 55,
+                h: 30,
+                w: 100,
+                z: 203
+            })
+            .color("transparent")
+            .fontColor("white").text(Hero.contributions);
+        this._heroLV = Crafty.e("2D, Color, Canvas, Text")
+            .attr( {
+                x: 120,
+                y: 85,
+                h: 30,
+                w: 100,
+                z: 203
+            })
+            .color("transparent")
+            .fontColor("white").text(Hero.followers);
+
+        this._heroPartnerBG = Crafty.e("2D, Canvas, heroinfoboxbg, Tween")
+            .attr({
+                x: 250,
+                y: 5,
+                rotation: 0, // 5
+                alpha: 0, // 1
+                z: 200
+            });
+        this._heroPartnerName = Crafty.e("2D, Color, Canvas, Text")
+            .attr( {
+                x: 270,
+                y: 20,
+                h: 30,
+                w: 100,
+                alpha: 0,
+                z: 203
+            })
+            .color("transparent")
+            .fontColor("white").text(HeroPartner.name);
+
+        this._heroPartnerHP = Crafty.e("2D, Color, Canvas, Text")
+            .attr( {
+                x: 310,
+                y: 55,
+                h: 30,
+                w: 100,
+                alpha: 0,
+                z: 203
+            })
+            .color("transparent")
+            .fontColor("white").text(HeroPartner.contributions);
+        this._heroPartnerLV = Crafty.e("2D, Color, Canvas, Text")
+            .attr( {
+                x: 310,
+                y: 85,
+                h: 30,
+                w: 100,
+                alpha: 0,
+                z: 203
+            })
+            .color("transparent")
+            .fontColor("white").text(HeroPartner.followers);
+
+        this._bossBG = Crafty.e("2D, Canvas, heroinfoboxbg, Tween")
+            .attr({
+                x: 450,
+                y: 5,
+                rotation: 0, // 5
+                alpha: 1, // 1
+                z: 200
+            });
+        this._bossName = Crafty.e("2D, Color, Canvas, Text")
+            .attr( {
+                x: 470,
+                y: 20,
+                h: 30,
+                w: 100,
+                z: 203
+            })
+            .color("transparent")
+            .fontColor("white").text(Boss.name);
+
+        this._bossHP = Crafty.e("2D, Color, Canvas, Text")
+            .attr( {
+                x: 510,
+                y: 55,
+                h: 30,
+                w: 100,
+                z: 203
+            })
+            .color("transparent")
+            .fontColor("white").text(Boss.contributions);
+        this._bossLV = Crafty.e("2D, Color, Canvas, Text")
+            .attr( {
+                x: 510,
+                y: 85,
+                h: 30,
+                w: 100,
+                z: 203
+            })
+            .color("transparent")
+            .fontColor("white").text(Boss.followers);
 
 		this._oldX = 0;
 		this._oldY = 0;

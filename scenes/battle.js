@@ -16,25 +16,56 @@ window.battleScene = function() {
             z:-1
     });
 
+    Crafty.viewport.scroll('_x', 0);
+    Crafty.viewport.scroll('_y', 0);
+
     var btEngine = Crafty.e("BattleEngine");
 
-    var yukkikoScript = (function() {
+    var clkaoScript = (function() {
         var counter = 0;
-        var life = 3000;
-        var act = 300;
         var space = function() {
             console.log("space " + counter);
             switch (counter) {
                 default:
-                    btEngine.setName("Yukkiko");
-                    btEngine.setPortrait("assets/yukkiko.png");
-                    btEngine.setText("我的加量 " + act);
+                    btEngine.setName(Boss.name);
+                    btEngine.setPortrait(Boss.avatar);
+                    btEngine.setText(Boss.name + "> " + Hero.name + "! 戰鬥數值是由 github 的數值換算而來。");
                     btEngine.showDialog();
                     counter=1;
                     break;
                 case 1:
-                    btEngine.setText("DERPsadfasfasfssd" + new Date());
+                    btEngine.setText(Boss.name + "> " + "HP 是 contributions，而 LV 是 followers.");
                     btEngine.animateMessage();
+                    counter=2;
+                    break;
+                case 2:
+                    btEngine.setText("單憑你一個人，你想要挑戰我！ 那是不可能的！");
+                    btEngine.animateMessage();
+                    counter=3;
+                    break;
+                case 3:
+                    btEngine.setText(Hero.name + "> 召換 github 上的 g0v 伙伴！");
+                    btEngine.animateMessage();
+                    counter=4;
+                    break;
+                case 4:
+                    btEngine.setText(HeroPartner.name + " 趕來幫助 " + Hero.name);
+                    btEngine.animateMessage();
+                    counter=5;
+                    break;
+                case 5:
+                    btEngine._heroPartnerBG.attr({alpha: 1});
+                    btEngine._heroPartnerName.attr({alpha: 1});
+                    btEngine._heroPartnerHP.attr({alpha: 1});
+                    btEngine._heroPartnerLV.attr({alpha: 1});
+                    btEngine.setText(HeroPartner.name + "> 那我們一起對抗挖坑給人家跳的 " + Boss.name + "吧！");
+                    btEngine.animateMessage();
+                    counter=6;
+                    break;
+                case 6:
+                    btEngine.setText("還沒寫完！ Reload Browser 試試伙伴的手氣吧!");
+                    btEngine.animateMessage();
+                    counter=6;
                     break;
             }
         };
@@ -50,7 +81,7 @@ window.battleScene = function() {
         };
     })();
 
-    var clkao = Crafty.e("2D, Canvas, NPC").setupScript(yukkikoScript);
+    var clkao = Crafty.e("2D, Canvas, NPC").setupScript(clkaoScript);
     btEngine.addBoss(clkao);
 
     window.vt = btEngine;

@@ -12,13 +12,20 @@ window.Hero = {
 };
 
 window.Boss = {
+    avatar: "assets/clkao.png",
     name: '高村長',
     contributions: 2165,
     followers: 178
 };
 
 
-window.Partners = [
+window.HeroPartner = {
+    name: 'unnamed2',
+    contributions: 100,
+    followers: 10
+};
+
+window.GithubPartners = [
     {
         name: 'racklin',
         contributions: 284,

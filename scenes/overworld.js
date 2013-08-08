@@ -158,11 +158,13 @@ window.overworldScene = function() {
                                                                             break;
                                                                     case 3:
                                                                             counter = -2;
-                                                                            vnEngine.setText("那沒什麼好說的，戰鬥吧！");
+                                                                            vnEngine.setText(Hero.name + "! 那沒什麼好說的，戰鬥吧！");
                                                                             $.when(vnEngine.animateMessage()).then(function() {
-                                                                                Crafty.audio.mute();
-                                                                                Crafty.audio.mute();
-                                                                                loadManager.loadScene(["assets/background_taiwan.png","assets/pushenter.png", "assets/dq3_battle.mp3"], "battle");
+                                                                                setTimeout(function() {
+                                                                                    Crafty.audio.mute();
+                                                                                    Crafty.audio.mute();
+                                                                                    loadManager.loadScene(["assets/background_taiwan.png","assets/pushenter.png", "assets/dq3_battle.mp3"], "battle");
+                                                                                }, 2000);
                                                                             });
                                                                             break;
                                                             }
