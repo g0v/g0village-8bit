@@ -100,6 +100,6 @@ Crafty.c("AssetLoadManager", {
     loadScene: function (thingsToLoad, nScene) {
         assetsToLoad = thingsToLoad;
 		nextScene = nScene;
-        Crafty.scene("loadingScreen");
+        Crafty.scene(nScene);
     }
 });

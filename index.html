@@ -11,7 +11,7 @@
 				font-size: 11px;
 			}
 		</style>
-		<script src="js/lib/jquery-1.6.2.js"></script>
+		<script src="js/lib/jquery-1.10.2.min.js"></script>
         <script src="js/lib/lodash.min.js"></script>
 		<script src="js/lib/glfx.js"></script>
 		<script src="js/lib/crafty.js"></script>
@@ -86,7 +86,7 @@
 				var d = (0.5 + 0.5*Math.cos(x/10))*1
 				var crstage = Crafty.canvas.context.getImageData(0,0,640,440);
 				var texture = canvas.texture(crstage);
-				canvas.draw(texture).sepia(0.75).bulgePinch(320,220,400,0.10).brightnessContrast(-0.1,0.2).vignette(0,1).noise(0.10).update();
+				canvas.draw(texture).sepia(0.85).bulgePinch(320,220,400,0.05).brightnessContrast(-0.1,0.2).vignette(0,1).noise(0.10).update();
 				x = x + 1;
 			}
 			animloop = function(){
@@ -108,16 +108,8 @@
 	</head>
 	<body>
 		<div id="derp">
-			click here to disable/enalbe effects. wasd keys, space bar. derp
+			click here to disable/enable effects. WASD keys, space bar.
 		</div>
-		<div class="small">
-                        Chrome Browser ONLY NOW.
-                        <br/>
-			By
-			<a href="http://www.quantsini.com/">Quantsini</a>. Gfx, sounds, music by
-			<a href="http://www.atlus.com/">Atlus</a>. It's slow because I haven't optimized anything for speed yet. Also, no shadows lolol. NOW IN BLURRY VISION.
-		</div>
-		<br>
 		<div id="herp" width="640" height="440" style="position: absolute; z-index: 10; opacity: 0.90"></div>
 	</body>
 </html>

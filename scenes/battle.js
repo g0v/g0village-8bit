@@ -2,10 +2,6 @@ window.battleScene = function() {
     console.log("entering a battle");
 
     Crafty.background("#ccc");
-    Crafty.audio.add({
-            "battle_music": ["assets/dq3_battle.mp3","assets/dq3_bgm.ogg"]
-    });
-    Crafty.audio.play("battle_music", -1);
 
     Crafty.sprite(1, "assets/background_taiwan.png", {
             battle_bg: [0,0,768, 610]
@@ -44,7 +40,7 @@ window.battleScene = function() {
                     counter=3;
                     break;
                 case 3:
-                    btEngine.setText(Hero.name + "> 召換 github 上的 g0v 伙伴！");
+                    btEngine.setText(Hero.name + "> 召喚 github 上的 g0v 伙伴！");
                     btEngine.animateMessage();
                     counter=4;
                     break;

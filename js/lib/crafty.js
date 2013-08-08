@@ -3594,26 +3594,47 @@ Crafty.extend({
 		}
 	},
 	
-	keyboardDispatch: function(e) {
-		e.key = e.keyCode || e.which;
-		if(e.type === "keydown") {
-			if(Crafty.keydown[e.key] !== true) {
+	/**@
+	* #.key
+	* @comp Crafty.eventObject
+	* 
+	* Unicode of the key pressed
+	*/
+	keyboardDispatch: function (e) {
+		// Use a Crafty-standard event object to avoid cross-browser issues
+		var original = e,
+			evnt = {},
+			props = "char charCode keyCode type shiftKey ctrlKey metaKey timestamp".split(" ");
+		for (var i = props.length; i;) {
+			var prop = props[--i];
+			evnt[prop] = original[prop];
+		}
+		evnt.which = original.charCode != null ? original.charCode : original.keyCode;
+		evnt.key = original.keyCode || original.which;
+		evnt.originalEvent = original;
+		e = evnt;
+
+		if (e.type === "keydown") {
+			if (Crafty.keydown[e.key] !== true) {
 				Crafty.keydown[e.key] = true;
 				Crafty.trigger("KeyDown", e);
 			}
-		} else if(e.type === "keyup") {
+		} else if (e.type === "keyup") {
 			delete Crafty.keydown[e.key];
 			Crafty.trigger("KeyUp", e);
 		}
-		
-		//prevent searchable keys
-		/*
-		if((e.metaKey || e.altKey || e.ctrlKey) && !(e.key == 8 || e.key >= 112 && e.key <= 135)) {
-			console.log(e);
+
+		//prevent default actions for all keys except backspace and F1-F12.
+		//Among others this prevent the arrow keys from scrolling the parent page
+		//of an iframe hosting the game
+		if(Crafty.selected && !(e.key == 8 || e.key >= 112 && e.key <= 135)) {
+			if(e.stopPropagation) e.stopPropagation();
+            else e.cancelBubble = true;
+
 			if(e.preventDefault) e.preventDefault();
 			else e.returnValue = false;
 			return false;
-		}*/
+		}
 	}
 });
 
