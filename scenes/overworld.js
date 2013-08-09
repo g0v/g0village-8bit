@@ -287,6 +287,8 @@ window.overworldScene = function () {
                                 counter = - 4;
                                 break;
 			    case 2:
+                                Crafty.audio.mute();
+                                Crafty.audio.mute();
                                 setTimeout(openUrlInBox('http://www.youtube.com/embed/SpovzhVCg48?feature=player_detailpage'), 1500);
                                 vnEngine.setText("所以...");
                                 vnEngine.animateMessage();
