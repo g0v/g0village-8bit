@@ -299,7 +299,11 @@ window.overworldScene = function () {
                     case 0:
                         vnEngine.hideInteraction();
 
-                        vnEngine.setName("高村長");
+                        if(window.finishGame) {
+                            vnEngine.setName("(前)高村長");
+                        }else {
+                            vnEngine.setName("高村長");
+                        }
                         vnEngine.setText("唷~ " + Hero.name + "!");
                         vnEngine.setPortrait("assets/clkao.png");
                         vnEngine.showDialog();

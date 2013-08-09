@@ -1,6 +1,10 @@
 window.battleScene = function () {
     console.log("entering a battle");
 
+    var Hero = _.extend({}, window.Hero);
+    var Boss = _.extend({}, window.Boss);
+    var HeroPartner = _.extend({}, window.HeroPartner);
+
     Crafty.background("#ccc");
 
     Crafty.audio.add({
@@ -237,11 +241,36 @@ window.battleScene = function () {
                     case 5001:
                         btEngine.setText(Boss.name + "> 了不起，現在換你當村長了！");
                         btEngine.animateMessage();
+                        counter=5002;
+                        break;
+                    case 5002:
+                        btEngine.setText(Hero.name + "> 我要回新手村當村長了！ (LV+20) ");
+                        window.Hero.contributions+=200;
+                        window.Hero.followers+=20;
+                        window.finishGame = true; // set finishGame flag 可以當村長
+                        counter=6000;
                         break;
 
                     case 5100:
                         btEngine.setText(Hero.name + " 和 " + HeroPartner.name + " 敗給了 " + Boss.name +"!");
                         btEngine.animateMessage();
+                        counter=5101;
+                        break;
+                    case 5101:
+                        btEngine.setText(Boss.name + "> 回新手村練練功再來挑戰我吧！ (LV+10)");
+                        window.Hero.contributions+=100;
+                        window.Hero.followers+=10;
+                        counter=6000;
+                        break;
+
+                    case 6000:
+                        counter=6001;
+                        Crafty.audio.mute();
+                        Crafty.audio.mute();
+                        loadManager.loadScene(["assets/background.png", "assets/pushenter.png", "assets/dq3_bgm.mp3", "assets/dq3_bgm.ogg"], "overworld");
+                        break;
+                    case 6001:
+                        // dummy
                         break;
                 }
 
