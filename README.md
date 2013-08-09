@@ -16,4 +16,4 @@ DEMO
 
 TODO
 ----------
-把各腳本由 html 分離出各別的 js
+腳本 Parser 和 Editor
