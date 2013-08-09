@@ -68,6 +68,21 @@ window.battleScene = function () {
                     btEngine.animateMessage();
                     counter = 8;
                     break;
+
+                /* battle dirty hack */
+                case 1000:
+                    vnEngine.setPortrait("assets/clkaoangry.png");
+                    vnEngine.setText("選擇戰鬥指令：");
+                    $.when(vnEngine.animateMessage()).then(function () {
+                        $.when(vnEngine.promptQuestion(["戰鬥", "投", "我要挑戰村長!!!"])).then(function (choice) {
+
+                        });
+                    });
+                    break;
+
+                /* battle finished */
+                case 5000:
+                    break;
             }
         };
         var leave = function () {
