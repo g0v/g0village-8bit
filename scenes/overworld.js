@@ -100,19 +100,17 @@ window.overworldScene = function () {
                         vnEngine.showDialog();
                         break;
                     case 1:
-                        vnEngine.setText("你知道「萌」這個字的意思嗎？");
+                        var w = [];
+                        w[0] = MoedictWords[_.random(0, MoedictWords.length)];
+                        w[1] = MoedictWords[_.random(0, MoedictWords.length)];
+                        w[2] = MoedictWords[_.random(0, MoedictWords.length)];
+                        vnEngine.setText("你想要利用「萌典」學習什麼成語嗎？");
                         $.when(vnEngine.animateMessage()).then(function () {
-                            $.when(vnEngine.promptQuestion(["人民", "發芽的幼苗", "事情開始時的徵兆", "..."])).then(function (choice) {
-                                switch (choice) {
-                                    case 1:
-                                        vnEngine.setText("沒錯！");
-                                        break;
-                                    case 2:
-                                        vnEngine.setText("答對了！");
-                                        break;
-                                    case 3:
-                                        vnEngine.setText("完全正確！");
-                                }
+                            $.when(vnEngine.promptQuestion(w)).then(function (choice) {
+                                openUrlInBox('https://moedict.tw/#'+w[choice-1]);
+                                vnEngine.setText("你現在知道 " + w[choice-1] + " 的意思了！ LV+1");
+                                Hero.followers++;
+                                Hero.contributions += 10;
                                 vnEngine.animateMessage();
                             });
                         })
