@@ -330,7 +330,9 @@ window.overworldScene = function () {
                                         vnEngine.setPortrait("assets/clkaoangry.png");
                                         vnEngine.setText("破少年！");
                                         $.when(vnEngine.animateMessage()).then(function () {
-                                            setTimeout(openUrlInBox('https://www.moedict.tw/#!破少年'), 1500);
+                                            setTimeout(function() {
+                                                openUrlInBox('https://www.moedict.tw/#!破少年')
+                                            }, 1500);
                                         });
                                         counter = -2;
                                         break;
@@ -343,7 +345,7 @@ window.overworldScene = function () {
                                                 Crafty.audio.mute();
                                                 Crafty.audio.mute();
                                                 loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png", "assets/dq3_battle.mp3", "assets/dq3_battle.ogg"], "battle");
-                                            }, 2000);
+                                            }, 1500);
                                         });
                                         break;
                                 }

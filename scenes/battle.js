@@ -3,7 +3,7 @@ window.battleScene = function () {
 
     var Hero = _.extend({}, window.Hero);
     var Boss = _.extend({}, window.Boss);
-    
+
     // get hero's partner
     window.HeroPartner = _.shuffle(GithubPartners)[0];
     var HeroPartner = _.extend({}, window.HeroPartner);
