@@ -178,8 +178,8 @@ window.overworldScene = function() {
                                                                             break;
                                                                     case 2:
                                                                             vnEngine.setText("破少年！");
-
-                                                                            vnEngine.animateMessage();
+                                                                            $.when(vnEngine.animateMessage()).then(function() {
+                                                                                setTimeout(openUrlInBox('https://www.moedict.tw/#!破少年'), 1500); });
                                                                             counter = -2;
                                                                             break;
                                                                     case 3:
