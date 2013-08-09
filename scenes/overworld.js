@@ -32,6 +32,7 @@ window.overworldScene = function () {
                         vnEngine.setText("Hey partner!");
                         vnEngine.setPortrait("assets/hlb.png");
                         vnEngine.showDialog();
+                        counter=1;
                         break;
                     case 1:
                         vnEngine.setText(Hero.name + "! 你有買 Fire.app 嗎?");
@@ -40,14 +41,21 @@ window.overworldScene = function () {
                                 switch (choice) {
                                     case 1:
                                         vnEngine.setPortrait("assets/hlb.png");
-                                        vnEngine.setText("Cool!");
+                                        vnEngine.setText("Cool! LV + 10");
+                                        Hero.followers+=10;
+                                        Hero.contributions+=100;
+                                        counter=3;
                                         break;
                                     case 2:
                                         vnEngine.setPortrait("assets/hlb.png");
                                         vnEngine.setText("如果您有需要使用 Fire.app 參與 g0v 專案，歡迎找我領取一套。");
+                                        counter=2;
                                         break;
                                     case 3:
                                         vnEngine.setText("... 沉默是什麼意思呀?");
+                                        counter=2;
+                                        break;
+
                                 }
                                 vnEngine.animateMessage();
                             });
@@ -58,13 +66,27 @@ window.overworldScene = function () {
                         $.when(vnEngine.animateMessage()).then(function () {
                             //derp
                         });
+                        counter = -1;
+                        break;
+                    case 3:
+                        vnEngine.setText("你已經會 Fire.app , 找右上角的高村長聊聊吧!");
+                        vnEngine.animateMessage();
+                        break;
+                    case 4:
+                        vnEngine.hideInteraction();
+
+                        vnEngine.setName("售票亭老板");
+                        vnEngine.setText("你已經會 Fire.app , 找右上角的高村長聊聊吧!");
+                        vnEngine.setPortrait("assets/hlb.png");
+                        vnEngine.showDialog();
                         break;
                     default:
                         counter = -1;
                         vnEngine.hideDialog();
                         vnEngine.showInteraction();
+                        counter++;
+                        break;
                 }
-                counter++;
             } else if (vnEngine.isWriting()) {
                 console.log("is writing");
                 vnEngine.forceTextFinish();
@@ -72,7 +94,8 @@ window.overworldScene = function () {
             console.log(counter);
         }
         var leave = function () {
-            counter = 0;
+            if(counter == 3 || counter == 4) counter=4;
+            else counter = 0;
             vnEngine.hideDialog();
             vnEngine.hideInteraction();
 
