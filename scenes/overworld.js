@@ -250,9 +250,9 @@ window.overworldScene = function () {
                                 $.when(vnEngine.promptQuestion(["算我一個!", "這是什麼?", "不想耶!"])).then(function (choice) {
                                      choice1 = choice;
                                      switch (choice1) {
-                                            case 1:                           
+                                            case 1:
                                                 vnEngine.setText("非常好！");
-                                                vnEngine.animateMessage();                                                
+                                                vnEngine.animateMessage();
                                                 break;
                                             case 2:
                                                 vnEngine.setText("治療鄉民健忘症的計畫...");
@@ -264,7 +264,7 @@ window.overworldScene = function () {
 					        counter = -2;
                                                 break;
                                         }
-                                })});                      
+                                })});
                         break;
                     case 3:
 		        switch (choice1) {
@@ -284,13 +284,13 @@ window.overworldScene = function () {
                                 setTimeout(openUrlInBox('https://g0v.hackpad.com/--1OaXIxVVPSd'), 1500);
                                 vnEngine.setText("有問題的話就在IRC上問值日生吧!");
                                 vnEngine.animateMessage();
-                                counter = - 4; 
+                                counter = - 4;
                                 break;
 			    case 2:
                                 setTimeout(openUrlInBox('http://www.youtube.com/embed/SpovzhVCg48?feature=player_detailpage'), 1500);
                                 vnEngine.setText("所以...");
                                 vnEngine.animateMessage();
-                                counter = counter - 3; 
+                                counter = counter - 3;
                                 break;
 			}
                         break;
