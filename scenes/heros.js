@@ -17,10 +17,12 @@ window.Boss = {
     contributions: 2165,
     followers: 178,
     attackSkills: [
-        {msg: " 普通攻擊 ", delta: 1},
-        {msg: " 挖了個坑讓人掉下去 ", delta: 2},
-        {msg: " 丟出機械鍵盤攻擊 ", delta: 5},
-        {msg: " 丟出 MBPR 攻擊 ", delta: 10}
+        {msg: "<%= Boss.name %> 普通攻擊 <%= Player.name %>, 造成了 [ <%= Point %> ] 傷害", type: 'attack', delta: 1},
+        {msg: "<%= Boss.name %> 挖了個坑 , <%= Player.name %> 不小心掉下去, 造成了 [ <%= Point %> ] 傷害", type: 'attack', delta: 2},
+        {msg: "<%= Boss.name %> 丟出機械鍵盤攻擊 <%= Player.name %>, 造成了 [ <%= Point %> ] 傷害", type: 'attack', delta: 5},
+        {msg: "<%= Boss.name %> 丟出 MBPR 攻擊 <%= Player.name %>, 造成了 [ <%= Point %> ] 傷害", type: 'attack', delta: 10},
+        {msg: "<%= Boss.name %> 喝了一瓶咖啡, HP 回復了 [ <%= Point %> ] ", type: 'health', delta: 2},
+        {msg: "<%= Boss.name %> 喝了一瓶馬力夯, HP 回復了 [ <%= Point %> ] ", type: 'health', delta: 5}
     ]
 };
 

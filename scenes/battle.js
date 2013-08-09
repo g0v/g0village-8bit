@@ -167,14 +167,24 @@ window.battleScene = function () {
 
                         var bPoint = _.random(0, Boss.followers) * attSkill.delta;
 
-                        btEngine.setText(Boss.name + attSkill.msg + attPerson.name + ", 造成了 [" + bPoint + "] 傷害");
+                        btEngine.setText(_.template(attSkill.msg, {Boss: Boss, Player: attPerson, Point: bPoint}));
 
                         $.when(btEngine.animateMessage()).then(function () {
-                            attPerson.contributions -= bPoint;
-                            if (attPerson == Hero) {
-                                btEngine.setHeroHP(attPerson.contributions);
-                            } else {
-                                btEngine.setHeroPartnerHP(attPerson.contributions);
+                            switch (attSkill.type) {
+                                default:
+                                case 'attack':
+                                    attPerson.contributions -= bPoint;
+                                    if (attPerson == Hero) {
+                                        btEngine.setHeroHP(attPerson.contributions);
+                                    } else {
+                                        btEngine.setHeroPartnerHP(attPerson.contributions);
+                                    }
+                                    break;
+
+                                case 'health':
+                                    Boss.contributions += bPoint;
+                                    btEngine.setBossHP(Boss.contributions);
+                                    break;
                             }
 
                             if (attPerson.contributions < 0) {
