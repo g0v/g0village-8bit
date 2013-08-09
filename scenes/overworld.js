@@ -443,8 +443,8 @@ window.overworldScene = function () {
     Crafty.sprite(32, "assets/yosukesprite.png", {
         yosukeSprite: [1, 0]
     });
-    Crafty.sprite(32, "assets/chiesprite.png", {
-        chieSprite: [1, 0]
+    Crafty.sprite(32, "assets/clkaosprite.png", {
+        clkaoSprite: [1, 0]
     });
     Crafty.sprite(32, "assets/shadowsprite.png", {
         shadowSprite: [0, 0]
@@ -453,7 +453,7 @@ window.overworldScene = function () {
         kuansimSprite: [1, 0]
     });
 
-    var chie = Crafty.e("2D, Canvas, chieSprite, NPC").attr({
+    var clkao = Crafty.e("2D, Canvas, clkaoSprite, NPC").attr({
         x: 510,
         y: 199
     })
