@@ -122,6 +122,7 @@ window.overworldScene = function () {
                     case 3:
                         vnEngine.setText("已知用火的勇者啊，去找右上角的高村長聊聊吧!");
                         vnEngine.animateMessage();
+                        counter = -1;
                         break;
                     case 4:
                         vnEngine.hideInteraction();
@@ -130,6 +131,7 @@ window.overworldScene = function () {
                         vnEngine.setText("你已經會 Fire.app , 找右上角的高村長聊聊吧!");
                         vnEngine.setPortrait("assets/hlb.png");
                         vnEngine.showDialog();
+                        counter = -1;
                         break;
                     default:
                         counter = -1;
@@ -436,21 +438,30 @@ window.overworldScene = function () {
             enterCallback: enter
         }
     })()
+    // 玩家
     Crafty.sprite(32, "assets/soujisprite.png", {
         playerSprite: [1, 0]
     });
-    Crafty.sprite(32, "assets/moesprite.png", {
-        moeSprite: [1, 0]
+    // g0village 專案發起人
+    Crafty.sprite(32, "assets/hlbsprite.png", {
+        hlbSprite: [1, 0]
     });
-    Crafty.sprite(32, "assets/yosukesprite.png", {
-        yosukeSprite: [1, 0]
-    });
+    // 新手村長
     Crafty.sprite(32, "assets/clkaosprite.png", {
         clkaoSprite: [1, 0]
     });
+    // 坑...
     Crafty.sprite(32, "assets/shadowsprite.png", {
         shadowSprite: [0, 0]
     });
+
+    // 以下開放各專案 NPC 化
+
+    // 萌典
+    Crafty.sprite(32, "assets/moesprite.png", {
+        moeSprite: [1, 0]
+    });
+    // 鄉民關心你
     Crafty.sprite(32, "assets/kuansimsprite.png", {
         kuansimSprite: [1, 0]
     });
@@ -468,7 +479,7 @@ window.overworldScene = function () {
     })
         .setupScript(moeScript)
         .wander();
-    var yosuke = Crafty.e("2D, Canvas, yosukeSprite, NPC").attr({
+    var hlb = Crafty.e("2D, Canvas, hlbSprite, NPC").attr({
         x: 410,
         y: 413,
     })
