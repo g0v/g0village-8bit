@@ -163,7 +163,7 @@ window.overworldScene = function () {
                         vnEngine.animateMessage();
                         break;
                     case 2:
-                        vnEngine.setPortrait("assets/clkaohungry.png");
+                        vnEngine.setPortrait("assets/clkaoask.png");
                         vnEngine.setText(Hero.name + "! 你想要開始一個專案了嗎?");
                         $.when(vnEngine.animateMessage()).then(function () {
                             $.when(vnEngine.promptQuestion(["我很樂意!", "不想耶!", "我要挑戰村長!!!"])).then(function (choice) {
@@ -171,12 +171,13 @@ window.overworldScene = function () {
 
                                 switch (choice1) {
                                     case 1:
-                                        vnEngine.setPortrait("assets/clkaoask.png");
+                                        vnEngine.setPortrait("assets/clkao.png");
                                         vnEngine.setText("非常好！");
 
                                         vnEngine.animateMessage();
                                         break;
                                     case 2:
+                                        vnEngine.setPortrait("assets/clkaoangry.png");
                                         vnEngine.setText("破少年！");
                                         $.when(vnEngine.animateMessage()).then(function () {
                                             setTimeout(openUrlInBox('https://www.moedict.tw/#!破少年'), 1500);
@@ -185,6 +186,7 @@ window.overworldScene = function () {
                                         break;
                                     case 3:
                                         counter = -2;
+                                        vnEngine.setPortrait("assets/clkaoangry.png");
                                         vnEngine.setText(Hero.name + "! 那沒什麼好說的，戰鬥吧！");
                                         $.when(vnEngine.animateMessage()).then(function () {
                                             setTimeout(function () {
