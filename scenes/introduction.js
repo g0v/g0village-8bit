@@ -1,9 +1,9 @@
-window.introductionScene = function() {
+window.introductionScene = function () {
 
     vn = NovelInterface();
     vn.show({
-            characterName: "???",
-            characterPortrait: "assets/igor.png"
-    },"Hello");
+        characterName: "???",
+        characterPortrait: "assets/igor.png"
+    }, "Hello");
 
 };

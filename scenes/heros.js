@@ -6,9 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 window.Hero = {
-  name: 'unnamed',
-  contributions: 100,
-  followers: 10
+    name: 'unnamed',
+    contributions: 100,
+    followers: 10
 };
 
 window.Boss = {

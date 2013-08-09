@@ -1,15 +1,15 @@
-window.battleScene = function() {
+window.battleScene = function () {
     console.log("entering a battle");
 
     Crafty.background("#ccc");
 
     Crafty.sprite(1, "assets/background_taiwan.png", {
-            battle_bg: [0,0,768, 610]
+        battle_bg: [0, 0, 768, 610]
     });
     var background = Crafty.e("2D, Canvas, battle_bg").attr({
-            x:0,
-            y:0,
-            z:-1
+        x: 0,
+        y: 0,
+        z: -1
     });
 
     Crafty.viewport.scroll('_x', 0);
@@ -17,9 +17,9 @@ window.battleScene = function() {
 
     var btEngine = Crafty.e("BattleEngine");
 
-    var clkaoScript = (function() {
+    var clkaoScript = (function () {
         var counter = 0;
-        var space = function() {
+        var space = function () {
             console.log("space " + counter);
             switch (counter) {
                 default:
@@ -27,7 +27,7 @@ window.battleScene = function() {
                     btEngine.setPortrait(Boss.avatar);
                     btEngine.setText(Boss.name + "> 單憑你一個人，想要挑戰我，那是不可能的！");
                     btEngine.showDialog();
-                    counter=1;
+                    counter = 1;
                     break;
                 case 1:
                     btEngine.setText(Hero.name + "> 召喚 GitHub 上的 g0v 伙伴！");
@@ -51,29 +51,29 @@ window.battleScene = function() {
                     btEngine._heroPartnerLV.attr({alpha: 1});
                     btEngine.setText(HeroPartner.name + "> 我們一起對抗挖坑給人家跳的 " + Boss.name + "吧！");
                     btEngine.animateMessage();
-                    counter=6;
+                    counter = 6;
                     break;
                 case 6:
                     btEngine.setText(HeroPartner.name + "> " + HeroPartner.bio);
                     btEngine.animateMessage();
-                    counter=7;
+                    counter = 7;
                     break;
                 case 7:
                     btEngine.setText(Hero.name + "> 衝啊！");
                     btEngine.animateMessage();
-                    counter=8;
+                    counter = 8;
                     break;
                 case 8:
                     btEngine.setText("/* 還沒寫完！Reload Browser 試試伙伴的手氣吧! */");
                     btEngine.animateMessage();
-                    counter=8;
+                    counter = 8;
                     break;
             }
         };
-        var leave = function() {
+        var leave = function () {
             counter = 0;
         };
-        var enter = function() {
+        var enter = function () {
         };
         return {
             spacebarCallback: space,
