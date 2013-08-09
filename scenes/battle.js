@@ -72,7 +72,7 @@ window.battleScene = function () {
 
                     /* battle dirty hack */
                     case 1000:
-                        btEngine.setPortrait("assets/clkaoangry.png");
+                        btEngine.setPortrait("assets/clkao.png");
                         btEngine.setText("選擇戰鬥指令：");
                         $.when(btEngine.animateMessage()).then(function () {
                             $.when(btEngine.promptQuestion(["戰鬥", "防禦", "逃跑"])).then(function (choice) {
@@ -213,13 +213,13 @@ window.battleScene = function () {
 
                     /* battle finished */
                     case 5000:
-                        btEngine.setText(Hero.name + " 和 " + HeroPartner.name + " 打敗了 " + Boss.name +"!");
+                        btEngine.setText(Hero.name + " 和 " + HeroPartner.name + " 打倒了 " + Boss.name +"!");
                         btEngine.animateMessage();
                         counter=5001;
                         break;
 
                     case 5001:
-                        btEngine.setText(Boss.name + "> 打敗了我也沒用！就算我好運，你是要怎樣！我不下台!");
+                        btEngine.setText(Boss.name + "> 了不起，現在換你當村長了！");
                         btEngine.animateMessage();
                         break;
 
