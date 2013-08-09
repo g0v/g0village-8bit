@@ -11,8 +11,10 @@
 				font-size: 11px;
 			}
 		</style>
+                <link type="text/css" rel="stylesheet" media="all" href="colorbox.css" />
 		<script src="js/lib/jquery-1.10.2.min.js"></script>
-        <script src="js/lib/lodash.min.js"></script>
+                <script src="js/lib/lodash.min.js"></script>
+                <script src="js/lib/colorbox.js"></script>
 		<script src="js/lib/glfx.js"></script>
 		<script src="js/lib/crafty.js"></script>
 		<script src="js/aggroable.js"></script>
@@ -26,7 +28,7 @@
 		<script src="js/respectZIndex.js"></script>
 		<script src="js/assetManager.js"></script>
 		<script src="js/novelInterface.js"></script>
-        <script src="js/battleEngine.js"></script>
+                <script src="js/battleEngine.js"></script>
 		<script src="scenes/preloading.js"></script>
 		<script src="scenes/titleScreen.js"></script>
 		<script src="scenes/overworld.js"></script>
@@ -35,7 +37,12 @@
 		<script src="scenes/dungeon.js"></script>
         <script src="scenes/heros.js"></script>
 		<script type="text/javascript">
+                        window.openUrlInBox = function( url) {
+                            $.colorbox({iframe: true, href: url, width:'80%', height: '80%'});
+                        };
+
 			$( function() {
+
 				Crafty.init(640,440);
 				Crafty.canvas.init();
 
