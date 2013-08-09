@@ -15,7 +15,13 @@ window.Boss = {
     avatar: "assets/clkao.png",
     name: '高村長',
     contributions: 2165,
-    followers: 178
+    followers: 178,
+    attackSkills: [
+        {msg: " 普通攻擊 ", delta: 1},
+        {msg: " 挖了個坑讓人掉下去 ", delta: 2},
+        {msg: " 丟出機械鍵盤攻擊 ", delta: 5},
+        {msg: " 丟出 MBPR 攻擊 ", delta: 10}
+    ]
 };
 
 
