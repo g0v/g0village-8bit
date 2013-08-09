@@ -3,6 +3,12 @@ window.battleScene = function () {
 
     Crafty.background("#ccc");
 
+    Crafty.audio.add({
+        "music": ["assets/dq3_battle.mp3", "assets/dq3_battle.ogg"]
+    });
+
+    Crafty.audio.play("music", -1);
+
     Crafty.sprite(1, "assets/background_taiwan.png", {
         battle_bg: [0, 0, 768, 610]
     });
