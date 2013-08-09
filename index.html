@@ -1,127 +1,128 @@
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>g0v 8bit</title>
-		<style type="text/css">
-			@font-face {
-				font-family: Days;
-				/*src: url('Days.ttf');*/
-			}
-			div.small {
-				font-size: 11px;
-			}
-		</style>
-                <link type="text/css" rel="stylesheet" media="all" href="colorbox.css" />
-		<script src="js/lib/jquery-1.10.2.min.js"></script>
-                <script src="js/lib/lodash.min.js"></script>
-                <script src="js/lib/colorbox.js"></script>
-		<script src="js/lib/glfx.js"></script>
-		<script src="js/lib/crafty.js"></script>
-		<script src="js/aggroable.js"></script>
-		<script src="js/interactable.js"></script>
-		<script src="js/playerControl.js"></script>
-		<script src="js/movable.js"></script>
-		<script src="js/canvasConvolver.js"></script>
-		<script src="js/player.js"></script>
-		<script src="js/npc.js"></script>
-		<script src="js/character.js"></script>
-		<script src="js/respectZIndex.js"></script>
-		<script src="js/assetManager.js"></script>
-		<script src="js/novelInterface.js"></script>
-                <script src="js/battleEngine.js"></script>
-		<script src="scenes/preloading.js"></script>
-		<script src="scenes/titleScreen.js"></script>
-		<script src="scenes/overworld.js"></script>
-		<script src="scenes/battle.js"></script>
-		<script src="scenes/introduction.js"></script>
-		<script src="scenes/dungeon.js"></script>
-        <script src="scenes/heros.js"></script>
-		<script type="text/javascript">
-                        window.openUrlInBox = function( url) {
-                            $.colorbox({iframe: true, href: url, width:'90%', height: '90%'});
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>g0v 8bit</title>
+    <style type="text/css">
+        @font-face {
+            font-family: Days;
+            /*src: url('Days.ttf');*/
+        }
+
+        div.small {
+            font-size: 11px;
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" media="all" href="colorbox.css"/>
+    <script src="js/lib/jquery-1.10.2.min.js"></script>
+    <script src="js/lib/lodash.min.js"></script>
+    <script src="js/lib/colorbox.js"></script>
+    <script src="js/lib/glfx.js"></script>
+    <script src="js/lib/crafty.js"></script>
+    <script src="js/aggroable.js"></script>
+    <script src="js/interactable.js"></script>
+    <script src="js/playerControl.js"></script>
+    <script src="js/movable.js"></script>
+    <script src="js/canvasConvolver.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/npc.js"></script>
+    <script src="js/character.js"></script>
+    <script src="js/respectZIndex.js"></script>
+    <script src="js/assetManager.js"></script>
+    <script src="js/novelInterface.js"></script>
+    <script src="js/battleEngine.js"></script>
+    <script src="scenes/preloading.js"></script>
+    <script src="scenes/titleScreen.js"></script>
+    <script src="scenes/overworld.js"></script>
+    <script src="scenes/battle.js"></script>
+    <script src="scenes/introduction.js"></script>
+    <script src="scenes/dungeon.js"></script>
+    <script src="scenes/heros.js"></script>
+    <script type="text/javascript">
+        window.openUrlInBox = function (url) {
+            $.colorbox({iframe: true, href: url, width: '90%', height: '90%'});
+        };
+
+        $(function () {
+
+            Crafty.init(640, 440);
+            Crafty.canvas.init();
+
+            // this scene preloads the loading assets, so we can start loading the title screen
+            Crafty.scene("preloading", preloadingScene);
+
+            // this is the title screen scene.
+            Crafty.scene("titleScreen", titleScreenScene);
+
+            // this is the overworld scene.
+            Crafty.scene("overworld", overworldScene);
+
+            Crafty.scene("battle", battleScene);
+
+            Crafty.scene("introduction", introductionScene);
+
+            Crafty.scene("dungeon", dungeonScene);
+
+            // start off with the preloading scene
+            Crafty.scene("preloading");
+
+
+            canvas = fx.canvas();
+            $("#herp").append(canvas);
+
+
+            // shim layer with setTimeout fallback
+            window.requestAnimFrame = (function () {
+                return  window.requestAnimationFrame ||
+                        window.webkitRequestAnimationFrame ||
+                        window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame ||
+                        window.msRequestAnimationFrame ||
+                        function (/* function */ callback, /* DOMElement */ element) {
+                            window.setTimeout(callback, 1000 / 60);
                         };
-
-			$( function() {
-
-				Crafty.init(640,440);
-				Crafty.canvas.init();
-
-				// this scene preloads the loading assets, so we can start loading the title screen
-				Crafty.scene("preloading", preloadingScene);
-
-				// this is the title screen scene.
-				Crafty.scene("titleScreen", titleScreenScene);
-
-				// this is the overworld scene.
-				Crafty.scene("overworld", overworldScene);
-
-				Crafty.scene("battle", battleScene);
-
-				Crafty.scene("introduction", introductionScene);
-
-				Crafty.scene("dungeon", dungeonScene);
-
-				// start off with the preloading scene
-				Crafty.scene("preloading");
+            })();
 
 
-					canvas = fx.canvas();
-					$("#herp").append(canvas);
+            // usage:
+            // instead of setInterval(render, 16) ....
+            doEffects = true
+            $("#derp").click(function () {
+                doEffects = !doEffects;
 
-					// shim layer with setTimeout fallback
-    window.requestAnimFrame = (function(){
-      return  window.requestAnimationFrame       ||
-              window.webkitRequestAnimationFrame ||
-              window.mozRequestAnimationFrame    ||
-              window.oRequestAnimationFrame      ||
-              window.msRequestAnimationFrame     ||
-              function(/* function */ callback, /* DOMElement */ element){
-                window.setTimeout(callback, 1000 / 60);
-              };
-    })();
+            });
+            x = 0;
+            rendar = function () {
+                var d = (0.5 + 0.5 * Math.cos(x / 10)) * 1
+                var crstage = Crafty.canvas.context.getImageData(0, 0, 640, 440);
+                var texture = canvas.texture(crstage);
+                canvas.draw(texture).sepia(0.90).bulgePinch(320, 220, 400, 0.05).brightnessContrast(-0.1, 0.1).vignette(0, 1).noise(0.10).update();
+                x = x + 1;
+            }
+            animloop = function () {
+                if (doEffects) {
+                    rendar();
+                }
+                else {
+                    var crstage = Crafty.canvas.context.getImageData(0, 0, 640, 440);
+                    var texture = canvas.texture(crstage);
+                    canvas.draw(texture).update();
+                }
+                requestAnimFrame(animloop);
+            }
 
-
-    // usage:
-    // instead of setInterval(render, 16) ....
- doEffects = true
- $("#derp").click(function() {
-	doEffects = !doEffects;
-
- });
-	x = 0;
-			rendar = function() {
-				var d = (0.5 + 0.5*Math.cos(x/10))*1
-				var crstage = Crafty.canvas.context.getImageData(0,0,640,440);
-				var texture = canvas.texture(crstage);
-				canvas.draw(texture).sepia(0.90).bulgePinch(320,220,400,0.05).brightnessContrast(-0.1,0.1).vignette(0,1).noise(0.10).update();
-				x = x + 1;
-			}
-			animloop = function(){
-				if (doEffects) {
-			  rendar();
-			  }
-			  else
-			  {
-				var crstage = Crafty.canvas.context.getImageData(0,0,640,440);
-				var texture = canvas.texture(crstage);
-				canvas.draw(texture).update();
-			  }
-			  requestAnimFrame(animloop);
-			}
-
-			animloop();
-			});
-		</script>
-	</head>
-	<body>
-		<div id="derp" style="cursor: pointer">
-                    操作方式：按 Enter 鍵開始，WASD/方向鍵移動，空白鍵互動。
-                    點按這裡可以啟用/停用特效。
-		</div>
-		<div id="herp" width="640" height="440" style="position: absolute; z-index: 10; opacity: 0.90"></div>
-                <a target="_blank" href="https://github.com/g0v/g0village-8bit"><img
-                   style="position: fixed; top: 0; right: 0; border: 0;"
-                   src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
-                   alt="Fork me on GitHub"></a>
-	</body>
+            animloop();
+        });
+    </script>
+</head>
+<body>
+<div id="derp" style="cursor: pointer">
+    操作方式：按 Enter 鍵開始，WASD/方向鍵移動，空白鍵互動。
+    點按這裡可以啟用/停用特效。
+</div>
+<div id="herp" width="640" height="440" style="position: absolute; z-index: 10; opacity: 0.90"></div>
+<a target="_blank" href="https://github.com/g0v/g0village-8bit"><img
+        style="position: fixed; top: 0; right: 0; border: 0;"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+        alt="Fork me on GitHub"></a>
+</body>
 </html>

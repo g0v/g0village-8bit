@@ -192,7 +192,7 @@ window.overworldScene = function () {
                                             setTimeout(function () {
                                                 Crafty.audio.mute();
                                                 Crafty.audio.mute();
-                                                loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/dq3_battle.mp3"], "battle");
+                                                loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png", "assets/dq3_battle.mp3"], "battle");
                                             }, 2000);
                                         });
                                         break;
