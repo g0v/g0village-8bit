@@ -1,4 +1,23 @@
 window.overworldScene = function () {
+    var unit = 32;
+    var _i = 0;
+    var boundaries = [
+        [3, 9, 3, 8],
+        [3, 17, 2, 3],
+        [5, 20, 15, 1],
+        [20, 13, 1, 7],
+        [20, 13, 1, 7],
+        [15, 8, 3, 5],
+        [18, 9, 4, 4],
+        [22, 4, 1, 5],
+        [6, 3, 16, 1],
+        [15, 4, 3, 2],
+        [3, 4, 3, 1],
+        [2, 5, 1, 4],
+        [15, 15, 3, 3],
+        [16, 17, 3, 2]
+    ];
+
     var vnEngine = Crafty.e("NovelInterface");
     Crafty.background("#ccc");
     Crafty.audio.add({
@@ -554,15 +573,21 @@ window.overworldScene = function () {
             }).collision(new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20])), "http://g0v.tw/"
         );
     }
-    var makeBoundary = function (x, y, w, h) {
+
+    var makeBoundary = function (val, idx, array) {
+        if (val.length != 4) {
+            console.log("making boundary with incorrect parameter:" + val.toString());
+            return;
+        }
 
         Crafty.e("2D, Collision, Collidable").attr({
-            x: x * 32,
-            y: y * 32,
-            h: h * 32,
-            w: w * 32
+            x: val[0] * unit,
+            y: val[1] * unit,
+            w: val[2] * unit,
+            h: val[3] * unit
         }).collision();
-    }
+    };
+
     makeTreeAt(9, 9);
     makeTreeAt(16, 12);
     makeTreeAt(18, 12);
@@ -595,19 +620,5 @@ window.overworldScene = function () {
     makeSmallSignAt(19, 5);
     makeBigSignAt(10, 14);
 
-    makeBoundary(3, 9, 3, 8);
-    makeBoundary(3, 17, 2, 3);
-    makeBoundary(5, 20, 15, 1);
-    makeBoundary(20, 13, 1, 7);
-    makeBoundary(20, 13, 1, 7);
-    makeBoundary(15, 8, 3, 5);
-    makeBoundary(18, 9, 4, 4);
-    makeBoundary(22, 4, 1, 5);
-    makeBoundary(6, 3, 16, 1);
-    makeBoundary(15, 4, 3, 2);
-    makeBoundary(3, 4, 3, 1);
-    makeBoundary(2, 5, 1, 4);
-    makeBoundary(15, 15, 3, 3);
-    makeBoundary(16, 17, 3, 2);
-
+    boundaries.forEach(makeBoundary);
 };
