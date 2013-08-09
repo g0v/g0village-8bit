@@ -455,6 +455,10 @@ window.overworldScene = function () {
         bigSign: [0, 0]
     });
 
+    Crafty.sprite(32, "assets/hole.png", {
+        hole: [0, 0]
+    });
+
     var makeTreeAt = function (x, y) {
         Crafty.e("2D, Canvas, tree, Collision, RespectZIndex, Collidable").attr({
             x: x * 32,
@@ -488,7 +492,7 @@ window.overworldScene = function () {
             x: x * 32,
             y: y * 32,
         }).collision(new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20]));
-    }
+    };
     var setupSign = function (text, entity, url) {
         entity.setupScript({
             state: false,
@@ -520,6 +524,14 @@ window.overworldScene = function () {
                 }
             }
         });
+    };
+    var digHole = function (x, y) {
+        setupSign("這裡有個大小剛好的坑，讓人有跳進去的衝動...",
+            Crafty.e("2D, Canvas, hole, Collision, NPC, Collidable").attr({
+                x: x * 32,
+                y: y * 32,
+            }).collision(new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20]))
+        );
     };
     var makeSmallSignAt = function (x, y) {
         setupSign("這裡是 g0v 新手村！",
@@ -574,6 +586,7 @@ window.overworldScene = function () {
     makeSmallTreeAt(13, 9);
     makeSmallTreeAt(19, 18);
 
+    digHole(7, 10);
     makeSmallSignAt(11, 7);
     makeSmallSignAt(19, 5);
     makeBigSignAt(10, 14);
