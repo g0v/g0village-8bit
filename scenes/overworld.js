@@ -414,7 +414,7 @@ window.overworldScene = function () {
         });
     };
     var digHole = function (x, y) {
-        setupSign("這裡有個大小剛好的洞，讓人有跳進去的衝動",
+        setupSign("這裡有個大小剛好的坑，讓人有跳進去的衝動...",
             Crafty.e("2D, Canvas, hole, Collision, NPC, Collidable").attr({
                 x: x * 32,
                 y: y * 32,
