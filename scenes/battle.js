@@ -3,6 +3,9 @@ window.battleScene = function () {
 
     var Hero = _.extend({}, window.Hero);
     var Boss = _.extend({}, window.Boss);
+    
+    // get hero's partner
+    window.HeroPartner = _.shuffle(GithubPartners)[0];
     var HeroPartner = _.extend({}, window.HeroPartner);
 
     Crafty.background("#ccc");
@@ -245,6 +248,7 @@ window.battleScene = function () {
                         break;
                     case 5002:
                         btEngine.setText(Hero.name + "> 我要回新手村當村長了！ (LV+20) ");
+                        btEngine.animateMessage();
                         window.Hero.contributions+=200;
                         window.Hero.followers+=20;
                         window.finishGame = true; // set finishGame flag 可以當村長
@@ -258,6 +262,7 @@ window.battleScene = function () {
                         break;
                     case 5101:
                         btEngine.setText(Boss.name + "> 回新手村練練功再來挑戰我吧！ (LV+10)");
+                        btEngine.animateMessage();
                         window.Hero.contributions+=100;
                         window.Hero.followers+=10;
                         counter=6000;
