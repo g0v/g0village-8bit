@@ -566,5 +566,18 @@ Crafty.c("BattleEngine", {
         boss._canInteract = true;
         // trigger boss
         boss.trigger("PlayerInteracted");
+    },
+
+    setHeroHP: function(hp) {
+        this._heroHP.text(hp);
+
+    },
+
+    setHeroPartnerHP: function(hp) {
+        this._heroPartnerHP.text(hp);
+    },
+
+    setBossHP: function(hp) {
+        this._bossHP.text(hp);
     }
 });
