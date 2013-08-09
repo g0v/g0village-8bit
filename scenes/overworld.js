@@ -176,7 +176,7 @@ window.overworldScene = function () {
 
                         vnEngine.setName("鄉民健忘症主治醫師");
                         vnEngine.setText(Hero.name + " 你好!");
-                        vnEngine.setPortrait("assets/yosuke.png");
+                        vnEngine.setPortrait("assets/kuansim.png");
                         vnEngine.showDialog();
                         break;
                     case 1:
@@ -392,8 +392,8 @@ window.overworldScene = function () {
     Crafty.sprite(32, "assets/shadowsprite.png", {
         shadowSprite: [0, 0]
     });
-    Crafty.sprite(32, "assets/yosukesprite.png", {
-        hychenSprite: [1, 0]
+    Crafty.sprite(32, "assets/kuansimsprite.png", {
+        kuansimSprite: [1, 0]
     });
 
     var chie = Crafty.e("2D, Canvas, chieSprite, NPC").attr({
@@ -416,7 +416,7 @@ window.overworldScene = function () {
         .setupScript(hlbScript)
         .wander();
 
-    var hychen = Crafty.e("2D, Canvas, hychenSprite, NPC").attr({
+    var hychen = Crafty.e("2D, Canvas, kuansimSprite, NPC").attr({
         x: 250,
         y: 253,
     })
