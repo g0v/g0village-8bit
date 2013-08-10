@@ -39,7 +39,12 @@ window.overworldClkaoScript = function (vnEngine) {
                                     vnEngine.setText("破少年！");
                                     $.when(vnEngine.animateMessage()).then(function () {
                                         setTimeout(function () {
-                                            openUrlInBox('https://www.moedict.tw/#!破少年')
+                                            Crafty.audio.muteMusic('music');
+                                            openUrlInBox('https://www.moedict.tw/#!破少年', {
+                                                onClosed: function() {
+                                                    Crafty.audio.unmuteMusic('music');
+                                                }
+                                            })
                                         }, 1500);
                                     });
                                     counter = -2;
@@ -79,12 +84,13 @@ window.overworldClkaoScript = function (vnEngine) {
                     }
                     break;
                 case 4:
-                    window.openUrlInBox("http://g0v.tw/join.html");
-                /*
-                 vnEngine.setPortrait("assets/clkaoangry.png");
-                 vnEngine.setText("什麼! " + Hero.name +"! 你沒有 github 帳號!");
-                 break;
-                 */
+                    Crafty.audio.muteMusic('music');
+                    window.openUrlInBox("http://g0v.tw/join.html",  {
+                        onClosed: function() {
+                            Crafty.audio.unmuteMusic('music');
+                        }
+                    });
+                    break;
 
                 default:
                     counter = -1;
