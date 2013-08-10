@@ -17,14 +17,24 @@ window.overworldClkaoScript = function (vnEngine) {
                     vnEngine.showDialog();
                     break;
                 case 1:
+                    if (window.finishGame) {
+                    vnEngine.setText("你現在是村長了，帶頭做個專案吧！！");
+                    }
+                    else {
                     vnEngine.setText("你看來沒事做，去領個專案寫！！");
+                    }
+                    
                     vnEngine.animateMessage();
                     break;
                 case 2:
                     vnEngine.setPortrait("assets/clkaoask.png");
                     vnEngine.setText(Hero.name + "! 你想要開始一個專案了嗎?");
+                    var choices = ["我很樂意!", "不想耶!","我要挑戰村長!!!"];
+                    if (window.finishGame) {
+                        choices.pop(); // Not going to fight again
+                    }
                     $.when(vnEngine.animateMessage()).then(function () {
-                        $.when(vnEngine.promptQuestion(["我很樂意!", "不想耶!", "我要挑戰村長!!!"])).then(function (choice) {
+                        $.when(vnEngine.promptQuestion(choices)).then(function (choice) {
                             choice1 = choice;
 
                             switch (choice1) {
