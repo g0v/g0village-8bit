@@ -66,606 +66,34 @@ window.overworldScene = function () {
         z: -1
     });
 
+    // setup NPCs sprite and script
 
-    /*
-     * @racklin NPC
-     */
-    racklinScript = (function () {
-        var counter = 0;
-        var space = function () {
-            if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
-                switch (counter) {
-                    case 0:
-                        vnEngine.hideInteraction();
-
-                        vnEngine.setName("阿土伯");
-                        vnEngine.setText("嗨! 年輕人!");
-                        vnEngine.setPortrait("assets/racklin.png");
-                        vnEngine.showDialog();
-                        counter = 1;
-                        break;
-
-                    case 1:
-                        vnEngine.setText("g0v 最近很多活動唷，想聽聽大家怎麼說？");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            $.when(vnEngine.promptQuestion(["魔術", "第一次Hackth4n(新手文)","做事不用會寫程式"])).then(function (choice) {
-                                switch (choice) {
-                                    case 1:
-                                        Crafty.audio.muteMusic('music');
-                                        openUrlInBox('http://blog.g0v.tw/post/57884845324', {
-                                            onClosed: function() {
-                                                Crafty.audio.unmuteMusic('music');
-                                            }
-                                        });
-                                        break;
-                                    case 2:
-                                        Crafty.audio.muteMusic('music');
-                                        openUrlInBox('http://blog.g0v.tw/post/57882027353', {
-                                            onClosed: function() {
-                                                Crafty.audio.unmuteMusic('music');
-                                            }
-                                        });
-                                        break;
-                                    case 3:
-                                        Crafty.audio.muteMusic('music');
-                                        openUrlInBox('http://blog.g0v.tw/post/57878341290', {
-                                            onClosed: function() {
-                                                Crafty.audio.unmuteMusic('music');
-                                            }
-                                        });
-                                        break;
-                                }
-                                vnEngine.setText("燃起你的熱情了嗎？");
-                                vnEngine.animateMessage();
-                                counter = 2;
-                            });
-                        });
-                        break;
-
-                    case 2:
-                        vnEngine.setText(Hero.name + "! 對了，你知道我是誰嗎?");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            $.when(vnEngine.promptQuestion(["知道!", "不知道!"])).then(function (choice) {
-                                switch (choice) {
-                                    case 1:
-                                        vnEngine.setPortrait("assets/racklin.png");
-                                        vnEngine.setText("噓! 我現在身份是新手村的掃地僧!");
-                                        counter = 3;
-                                        break;
-                                    case 2:
-                                        vnEngine.setPortrait("assets/racklin.png");
-                                        vnEngine.setText("年輕的時侯來到這島建設，回想當時我也很『萌』.");
-                                        counter = 3;
-                                        break;
-                                }
-                                vnEngine.animateMessage();
-                            });
-                        })
-                        break;
-                    case 3:
-                        vnEngine.setText("你去找村子南邊的萌典小精靈學習吧!");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            //derp
-                        });
-                        counter = -1;
-                        break;
-                    default:
-                        counter = -1;
-                        vnEngine.hideDialog();
-                        vnEngine.showInteraction();
-                        counter++;
-                        break;
-                }
-            } else if (vnEngine.isWriting()) {
-                console.log("is writing");
-                vnEngine.forceTextFinish();
-            }
-            console.log(counter);
-        }
-        var leave = function () {
-            if (counter == 3 || counter == 4) counter = 4;
-            else counter = 0;
-            vnEngine.hideDialog();
-            vnEngine.hideInteraction();
-
-        }
-        var enter = function () {
-            vnEngine.showInteraction();
-        }
-        return {
-            spacebarCallback: space,
-            leaveCallback: leave,
-            enterCallback: enter
-        }
-    })();
-
-    /*
-     @hlb NPC
-     */
-    hlbScript = (function () {
-        var counter = 0;
-        if (Hero.gameFlags&&Hero.gameFlags.hlb_fireapp) counter=4;
-        var space = function () {
-            if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
-                switch (counter) {
-                    case 0:
-                        vnEngine.hideInteraction();
-
-                        vnEngine.setName("售票亭老板");
-                        vnEngine.setText("Hey partner!");
-                        vnEngine.setPortrait("assets/hlb.png");
-                        vnEngine.showDialog();
-                        counter = 1;
-                        break;
-                    case 1:
-                        vnEngine.setText(Hero.name + "! 你有在用 Fire.app 嗎?");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            $.when(vnEngine.promptQuestion(["有!", "沒有!", "..."])).then(function (choice) {
-                                switch (choice) {
-                                    case 1:
-                                        vnEngine.setPortrait("assets/hlb.png");
-                                        vnEngine.setText("Cool! LV+10");
-                                        Hero.followers += 10;
-                                        Hero.contributions += 100;
-                                        Hero.gameFlags.hlb_fireapp = true;
-                                        counter = 3;
-                                        break;
-                                    case 2:
-                                        vnEngine.setPortrait("assets/hlb.png");
-                                        vnEngine.setText("如果您有需要使用 Fire.app 參與 g0v 專案，歡迎找我領取一套。");
-                                        counter = 2;
-                                        break;
-                                    case 3:
-                                        vnEngine.setText("... 沉默是什麼意思呀?");
-                                        counter = 2;
-                                        break;
-
-                                }
-                                vnEngine.animateMessage();
-                            });
-                        })
-                        break;
-                    case 2:
-                        vnEngine.setText("你去找右上角的高村長聊聊吧!");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            //derp
-                        });
-                        counter = -1;
-                        break;
-                    case 3:
-                        vnEngine.setText("已知用火的勇者啊，去找右上角的高村長聊聊吧!");
-                        vnEngine.animateMessage();
-                        counter = 4;
-                        break;
-                    case 4:
-                        vnEngine.hideInteraction();
-
-                        vnEngine.setName("售票亭老板");
-                        vnEngine.setText("你已經會 Fire.app , 找右上角的高村長聊聊吧!");
-                        vnEngine.setPortrait("assets/hlb.png");
-                        vnEngine.showDialog();
-                        break;
-                    default:
-                        counter = -1;
-                        vnEngine.hideDialog();
-                        vnEngine.showInteraction();
-                        counter++;
-                        break;
-                }
-            } else if (vnEngine.isWriting()) {
-                console.log("is writing");
-                vnEngine.forceTextFinish();
-            }
-            console.log(counter);
-        }
-        var leave = function () {
-            if (counter == 3 || counter == 4) counter = 4;
-            else counter = 0;
-            vnEngine.hideDialog();
-            vnEngine.hideInteraction();
-
-        }
-        var enter = function () {
-            vnEngine.showInteraction();
-        }
-        return {
-            spacebarCallback: space,
-            leaveCallback: leave,
-            enterCallback: enter
-        }
-    })();
-
-    moeScript = (function () {
-        var counter = 0;
-        var space = function () {
-            if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
-                switch (counter) {
-                    case 0:
-                        vnEngine.hideInteraction();
-
-                        vnEngine.setName("萌典小精靈");
-                        vnEngine.setText(Hero.name + " 你好!");
-                        vnEngine.setPortrait("assets/moe.png");
-                        vnEngine.showDialog();
-                        break;
-                    case 1:
-                        var w = [];
-                        w[0] = MoedictWords[_.random(0, MoedictWords.length-1)];
-                        w[1] = MoedictWords[_.random(0, MoedictWords.length-1)];
-                        w[2] = MoedictWords[_.random(0, MoedictWords.length-1)];
-                        vnEngine.setText("你想要利用「萌典」學習什麼成語嗎？");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            $.when(vnEngine.promptQuestion(w)).then(function (choice) {
-                                Crafty.audio.muteMusic('music');
-                                openUrlInBox('https://moedict.tw/#' + w[choice - 1], {
-                                    onClosed: function() {
-                                        Crafty.audio.unmuteMusic('music');
-                                    }
-                                });
-                                vnEngine.setText("你現在知道 " + w[choice - 1] + " 的意思了！ LV+1");
-                                Hero.followers++;
-                                Hero.contributions += 10;
-                                vnEngine.animateMessage();
-                            });
-                        })
-                        break;
-                    default:
-                        counter = -1;
-                        vnEngine.hideDialog();
-                        vnEngine.showInteraction();
-                }
-                counter++;
-            } else if (vnEngine.isWriting()) {
-                console.log("is writing");
-                vnEngine.forceTextFinish();
-            }
-            console.log(counter);
-        }
-        var leave = function () {
-            vnEngine.hideDialog();
-
-            vnEngine.hideInteraction();
-            counter = 0;
-        }
-        var enter = function () {
-            vnEngine.showInteraction();
-        }
-        return {
-            spacebarCallback: space,
-            leaveCallback: leave,
-            enterCallback: enter
-        }
-    })();
-
-    hychenScript = (function () {
-        var counter = 0;
-        var choice1 = 0;
-        var space = function () {
-            if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
-                switch (counter) {
-                    case 0:
-                        vnEngine.hideInteraction();
-
-                        vnEngine.setName("鄉民健忘症主治醫師");
-                        vnEngine.setText(Hero.name + " 你好!");
-                        vnEngine.setPortrait("assets/kuansim.png");
-                        vnEngine.showDialog();
-                        break;
-                    case 1:
-                        var _hychen_bala = ["做壞事,神明不一定馬上處罰你,但說錯話,鄉民馬上就來桶你了...",
-                            "這是個『舉頭三尺有鄉民』的時代。",
-                            "我本來是個型男，但自從我膝蓋中了一鍵...",
-                            "我要是有點嘴泡專精，就不會是這種鍵樣",
-                            "你見過高村長了嗎? 他在右邊喔!"];
-                        vnEngine.setText(_hychen_bala[_.random(0, _hychen_bala.length-1)]);
-                        vnEngine.animateMessage();
-                        break;
-                    case 2:
-                        vnEngine.setText("鄉民關心你，專治鄉民健忘症");
-                        vnEngine.animateMessage();
-                        break;
-
-                    case 3:
-                        vnEngine.setText(Hero.name + " 你想加入鄉民關心你這個專案嗎?");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            $.when(vnEngine.promptQuestion(["算我一個!", "這是什麼?", "不想耶!"])).then(function (choice) {
-                                choice1 = choice;
-                                switch (choice1) {
-                                    case 1:
-                                        vnEngine.setText("非常好！");
-                                        vnEngine.animateMessage();
-                                        break;
-                                    case 2:
-                                        vnEngine.setText("治療鄉民健忘症的計畫...");
-                                        vnEngine.animateMessage();
-                                        break;
-                                    case 3:
-                                        vnEngine.setText("砂鍋大的拳頭，你有....");
-                                        vnEngine.animateMessage();
-                                        counter = -2;
-                                        break;
-                                }
-                            })
-                        });
-                        break;
-                    case 4:
-                        switch (choice1) {
-                            case 1:
-                                vnEngine.setText("研究一下怎麼報到吧!");
-                                vnEngine.animateMessage();
-                                break;
-                            case 2:
-                                vnEngine.setText("看一下影片吧....");
-                                vnEngine.animateMessage();
-                                break;
-                        }
-                        break;
-                    case 5:
-                        switch (choice1) {
-                            case 1:
-                                setTimeout(openUrlInBox('https://g0v.hackpad.com/--1OaXIxVVPSd'), 1500);
-                                vnEngine.setText("有問題的話就在IRC上問值日生吧!");
-                                vnEngine.animateMessage();
-                                counter = -4;
-                                break;
-                            case 2:
-                                Crafty.audio.muteMusic('music');
-                                setTimeout(openUrlInBox('http://www.youtube.com/embed/SpovzhVCg48?feature=player_detailpage', {
-                                    onClosed: function() {
-                                        Crafty.audio.unmuteMusic('music');
-                                    }
-                                }), 1500);
-                                vnEngine.setText("所以...");
-                                vnEngine.animateMessage();
-                                counter = -4;
-                                break;
-                        }
-                        break;
-                    default:
-                        counter = -1;
-                        vnEngine.hideDialog();
-                        vnEngine.showInteraction();
-                }
-                counter++;
-            } else if (vnEngine.isWriting()) {
-                console.log("is writing");
-                vnEngine.forceTextFinish();
-            }
-            console.log(counter);
-        }
-        var leave = function () {
-            vnEngine.hideDialog();
-
-            vnEngine.hideInteraction();
-            counter = 0;
-        }
-        var enter = function () {
-            vnEngine.showInteraction();
-        }
-        return {
-            spacebarCallback: space,
-            leaveCallback: leave,
-            enterCallback: enter
-        }
-    })()
-
-    clkaoScript = (function () {
-        var counter = 0;
-        var choice1 = 0;
-        var space = function () {
-            if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
-                switch (counter) {
-                    case 0:
-                        vnEngine.hideInteraction();
-
-                        if (window.finishGame) {
-                            vnEngine.setName("(前)高村長");
-                        } else {
-                            vnEngine.setName("高村長");
-                        }
-                        vnEngine.setText("唷~ " + Hero.name + "!");
-                        vnEngine.setPortrait("assets/clkao.png");
-                        vnEngine.showDialog();
-                        break;
-                    case 1:
-                        vnEngine.setText("你看來沒事做，去領個專案寫！！");
-                        vnEngine.animateMessage();
-                        break;
-                    case 2:
-                        vnEngine.setPortrait("assets/clkaoask.png");
-                        vnEngine.setText(Hero.name + "! 你想要開始一個專案了嗎?");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            $.when(vnEngine.promptQuestion(["我很樂意!", "不想耶!", "我要挑戰村長!!!"])).then(function (choice) {
-                                choice1 = choice;
-
-                                switch (choice1) {
-                                    case 1:
-                                        vnEngine.setPortrait("assets/clkao.png");
-                                        vnEngine.setText("非常好！");
-
-                                        vnEngine.animateMessage();
-                                        break;
-                                    case 2:
-                                        vnEngine.setPortrait("assets/clkaoangry.png");
-                                        vnEngine.setText("破少年！");
-                                        $.when(vnEngine.animateMessage()).then(function () {
-                                            setTimeout(function () {
-                                                openUrlInBox('https://www.moedict.tw/#!破少年')
-                                            }, 1500);
-                                        });
-                                        counter = -2;
-                                        break;
-                                    case 3:
-                                        counter = -2;
-                                        vnEngine.setPortrait("assets/clkaoangry.png");
-                                        vnEngine.setText(Hero.name + "! 那沒什麼好說的，戰鬥吧！");
-                                        $.when(vnEngine.animateMessage()).then(function () {
-                                            // save hero data to firebase
-                                            heroFBRef.update(Hero, function() {
-                                                setTimeout(function () {
-                                                    Crafty.audio.mute();
-                                                    Crafty.audio.mute();
-                                                    loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png", "assets/dq3_battle.mp3", "assets/dq3_battle.ogg"], "battle");
-                                                }, 1000);
-                                            });
-                                        });
-                                        break;
-                                }
-                            });
-                        })
-                        break;
-                    case 3:
-                        switch (choice1) {
-                            case 1:
-                                vnEngine.setText("那你先到 http://g0v.tw/join.html 看完加入我們文案.");
-
-                                vnEngine.animateMessage();
-                                break;
-                            case 2:
-                                vnEngine.setText("> Clkao looks disappointed.");
-
-                                vnEngine.animateMessage();
-                                counter = -1;
-                                break;
-                        }
-                        break;
-                    case 4:
-                        window.openUrlInBox("http://g0v.tw/join.html");
-                    /*
-                     vnEngine.setPortrait("assets/clkaoangry.png");
-                     vnEngine.setText("什麼! " + Hero.name +"! 你沒有 github 帳號!");
-                     break;
-                     */
-
-                    default:
-                        counter = -1;
-                        vnEngine.hideDialog();
-                        vnEngine.showInteraction();
-                }
-                counter++;
-            } else if (vnEngine.isWriting()) {
-                console.log("is writing");
-                vnEngine.forceTextFinish();
-            }
-            console.log(counter);
-        }
-        var leave = function () {
-            counter = 0;
-            vnEngine.hideDialog();
-            vnEngine.hideInteraction();
-
-        }
-        var enter = function () {
-            vnEngine.showInteraction();
-        }
-        return {
-            spacebarCallback: space,
-            leaveCallback: leave,
-            enterCallback: enter
-        }
-    })();
-
-    /*
-      mouinfo
-     */
-    mouinfoScript = (function () {
-        var counter = 0;
-        var space = function () {
-            if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
-                switch (counter) {
-                    case 0:
-                        vnEngine.hideInteraction();
-
-                        vnEngine.setName("g0v 文化部長");
-                        vnEngine.setText("嗨! 您好～");
-                        vnEngine.setPortrait("assets/mouinfo.png");
-                        vnEngine.showDialog();
-                        counter = 1;
-                        break;
-
-                    case 1:
-                        vnEngine.setText("想知道 g0v 文化部都在做些什麼嗎？");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            $.when(vnEngine.promptQuestion(["想！", "不想耶！"])).then(function (choice) {
-                                switch (choice) {
-                                    case 1:
-                                        Crafty.audio.muteMusic('music');
-                                        openUrlInBox('https://g0v.hackpad.com/g0v-g0v-mou-info-NX60cqNWwpi', {
-                                            onClosed: function() {
-                                                Crafty.audio.unmuteMusic('music');
-                                            }
-                                        });
-                                        vnEngine.setText("（微笑以對）");
-                                        vnEngine.animateMessage();
-                                        break;
-                                    case 2:
-                                        vnEngine.setText("（沈默不語）");
-                                        counter = 3;
-                                        vnEngine.animateMessage();
-                                        break;
-                                }
-                            });
-                        });
-                        counter=2;
-                        break;
-
-                    case 2:
-                        vnEngine.setText("（微笑以對 x 2）");
-                        $.when(vnEngine.animateMessage()).then(function () {
-                            //derp
-                        });
-                        counter = -1;
-                        break;
-                    default:
-                        counter = -1;
-                        vnEngine.hideDialog();
-                        vnEngine.showInteraction();
-                        counter++;
-                        break;
-                }
-            } else if (vnEngine.isWriting()) {
-                console.log("is writing");
-                vnEngine.forceTextFinish();
-            }
-            console.log(counter);
-        }
-        var leave = function () {
-            if (counter == 3 || counter == 4) counter = 4;
-            else counter = 0;
-            vnEngine.hideDialog();
-            vnEngine.hideInteraction();
-
-        }
-        var enter = function () {
-            vnEngine.showInteraction();
-        }
-        return {
-            spacebarCallback: space,
-            leaveCallback: leave,
-            enterCallback: enter
-        }
-    })();
-
-    // 玩家
-    Crafty.sprite(32, "assets/soujisprite.png", {
-        playerSprite: [1, 0]
-    });
     // g0village 專案發起人
     Crafty.sprite(32, "assets/hlbsprite.png", {
         hlbSprite: [1, 0]
     });
+    var hlb = Crafty.e("2D, Canvas, hlbSprite, NPC").attr({
+        x: 410,
+        y: 413
+    }).setupScript(overworldHlbScript(vnEngine)).wander();
+
     // g0village-8bit 專案開拓者
     Crafty.sprite(32, "assets/racklinsprite.png", {
         racklinSprite: [1, 0]
     });
+    var rackliln = Crafty.e("2D, Canvas, racklinSprite, NPC").attr({
+        x: 110,
+        y: 230
+    }).setupScript(overworldRacklinScript(vnEngine)).wander();
+
     // 新手村長
     Crafty.sprite(32, "assets/clkaosprite.png", {
         clkaoSprite: [1, 0]
     });
-    // 坑...
-    Crafty.sprite(32, "assets/shadowsprite.png", {
-        shadowSprite: [0, 0]
-    });
+    var clkao = Crafty.e("2D, Canvas, clkaoSprite, NPC").attr({
+        x: 510,
+        y: 199
+    }).setupScript(overworldClkaoScript(vnEngine)).wander();
 
     // 以下開放各專案 NPC 化
 
@@ -673,58 +101,42 @@ window.overworldScene = function () {
     Crafty.sprite(32, "assets/moesprite.png", {
         moeSprite: [1, 0]
     });
+    var moe = Crafty.e("2D, Canvas, moeSprite, NPC").attr({
+        x: 278,
+        y: 519
+    }).setupScript(overworldMoeScript(vnEngine)).wander();
+
     // 鄉民關心你
     Crafty.sprite(32, "assets/kuansimsprite.png", {
         kuansimSprite: [1, 0]
     });
+    var hychen = Crafty.e("2D, Canvas, kuansimSprite, NPC").attr({
+        x: 250,
+        y: 253
+    }).setupScript(overworldHychenScript(vnEngine)).wander();
+
     // 文化部
     Crafty.sprite(32, "assets/mouinfosprite.png", {
         mouinfoSprite: [1, 0]
     });
-
-
-    var clkao = Crafty.e("2D, Canvas, clkaoSprite, NPC").attr({
-        x: 510,
-        y: 199
-    })
-        .setupScript(clkaoScript)
-        .wander();
-
-    var moe = Crafty.e("2D, Canvas, moeSprite, NPC").attr({
-        x: 278,
-        y: 519
-    })
-        .setupScript(moeScript)
-        .wander();
-    var hlb = Crafty.e("2D, Canvas, hlbSprite, NPC").attr({
-        x: 410,
-        y: 413
-    })
-        .setupScript(hlbScript)
-        .wander();
-
-    var rackliln = Crafty.e("2D, Canvas, racklinSprite, NPC").attr({
-        x: 110,
-        y: 230
-    }).setupScript(racklinScript).wander();
-
-    var hychen = Crafty.e("2D, Canvas, kuansimSprite, NPC").attr({
-        x: 250,
-        y: 253,
-    })
-        .setupScript(hychenScript)
-        .wander();
-
     var mouinfo = Crafty.e("2D, Canvas, mouinfoSprite, NPC").attr({
         x: 590,
         y: 610
-    })
-        .setupScript(mouinfoScript)
-        .wander();
+    }).setupScript(overworldMouinfoScript(vnEngine)).wander();
+
+    // 坑...
+    Crafty.sprite(32, "assets/shadowsprite.png", {
+        shadowSprite: [0, 0]
+    });
+
+    // 玩家
+    Crafty.sprite(32, "assets/soujisprite.png", {
+        playerSprite: [1, 0]
+    });
 
     var player1 = Crafty.e("Player").attr({
         x: 200,
-        y: 223,
+        y: 223
     }).centerCamera(background).bind("Moved", function () {
 
             //center the camera on the player
@@ -776,7 +188,7 @@ window.overworldScene = function () {
             return function (x, y) {
                 return {
                     x: x * unit,
-                    y: y * unit,
+                    y: y * unit
                 };
             }
         }
