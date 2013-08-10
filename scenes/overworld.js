@@ -138,9 +138,16 @@ window.overworldScene = function () {
         x: 200,
         y: 223
     }).centerCamera(background).bind("Moved", function () {
-
             //center the camera on the player
-            this.centerCamera(background);
+            this.centerCamera(background)
+            if (this._camera_moved) {
+                vnEngine.updatePosition();
+                return;
+            };
+
+        /* cap nonmoving refresh at 10FPS */
+        if (this.__cached_debounce > ((new Date).getTime() - 100)) { return; }
+        this.__cached_debounce = (new Date).getTime();
 
             //move the  interface
             vnEngine.updatePosition();

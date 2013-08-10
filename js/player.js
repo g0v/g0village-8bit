@@ -14,6 +14,7 @@ Crafty.c("Player", {
 				Crafty.viewport.y = oldY;
 			}
 		}
+                this._camera_moved = ((oldX != Crafty.viewport.x) || (oldY != Crafty.viewport.y));
         return this;
     },
     getFacingDirection: function () {
