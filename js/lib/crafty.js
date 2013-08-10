@@ -729,6 +729,7 @@ Crafty.extend({
 				nextGameTick += skipTicks;
 				loops++;
 			}
+                        Crafty.trigger("FinishFrame", {frame: frame});
 			if(loops) {
 				Crafty.DrawManager.draw();
 			}

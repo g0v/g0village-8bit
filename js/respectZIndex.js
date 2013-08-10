@@ -4,7 +4,7 @@ Crafty.c("RespectZIndex", {
         this.requires("2D");
 		this.z = __guidIndex;
 		__guidIndex += 1;
-        this.bind("EnterFrame", function () {
+        this.bind("FinishFrame", function () {
             // calculate z index
             // does this by swapping z index with anything below or above.
             // there might be syncing issues, but fuck that too lazy to fix

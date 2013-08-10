@@ -47,7 +47,7 @@ Crafty.c("NPC", {
 
         // NPC Walking only on google chrome
         if (true) { // window.navigator.userAgent.indexOf("Chrome") != -1) {
-            this.bind("EnterFrame",function () {
+            this.bind("FinishFrame",function () {
                 var dir, self;
                 if (this._wandering && !this.disableControls) {
                     if (this._newDirection) {
