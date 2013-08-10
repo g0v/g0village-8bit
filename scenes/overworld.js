@@ -195,7 +195,7 @@ window.overworldScene = function () {
                     case 3:
                         vnEngine.setText("已知用火的勇者啊，去找右上角的高村長聊聊吧!");
                         vnEngine.animateMessage();
-                        counter = -1;
+                        counter = 4;
                         break;
                     case 4:
                         vnEngine.hideInteraction();
@@ -204,7 +204,6 @@ window.overworldScene = function () {
                         vnEngine.setText("你已經會 Fire.app , 找右上角的高村長聊聊吧!");
                         vnEngine.setPortrait("assets/hlb.png");
                         vnEngine.showDialog();
-                        counter = -1;
                         break;
                     default:
                         counter = -1;
