@@ -5601,7 +5601,7 @@ Crafty.c("Text", {
 			}
 			else if (e.type === "canvas") {
 				var c = e.ctx;
-				c.font = "20px sans-serif";
+				c.font = "20px Arial";
 				if (this._fontColor) {
 					c.fillStyle = this._fontColor;
 				}
