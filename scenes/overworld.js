@@ -576,7 +576,7 @@ window.overworldScene = function () {
                     case 0:
                         vnEngine.hideInteraction();
 
-                        vnEngine.setName("文化部 龍印台");
+                        vnEngine.setName("g0v 文化部長");
                         vnEngine.setText("嗨! 您好～");
                         vnEngine.setPortrait("assets/mouinfo.png");
                         vnEngine.showDialog();
@@ -599,7 +599,8 @@ window.overworldScene = function () {
                                         vnEngine.animateMessage();
                                         break;
                                     case 2:
-                                        vnEngine.setText("（不聞不問）");
+                                        vnEngine.setText("（沈默不語）");
+                                        counter = 3;
                                         vnEngine.animateMessage();
                                         break;
                                 }
