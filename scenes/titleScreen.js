@@ -31,8 +31,6 @@ window.titleScreenScene = function () {
         blackbg.destroy();
         pushEnter = Crafty.e("2D, Canvas, Tween, pressenter, Keyboard").bind("KeyDown", function (e) {
             if (e.key === 13) {
-                Crafty.audio.mute();
-                Crafty.audio.mute();
                 Hero.name = prompt("勇者，你叫什麼名字");
                 var heroFBRef = window.heroFBRef = herosFBRef.child(Hero.name);
                 heroFBRef.once('value', function(data){
@@ -45,6 +43,7 @@ window.titleScreenScene = function () {
                             Hero = _.extend(Hero, savedData);
                         }
                     }
+                    Crafty.audio.muteMusic('introMusic');
 
                     // goto next scene
                     loadManager.loadScene(["assets/yosukehappy.png", "assets/yosukesad.png", "assets/clkaoask.png", "assets/clkaoangry.png", "assets/tree.png", "assets/palmTree.png", "assets/rock.png", "assets/bush.png", "assets/smalltree.png", "assets/background.png", "assets/tileset32.png", "assets/darkbackground.png", "assets/orangebackground.png", "assets/clkaosprite.png", "assets/igor.png", "assets/kanji.png", "assets/kanjiangry.png", "assets/kanjiconfused.png", "assets/soujisprite.png", "assets/teddie.png", "assets/teddiehappy.png", "assets/teddiesad.png", "assets/yosukesprite.png", "assets/moe.png", "assets/moesad.png", "assets/moesprite.png", "assets/clkao.png", "assets/yosuke.png", "assets/clkaohungry.png", "assets/hlb.png", "assets/racklinsprite.png", "assets/racklin.png"], "overworld");

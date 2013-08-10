@@ -5499,7 +5499,55 @@ Crafty.extend({
 			}
 			this._muted = !this._muted;
 			return this;
-		}
+		},
+
+        /**@
+         * #Crafty.audio.muteMusic
+         */
+        muteMusic: function(music) {
+            var sounds, sound, i, l, elem;
+
+            sounds = this._elems[music];
+            //loop over every channel for a sound
+            for(i = 0, l = sounds.length; i < l; ++i) {
+                sound = sounds[i];
+
+                try {
+                    //if playing, stop
+                    if(!sound.ended && sound.currentTime) {
+                        sound.pause();
+                    }
+                }catch(e) {
+                    console.log(e);
+                }
+            }
+            return this;
+        },
+
+        /**@
+         * #Crafty.audio.unmuteMusic
+         */
+        unmuteMusic: function(music) {
+            var sounds, sound, i, l, elem;
+
+            sounds = this._elems[music];
+            //loop over every channel for a sound
+            for(i = 0, l = sounds.length; i < l; ++i) {
+                sound = sounds[i];
+
+                try {
+                    //if stop, play
+                    if(!sound.ended && sound.currentTime) {
+                        sound.play();
+                    }
+                }catch(e) {
+                    console.log(e);
+                }
+            }
+            return this;
+        }
+
+
 	}
 });
 

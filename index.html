@@ -39,8 +39,12 @@
     <script src="scenes/dungeon.js"></script>
     <script src="scenes/heros.js"></script>
     <script type="text/javascript">
-        window.openUrlInBox = function (url) {
-            $.colorbox({iframe: true, href: url, width: '90%', height: '90%'});
+        window.openUrlInBox = function (url, obj) {
+            var options = {iframe: true, href: url, width: '90%', height: '90%'};
+            if (obj && typeof obj == 'object') {
+                options = _.extend(options, obj);
+            }
+            $.colorbox(options);
         };
 
         $(function () {

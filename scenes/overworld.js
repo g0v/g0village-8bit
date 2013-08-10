@@ -309,20 +309,20 @@ window.overworldScene = function () {
                         vnEngine.showDialog();
                         break;
                     case 1:
-                        if (_.random(0, 4) != 0) {
-                            var _hychen_bala = ["做壞事,神明不一定馬上處罰你,但說錯話,鄉民馬上就來桶你了...",
-                                "這是個『舉頭三尺有鄉民』的時代。",
-                                "我本來是個型男，但自從我膝蓋中了一鍵...",
-                                "我要是有點嘴泡專精，就不會是這種鍵樣",
-                                "你見過高村長了嗎? 他在右邊喔!"];
-                            vnEngine.setText(_hychen_bala[_.random(0, _hychen_bala.length)]);
-                            counter = -1;
-                        } else {
-                            vnEngine.setText("鄉民關心你，專治鄉民健忘症");
-                        }
+                        var _hychen_bala = ["做壞事,神明不一定馬上處罰你,但說錯話,鄉民馬上就來桶你了...",
+                            "這是個『舉頭三尺有鄉民』的時代。",
+                            "我本來是個型男，但自從我膝蓋中了一鍵...",
+                            "我要是有點嘴泡專精，就不會是這種鍵樣",
+                            "你見過高村長了嗎? 他在右邊喔!"];
+                        vnEngine.setText(_hychen_bala[_.random(0, _hychen_bala.length-1)]);
                         vnEngine.animateMessage();
                         break;
                     case 2:
+                        vnEngine.setText("鄉民關心你，專治鄉民健忘症");
+                        vnEngine.animateMessage();
+                        break;
+
+                    case 3:
                         vnEngine.setText(Hero.name + " 你想加入鄉民關心你這個專案嗎?");
                         $.when(vnEngine.animateMessage()).then(function () {
                             $.when(vnEngine.promptQuestion(["算我一個!", "這是什麼?", "不想耶!"])).then(function (choice) {
@@ -345,7 +345,7 @@ window.overworldScene = function () {
                             })
                         });
                         break;
-                    case 3:
+                    case 4:
                         switch (choice1) {
                             case 1:
                                 vnEngine.setText("研究一下怎麼報到吧!");
@@ -357,7 +357,7 @@ window.overworldScene = function () {
                                 break;
                         }
                         break;
-                    case 4:
+                    case 5:
                         switch (choice1) {
                             case 1:
                                 setTimeout(openUrlInBox('https://g0v.hackpad.com/--1OaXIxVVPSd'), 1500);
@@ -366,12 +366,15 @@ window.overworldScene = function () {
                                 counter = -4;
                                 break;
                             case 2:
-                                Crafty.audio.mute();
-                                Crafty.audio.mute();
-                                setTimeout(openUrlInBox('http://www.youtube.com/embed/SpovzhVCg48?feature=player_detailpage'), 1500);
+                                Crafty.audio.muteMusic('music');
+                                setTimeout(openUrlInBox('http://www.youtube.com/embed/SpovzhVCg48?feature=player_detailpage', {
+                                    onClosed: function() {
+                                        Crafty.audio.unmuteMusic('music');
+                                    }
+                                }), 1500);
                                 vnEngine.setText("所以...");
                                 vnEngine.animateMessage();
-                                counter = counter - 3;
+                                counter = -4;
                                 break;
                         }
                         break;
