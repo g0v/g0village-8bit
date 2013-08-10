@@ -15,6 +15,7 @@
     <link type="text/css" rel="stylesheet" media="all" href="colorbox.css"/>
     <script src="js/lib/jquery-1.10.2.min.js"></script>
     <script src="js/lib/lodash.min.js"></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
     <script src="js/lib/colorbox.js"></script>
     <script src="js/lib/glfx.js"></script>
     <script src="js/lib/crafty.js"></script>
@@ -43,6 +44,8 @@
         };
 
         $(function () {
+
+            window.herosFBRef = new Firebase('https://g0village-8bit.firebaseio.com/heros');
 
             window.MoedictWords = [];
             $.getJSON('datas/lenToRegex.4.json', function(d) {
