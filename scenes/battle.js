@@ -33,6 +33,7 @@ window.battleScene = function () {
     var clkaoScript = (function () {
         var counter = 0;
         var lastAttPerson = null;
+        var crazyMode = false;
         var space = function () {
             if (!btEngine.isWriting() && !btEngine.isAnimating()) {
                 switch (counter) {
@@ -132,9 +133,9 @@ window.battleScene = function () {
                                 if (HeroPartner.contributions > 0) {
                                     counter = 2100;
                                 }else {
-                                    counter = 2200;
+                                    if ((Boss.contributions < (window.Boss.contributions/4)) && !crazyMode) counter=2201;
+                                    else counter = 2200;
                                 }
-
                             }
                         });
 
@@ -151,7 +152,8 @@ window.battleScene = function () {
                             btEngine.setBossHP(Boss.contributions);
 
                             if (Boss.contributions > 0) {
-                                counter = 2200;
+                                if ((Boss.contributions < (window.Boss.contributions/4)) && !crazyMode) counter=2201;
+                                else counter = 2200;
                             } else {
                                 counter = 5000;
                             }
@@ -204,6 +206,21 @@ window.battleScene = function () {
                         });
 
                         break;
+
+                    // boss crazy
+                    case 2201:
+                        btEngine.setPortrait("assets/clkaoangry.png");
+                        btEngine.setText(Boss.name + " 生氣了！");
+                        $.when(btEngine.animateMessage()).then(function () {
+                            Boss.contributions = Boss.contributions*2;
+                            Boss.followers = Boss.followers*2;
+                            btEngine.setBossHP(Boss.contributions);
+                            btEngine.setBossLV(Boss.followers);
+                            crazyMode = true;
+                        });
+                        counter=1000;
+                        break;
+
 
                     // show die message
                     case 2300:

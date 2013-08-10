@@ -579,5 +579,9 @@ Crafty.c("BattleEngine", {
 
     setBossHP: function(hp) {
         this._bossHP.text(hp);
+    },
+
+    setBossLV: function(lv) {
+        this._bossLV.text(lv);
     }
 });
