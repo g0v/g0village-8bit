@@ -590,7 +590,7 @@ window.overworldScene = function () {
                                 switch (choice) {
                                     case 1:
                                         Crafty.audio.muteMusic('music');
-                                        openUrlInBox('https://g0v.hackpad.com/g0v-BroadCast--e8C6p3dQvzK', {
+                                        openUrlInBox('https://g0v.hackpad.com/g0v-g0v-mou-info-NX60cqNWwpi', {
                                             onClosed: function() {
                                                 Crafty.audio.unmuteMusic('music');
                                             }
