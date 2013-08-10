@@ -452,11 +452,14 @@ window.overworldScene = function () {
                                         vnEngine.setPortrait("assets/clkaoangry.png");
                                         vnEngine.setText(Hero.name + "! 那沒什麼好說的，戰鬥吧！");
                                         $.when(vnEngine.animateMessage()).then(function () {
-                                            setTimeout(function () {
-                                                Crafty.audio.mute();
-                                                Crafty.audio.mute();
-                                                loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png", "assets/dq3_battle.mp3", "assets/dq3_battle.ogg"], "battle");
-                                            }, 1500);
+                                            // save hero data to firebase
+                                            heroFBRef.update(Hero, function() {
+                                                setTimeout(function () {
+                                                    Crafty.audio.mute();
+                                                    Crafty.audio.mute();
+                                                    loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png", "assets/dq3_battle.mp3", "assets/dq3_battle.ogg"], "battle");
+                                                }, 1000);
+                                            });
                                         });
                                         break;
                                 }
