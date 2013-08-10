@@ -76,7 +76,7 @@
             // start off with the preloading scene
             Crafty.scene("preloading");
 
-            if (true) { //window.navigator.userAgent.indexOf("Chrome") != -1) {
+            if (true) {
 
                 canvas = fx.canvas();
                 $("#herp").append(canvas);
@@ -96,7 +96,7 @@
 
                 // usage:
                 // instead of setInterval(render, 16) ....
-                doEffects = true
+                doEffects = window.navigator.userAgent.indexOf("Chrome") != -1;
                 $("#derp").click(function () {
                     doEffects = !doEffects;
 

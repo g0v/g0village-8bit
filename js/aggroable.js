@@ -7,7 +7,7 @@
 		
 		this.setAggroRadius(2);
         this.requires("2D")
-			.bind("EnterFrame", function () {
+			.bind("FinishFrame", function () {
 				var player = new Crafty(new Crafty("Player")[0]), coorx, coory, canInteract = false, dir, self, oldx, oldy;
 				if (this._aggroRegion.hit("Player")) {
 					if (!this._canAggro) {
