@@ -38,7 +38,7 @@ var Crafty = function(selector) {
 	},
 	
 	GUID = 1, //GUID for entity IDs
-	FPS = 50,
+        FPS = (window.navigator.userAgent.indexOf("Chrome") != -1) ? 50 : 30,
 	frame = 1,
 	
 	components = {}, //map of components and their functions
