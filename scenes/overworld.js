@@ -252,9 +252,9 @@ window.overworldScene = function () {
                         break;
                     case 1:
                         var w = [];
-                        w[0] = MoedictWords[_.random(0, MoedictWords.length)];
-                        w[1] = MoedictWords[_.random(0, MoedictWords.length)];
-                        w[2] = MoedictWords[_.random(0, MoedictWords.length)];
+                        w[0] = MoedictWords[_.random(0, MoedictWords.length-1)];
+                        w[1] = MoedictWords[_.random(0, MoedictWords.length-1)];
+                        w[2] = MoedictWords[_.random(0, MoedictWords.length-1)];
                         vnEngine.setText("你想要利用「萌典」學習什麼成語嗎？");
                         $.when(vnEngine.animateMessage()).then(function () {
                             $.when(vnEngine.promptQuestion(w)).then(function (choice) {
