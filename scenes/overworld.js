@@ -146,6 +146,7 @@ window.overworldScene = function () {
      */
     hlbScript = (function () {
         var counter = 0;
+        if (Hero.gameFlags&&Hero.gameFlags.hlb_fireapp) counter=4;
         var space = function () {
             if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
                 switch (counter) {
@@ -168,6 +169,7 @@ window.overworldScene = function () {
                                         vnEngine.setText("Cool! LV+10");
                                         Hero.followers += 10;
                                         Hero.contributions += 100;
+                                        Hero.gameFlags.hlb_fireapp = true;
                                         counter = 3;
                                         break;
                                     case 2:

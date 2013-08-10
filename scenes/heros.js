@@ -8,7 +8,8 @@
 window.Hero = {
     name: 'unnamed',
     contributions: 100,
-    followers: 10
+    followers: 10,
+    gameFlags: {}
 };
 
 window.Boss = {

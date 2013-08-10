@@ -39,9 +39,10 @@ window.titleScreenScene = function () {
                     var savedData = data.val();
                     if (savedData === null) {
                         heroFBRef.set(Hero);
+                        alert('勇者 ' + Hero.name + '! 歡迎您呀! 已為您創建新的記錄。\n\n您未來可以用相同名稱載入記錄.');
                     }else {
                         if (confirm('您好！ ' + Hero.name + ', 要載入上次的記錄嗎?')) {
-                            Hero = _.extend({}, savedData);
+                            Hero = _.extend(Hero, savedData);
                         }
                     }
 
