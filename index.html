@@ -69,59 +69,64 @@
             // start off with the preloading scene
             Crafty.scene("preloading");
 
+            if (window.navigator.userAgent.indexOf("Chrome") != -1) {
 
-            canvas = fx.canvas();
-            $("#herp").append(canvas);
+                canvas = fx.canvas();
+                $("#herp").append(canvas);
+
+                // shim layer with setTimeout fallback
+                window.requestAnimFrame = (function () {
+                    return  window.requestAnimationFrame ||
+                            window.webkitRequestAnimationFrame ||
+                            window.mozRequestAnimationFrame ||
+                            window.oRequestAnimationFrame ||
+                            window.msRequestAnimationFrame ||
+                            function (/* function */ callback, /* DOMElement */ element) {
+                                window.setTimeout(callback, 1000 / 60);
+                            };
+                })();
 
 
-            // shim layer with setTimeout fallback
-            window.requestAnimFrame = (function () {
-                return  window.requestAnimationFrame ||
-                        window.webkitRequestAnimationFrame ||
-                        window.mozRequestAnimationFrame ||
-                        window.oRequestAnimationFrame ||
-                        window.msRequestAnimationFrame ||
-                        function (/* function */ callback, /* DOMElement */ element) {
-                            window.setTimeout(callback, 1000 / 60);
-                        };
-            })();
+                // usage:
+                // instead of setInterval(render, 16) ....
+                doEffects = true
+                $("#derp").click(function () {
+                    doEffects = !doEffects;
 
-
-            // usage:
-            // instead of setInterval(render, 16) ....
-            doEffects = true
-            $("#derp").click(function () {
-                doEffects = !doEffects;
-
-            });
-            x = 0;
-            rendar = function () {
-                var d = (0.5 + 0.5 * Math.cos(x / 10)) * 1
-                var crstage = Crafty.canvas.context.getImageData(0, 0, 640, 440);
-                var texture = canvas.texture(crstage);
-                canvas.draw(texture).sepia(0.90).bulgePinch(320, 220, 400, 0.05).brightnessContrast(-0.1, 0.1).vignette(0, 1).noise(0.10).update();
-                x = x + 1;
-            }
-            animloop = function () {
-                if (doEffects) {
-                    rendar();
-                }
-                else {
+                });
+                x = 0;
+                rendar = function () {
+                    var d = (0.5 + 0.5 * Math.cos(x / 10)) * 1
                     var crstage = Crafty.canvas.context.getImageData(0, 0, 640, 440);
                     var texture = canvas.texture(crstage);
-                    canvas.draw(texture).update();
+                    canvas.draw(texture).sepia(0.90).bulgePinch(320, 220, 400, 0.05).brightnessContrast(-0.1, 0.1).vignette(0, 1).noise(0.10).update();
+                    x = x + 1;
                 }
-                requestAnimFrame(animloop);
-            }
+                animloop = function () {
+                    if (doEffects) {
+                        rendar();
+                    }
+                    else {
+                        var crstage = Crafty.canvas.context.getImageData(0, 0, 640, 440);
+                        var texture = canvas.texture(crstage);
+                        canvas.draw(texture).update();
+                    }
+                    requestAnimFrame(animloop);
+                }
 
-            animloop();
+                animloop();
+            }else {
+                jQuery("#effectSwithContainer").hide();
+            }
         });
     </script>
 </head>
 <body>
 <div>
     操作方式：按 Enter 鍵開始，WASD/方向鍵移動，空白鍵互動。
+    <div id="effectSwithContainer">
 		點按<button id="derp">這裡</button>可以啟用/停用特效。
+    </div>
 </div>
 <div id="herp" width="640" height="440" style="position: absolute; z-index: 10; opacity: 0.90"></div>
 <a target="_blank" href="https://github.com/g0v/g0village-8bit"><img
