@@ -49,7 +49,6 @@ Crafty.c("NPC", {
         if (window.navigator.userAgent.indexOf("Chrome") != -1) {
             this.bind("EnterFrame",function () {
                 var dir, self;
-                console.log("NPC EnterFrame");
                 if (this._wandering && !this.disableControls) {
                     if (this._newDirection) {
                         this._newDirection = false;
