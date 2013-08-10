@@ -96,7 +96,7 @@ window.overworldScene = function () {
                                         break;
                                     case 2:
                                         vnEngine.setPortrait("assets/racklin.png");
-                                        vnEngine.setText("你知道嗎？ 我年輕的時侯也很『萌』.");
+                                        vnEngine.setText("年輕的時侯來到這島建設，回想當時我也很『萌』.");
                                         counter = 2;
                                         break;
                                 }
