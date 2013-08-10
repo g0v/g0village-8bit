@@ -143,7 +143,7 @@ window.overworldScene = function () {
                         })
                         break;
                     case 3:
-                        vnEngine.setText("你去找左下角的萌典小精靈學習吧!");
+                        vnEngine.setText("你去找村子南邊的萌典小精靈學習吧!");
                         $.when(vnEngine.animateMessage()).then(function () {
                             //derp
                         });
