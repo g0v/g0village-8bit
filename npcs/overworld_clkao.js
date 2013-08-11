@@ -18,21 +18,18 @@ window.overworldClkaoScript = function (vnEngine) {
                     break;
                 case 1:
                     if (window.finishGame) {
-                    vnEngine.setText("你現在是村長了，帶頭做個專案吧！！");
+                        vnEngine.setText("你現在是村長了，帶頭做個專案吧！！");
                     }
                     else {
-                    vnEngine.setText("你看來沒事做，去領個專案寫！！");
+                        vnEngine.setText("你看來沒事做，去領個專案寫！！");
                     }
-                    
+
                     vnEngine.animateMessage();
                     break;
                 case 2:
                     vnEngine.setPortrait("assets/clkaoask.png");
                     vnEngine.setText(Hero.name + "! 你想要開始一個專案了嗎?");
-                    var choices = ["我很樂意!", "不想耶!","我要挑戰村長!!!"];
-                    if (window.finishGame) {
-                        choices.pop(); // Not going to fight again
-                    }
+                    var choices = ["我很樂意!", "不想耶!", "我要挑戰村長!!!"];
                     $.when(vnEngine.animateMessage()).then(function () {
                         $.when(vnEngine.promptQuestion(choices)).then(function (choice) {
                             choice1 = choice;
@@ -51,7 +48,7 @@ window.overworldClkaoScript = function (vnEngine) {
                                         setTimeout(function () {
                                             Crafty.audio.muteMusic('music');
                                             openUrlInBox('https://www.moedict.tw/#!破少年', {
-                                                onClosed: function() {
+                                                onClosed: function () {
                                                     Crafty.audio.unmuteMusic('music');
                                                 }
                                             })
@@ -62,10 +59,14 @@ window.overworldClkaoScript = function (vnEngine) {
                                 case 3:
                                     counter = -2;
                                     vnEngine.setPortrait("assets/clkaoangry.png");
-                                    vnEngine.setText(Hero.name + "! 那沒什麼好說的，戰鬥吧！");
+                                    if (window.finishGame) {
+                                        vnEngine.setText(Hero.name + "! 你已經是村長了， 那我們就切磋切磋吧！");
+                                    } else {
+                                        vnEngine.setText(Hero.name + "! 那沒什麼好說的，戰鬥吧！");
+                                    }
                                     $.when(vnEngine.animateMessage()).then(function () {
                                         // save hero data to firebase
-                                        heroFBRef.update(Hero, function() {
+                                        heroFBRef.update(Hero, function () {
                                             setTimeout(function () {
                                                 Crafty.audio.mute();
                                                 Crafty.audio.mute();
@@ -95,8 +96,8 @@ window.overworldClkaoScript = function (vnEngine) {
                     break;
                 case 4:
                     Crafty.audio.muteMusic('music');
-                    window.openUrlInBox("http://g0v.tw/join.html",  {
-                        onClosed: function() {
+                    window.openUrlInBox("http://g0v.tw/join.html", {
+                        onClosed: function () {
                             Crafty.audio.unmuteMusic('music');
                         }
                     });

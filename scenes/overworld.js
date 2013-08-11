@@ -22,6 +22,26 @@ window.overworldScene = function () {
     ];
 
     var sprites = [
+        {name:"playerSprite", url: "assets/soujisprite.png", region: [1, 0]},       // Player
+        {name:"hlbSprite", url: "assets/hlbsprite.png", region: [1, 0]},            // 專案發起人
+        {name:"racklinSprite", url: "assets/racklinsprite.png", region: [1, 0]},    // g0village-8bit 專案開拓者
+        {name:"clkaoSprite", url: "assets/clkaosprite.png", region: [1, 0]},        // 新手村長
+        {name:"moeSprite", url: "assets/moesprite.png", region: [1, 0]},            // 萌典
+        {name:"kuansimSprite", url: "assets/kuansimsprite.png", region: [1, 0]},    // 鄉民關心你
+        {name:"mouinfoSprite", url: "assets/mouinfosprite.png", region: [1, 0]},    // 文化部
+        {name:"shadowSprite", url: "assets/shadowsprite.png", region: [1, 0]},      // 坑...
+        {name:"tree", url: "assets/tree.png", region: [0, 0, 2, 3]},
+        {name:"palmTree", url: "assets/palmTree.png", tileW: 32, region: [0, 0, 2, 3]},
+        {name:"smallTree", url: "assets/smalltree.png", tileW: 32, region: [0, 0]},
+        {name:"bush", url: "assets/bush.png"},
+        {name:"rock", url: "assets/rock.png"},
+        {name:"smallSign", url: "assets/signSmall.png"},
+        {name:"bigSign", url: "assets/signBig.png"},
+        {name:"hole", url: "assets/hole.png"},
+        {name:"bg", url: "assets/background.png", tileW: 768}
+    ];
+
+    var entities = [
         {type: "tree", x: 9, y: 9},
         {type: "tree", x: 16, y: 12},
         {type: "tree", x: 18, y: 12},
@@ -57,39 +77,38 @@ window.overworldScene = function () {
     });
     Crafty.audio.play("music", -1);
 
-    Crafty.sprite(768, "assets/background.png", {
-        bg: [0, 0]
-    });
+    var makeSprite = function (data, idx, array) {
+        var tileW = data.tileW || unit, // by default,  use unit
+            tileH = data.tileH || tileW,
+            map = {};
+
+        map[data.name] = data.region || [0, 0];
+        Crafty.sprite(tileW, tileH, data.url, map);
+    }
+
+    // create sprites before using them
+    sprites.forEach(makeSprite);
+
     var background = Crafty.e("2D, Canvas, bg").attr({
         x: 0,
         y: 0,
         z: -1
     });
 
-    // setup NPCs sprite and script
-
+    // setup NPCs script
     // g0village 專案發起人
-    Crafty.sprite(32, "assets/hlbsprite.png", {
-        hlbSprite: [1, 0]
-    });
     var hlb = Crafty.e("2D, Canvas, hlbSprite, NPC").attr({
         x: 410,
         y: 413
     }).setupScript(overworldHlbScript(vnEngine)).wander();
 
     // g0village-8bit 專案開拓者
-    Crafty.sprite(32, "assets/racklinsprite.png", {
-        racklinSprite: [1, 0]
-    });
     var rackliln = Crafty.e("2D, Canvas, racklinSprite, NPC").attr({
         x: 110,
         y: 230
     }).setupScript(overworldRacklinScript(vnEngine)).wander();
 
     // 新手村長
-    Crafty.sprite(32, "assets/clkaosprite.png", {
-        clkaoSprite: [1, 0]
-    });
     var clkao = Crafty.e("2D, Canvas, clkaoSprite, NPC").attr({
         x: 510,
         y: 199
@@ -98,41 +117,22 @@ window.overworldScene = function () {
     // 以下開放各專案 NPC 化
 
     // 萌典
-    Crafty.sprite(32, "assets/moesprite.png", {
-        moeSprite: [1, 0]
-    });
     var moe = Crafty.e("2D, Canvas, moeSprite, NPC").attr({
         x: 278,
         y: 519
     }).setupScript(overworldMoeScript(vnEngine)).wander();
 
     // 鄉民關心你
-    Crafty.sprite(32, "assets/kuansimsprite.png", {
-        kuansimSprite: [1, 0]
-    });
     var hychen = Crafty.e("2D, Canvas, kuansimSprite, NPC").attr({
         x: 250,
         y: 253
     }).setupScript(overworldHychenScript(vnEngine)).wander();
 
     // 文化部
-    Crafty.sprite(32, "assets/mouinfosprite.png", {
-        mouinfoSprite: [1, 0]
-    });
     var mouinfo = Crafty.e("2D, Canvas, mouinfoSprite, NPC").attr({
         x: 590,
         y: 610
     }).setupScript(overworldMouinfoScript(vnEngine)).wander();
-
-    // 坑...
-    Crafty.sprite(32, "assets/shadowsprite.png", {
-        shadowSprite: [0, 0]
-    });
-
-    // 玩家
-    Crafty.sprite(32, "assets/soujisprite.png", {
-        playerSprite: [1, 0]
-    });
 
     var player1 = Crafty.e("Player").attr({
         x: 200,
@@ -152,34 +152,6 @@ window.overworldScene = function () {
             //move the  interface
             vnEngine.updatePosition();
         });
-    Crafty.sprite(32, "assets/tree.png", {
-        tree: [0, 0, 2, 3]
-    });
-
-    Crafty.sprite(32, "assets/palmTree.png", {
-        palmtree: [0, 0, 2, 3]
-    });
-
-    Crafty.sprite(32, "assets/rock.png", {
-        rock: [0, 0]
-    });
-
-    Crafty.sprite(32, "assets/bush.png", {
-        bush: [0, 0]
-    });
-    Crafty.sprite(32, "assets/smalltree.png", {
-        smallTree: [0, 0]
-    });
-    Crafty.sprite(32, "assets/signSmall.png", {
-        smallSign: [0, 0]
-    });
-    Crafty.sprite(32, "assets/signBig.png", {
-        bigSign: [0, 0]
-    });
-
-    Crafty.sprite(32, "assets/hole.png", {
-        hole: [0, 0]
-    });
 
     var mkPosFunc = function (unit, width, height) {
         if (width && height) {
@@ -241,7 +213,7 @@ window.overworldScene = function () {
 
     var componentLists = {
         "tree": "2D, Canvas, tree, Collision, RespectZIndex, Collidable",
-        "palmtree": "2D, Canvas, palmtree, Collision, RespectZIndex, Collidable",
+        "palmtree": "2D, Canvas, palmTree, Collision, RespectZIndex, Collidable",
         "rock": "2D, Canvas, rock, Collision, RespectZIndex, Collidable",
         "bush": "2D, Canvas, bush, Collision, RespectZIndex, Collidable",
         "smalltree": "2D, Canvas, smallTree, Collision, RespectZIndex, Collidable",
@@ -250,15 +222,14 @@ window.overworldScene = function () {
         "bigsign": "2D, Canvas, bigSign, Collision, NPC, Collidable"
     }
 
-    var makeSprite = function (sprite, idx, array) {
-        var entity = Crafty.e(componentLists[sprite.type])
-            .attr(posFunc[sprite.type](sprite.x, sprite.y))
-            .collision(collisionFunc[sprite.type]());
-        if (sprite.hooks) {
-            sprite.hooks.forEach(function (val, idx, array) {
-                debugger;
+    var makeEntity = function (data, idx, array) {
+        var entity = Crafty.e(componentLists[data.type])
+            .attr(posFunc[data.type](data.x, data.y))
+            .collision(collisionFunc[data.type]());
+        if (data.hooks) {
+            data.hooks.forEach(function (val, idx, array) {
                 if (hooks[val]) {
-                    hooks[val](sprite, entity);
+                    hooks[val](data, entity);
                 }
             });
         }
@@ -313,6 +284,6 @@ window.overworldScene = function () {
     };
 
 
-    sprites.forEach(makeSprite);
+    entities.forEach(makeEntity);
     boundaries.forEach(makeBoundary);
 };

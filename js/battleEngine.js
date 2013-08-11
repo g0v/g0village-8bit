@@ -47,6 +47,26 @@ Crafty.c("BattleEngine", {
 			})
 			.color("transparent")
 			.fontColor("white");
+        this._dialogText2 = Crafty.e("2D, Color, Canvas, Text")
+            .attr({
+                x: 65,
+                y: 360,
+                h: 90,
+                w: 540,
+                z: 103
+            })
+            .color("transparent")
+            .fontColor("white");
+        this._dialogText3 = Crafty.e("2D, Color, Canvas, Text")
+            .attr({
+                x: 65,
+                y: 390,
+                h: 90,
+                w: 540,
+                z: 103
+            })
+            .color("transparent")
+            .fontColor("white");
 		this._dialogName = Crafty.e("2D, Color, Canvas, Text")
 			.attr({
 				x: 55,
@@ -214,6 +234,8 @@ Crafty.c("BattleEngine", {
 	},
 	clearText: function () {
 		this._dialogText.text(" ");
+        this._dialogText2.text(" ");
+        this._dialogText3.text(" ");
 	},
 	clearName: function () {
 		this._dialogName.text(" ");
@@ -310,35 +332,61 @@ Crafty.c("BattleEngine", {
         console.log('promise');
 		return dfd.promise();
 	},
-	animateMessage: function() {
-		var dfd = $.Deferred();
-		if (!this._writing) {
-			this._writing = true;
-			var self = this;
-			var length = 0;
-			var type = function () {
-					self._dialogText.text(self._dialog.substr(0, length ++ ));
-					if (length < self._dialog.length + 1 && self._writing) {
-						setTimeout(type, 20);
-					} else {
-						length = 0;
-						self._dialogText.text(self._dialog);
-						self._writing = false;
-						dfd.resolve();
-					}
-			}
+    animateMessage: function () {
+        var dfd = $.Deferred();
+        if (!this._writing) {
+            this._writing = true;
+            var self = this;
+            var length = 0;
+            var lines = self._dialog.split("\n").slice(0,3);
+            var line = 0;
+            var done = false;
 
+            var type = function () {
+                if (self._writing) {
 
-			type();
+                    var dialogText = (line == 0) ? self._dialogText : self['_dialogText'+(line+1)];
+                    dialogText.text(lines[line].substr(0, length++));
 
-		}
-		else
-		{
-			dfd.resolve();
-		}
+                    if (length < lines[line].length + 1) {
+                        setTimeout(type, 20);
+                    }else if (line < lines.length-1) {
+                        line++;
+                        length = 0;
+                        setTimeout(type, 20);
+                    }else {
+                        done = true;
+                    }
 
-		return dfd;
-	},
+                }else {
+                    done = true;
+                }
+
+                if (done) {
+                    length = 0;
+                    line = 0;
+                    self._dialogText.text(lines[0] || '');
+                    self._dialogText2.text(lines[1] || '');
+                    self._dialogText3.text(lines[2] || '');
+                    self._writing = false;
+                    dfd.resolve();
+                }
+            };
+
+            // clear and type
+            self._dialogText.text(' ');
+            self._dialogText2.text(' ');
+            self._dialogText3.text(' ');
+
+            type();
+
+        }
+        else {
+            dfd.resolve();
+        }
+
+        return dfd;
+    },
 	forceTextFinish: function () {
 		this._writing = false;
 	},
@@ -539,6 +587,8 @@ Crafty.c("BattleEngine", {
             this._checkDialog.x += deltaX;
             this._characterBG.x += deltaX;
             this._dialogText.x += deltaX;
+            this._dialogText2.x += deltaX;
+            this._dialogText3.x += deltaX;
             this._dialogName.x += deltaX;
 			this._choiceThirdText.x += deltaX;
 			this._choiceSecondText.x += deltaX;
@@ -553,6 +603,8 @@ Crafty.c("BattleEngine", {
             this._checkDialog.y += deltaY;
             this._characterBG.y += deltaY;
             this._dialogText.y += deltaY;
+            this._dialogText2.y += deltaY;
+            this._dialogText3.y += deltaY;
             this._dialogName.y += deltaY;
 			this._choiceThirdText.y += deltaY;
 			this._choiceSecondText.y += deltaY;

@@ -1,4 +1,11 @@
 window.battleClkaoScript = function (btEngine) {
+
+    var Hero = _.extend({}, window.Hero);
+    var Boss = _.extend({}, window.Boss);
+
+    // get hero's partner
+    var HeroPartner = _.extend({}, window.HeroPartner, _.shuffle(window.GithubPartners)[0]);
+
     var counter = 0;
     var lastAttPerson = null;
     var crazyMode = false;
