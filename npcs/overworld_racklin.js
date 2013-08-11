@@ -9,10 +9,10 @@
 
     // aec data
     var gammaMonitors = [];
-    $.getJSON('datas/gammamonitor.json', function(d) {
-        d.sort(function(a,b) { return parseFloat(b.value) - parseFloat(a.value);} );
-        gammaMonitors = d;
-        console.log(d);
+    $.getJSON('http://pipes.yahoo.com/pipes/pipe.run?_id=e25caa20b5fdce92065499d2d719ae5a&_render=json&_callback=?', function(d) {
+        gammaMonitors = d.value.items[0].json;
+        gammaMonitors.sort(function(a,b) { return parseFloat(b.value) - parseFloat(a.value);} );
+        console.log(gammaMonitors);
     });
 
     window.overworldRacklinScript = function (vnEngine) {
@@ -95,7 +95,7 @@
                         $.when(vnEngine.animateMessage()).then(function () {
                             $.when(vnEngine.promptQuestion(gammasTitle)).then(function (choice) {
 
-                                vnEngine.setText("是 [" + highest.station + " " + highest.station_en + "]("+highest.value+") 呀～  by. 原能會全國環境輻射偵測");
+                                vnEngine.setText("是 " + highest.station + " (" + highest.value + ") 呀～  by. aec-data "+ highest.localtime);
                                 vnEngine.animateMessage();
                                 counter = 100;
                             });
