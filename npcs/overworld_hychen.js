@@ -13,11 +13,11 @@ window.overworldHychenScript = function (vnEngine) {
                     vnEngine.showDialog();
                     break;
                 case 1:
-                    var _hychen_bala = ["做壞事,神明不一定馬上處罰你,但說錯話,鄉民馬上就來桶你了...",
+                    var _hychen_bala = ["做壞事，神明不一定馬上處罰你，但說錯話，鄉民馬上就來桶你了...",
                         "這是個『舉頭三尺有鄉民』的時代。",
                         "我本來是個型男，但自從我膝蓋中了一鍵...",
-                        "我要是有點嘴泡專精，就不會是這種鍵樣",
-                        "你見過高村長了嗎? 他在右邊喔!"];
+                        "我要是有點嘴泡專精，就不會是這種鍵樣...",
+                        "你見過高村長了嗎? 他在右邊喔！"];
                     vnEngine.setText(_hychen_bala[_.random(0, _hychen_bala.length-1)]);
                     vnEngine.animateMessage();
                     break;
