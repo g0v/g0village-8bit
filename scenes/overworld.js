@@ -43,13 +43,13 @@ window.overworldScene = function () {
     ];
 
     var entities = [
-        {type: "tree", x: 9, y: 9, collision: "tree"},
-        {type: "tree", x: 16, y: 12, collision: "tree"},
-        {type: "tree", x: 18, y: 12, collision: "tree"},
-        {type: "tree", x: 18, y: 14, collision: "tree"},
-        {type: "palmtree", x: 4, y: 5, collision: "palmtree"},
-        {type: "palmtree", x: 9, y: 2, collision: "palmtree"},
-        {type: "palmtree", x: 6, y: 12, collision: "palmtree"},
+        {type: "tree", x: 9, y: 9, w:2, h: 3, collision: "tree"},
+        {type: "tree", x: 16, y: 12, w: 2, h: 3, collision: "tree"},
+        {type: "tree", x: 18, y: 12, w:2, h:3, collision: "tree"},
+        {type: "tree", x: 18, y: 14, w: 2, h:3, collision: "tree"},
+        {type: "palmtree", x: 4, y: 5, w:2, h:3, collision: "palmtree"},
+        {type: "palmtree", x: 9, y: 2, w:2, h:3, collision: "palmtree"},
+        {type: "palmtree", x: 6, y: 12, w:2, h:3, collision: "palmtree"},
         {type: "rock", x: 9, y: 13, collision: "rock"},
         {type: "rock", x: 15, y: 13, collision: "rock"},
         {type: "rock", x: 13, y: 18, collision: "rock"},
@@ -160,36 +160,22 @@ window.overworldScene = function () {
             vnEngine.updatePosition();
         });
 
-    var mkPosFunc = function (unit, width, height) {
+    var mkPosition = function (x, y, width, height) {
+        // by default, unit=32px
         if (width && height) {
-            return function (x, y) {
-                return {
-                    x: x * unit,
-                    y: y * unit,
-                    w: width,
-                    h: height
-                };
-            }
+            return {
+                x: x * unit,
+                y: y * unit,
+                w: width * unit,
+                h: height * unit
+            };
         } else {
-            return function (x, y) {
-                return {
-                    x: x * unit,
-                    y: y * unit
-                };
-            }
+           return {
+               x: x * unit,
+               y: y * unit
+           };
         }
     }
-
-    var posFunc = {
-        "tree": mkPosFunc(unit, 64, 96),
-        "palmtree": mkPosFunc(unit, 64, 96),
-        "rock": mkPosFunc(unit),
-        "bush": mkPosFunc(unit),
-        "smalltree": mkPosFunc(unit),
-        "hole": mkPosFunc(unit),
-        "smallsign": mkPosFunc(unit),
-        "bigsign": mkPosFunc(unit)
-    };
 
     var collisionFunc = {
         "tree": function () {
@@ -219,7 +205,7 @@ window.overworldScene = function () {
 
     var makeEntity = function (data, idx, array) {
         var entity = Crafty.e(componentLists[data.type])
-            .attr(posFunc[data.type](data.x, data.y));
+            .attr(mkPosition(data.x, data.y, data.w, data.h));
 
         /* if entity specify its own collisioin function, use it */
         if(data.collision) {
