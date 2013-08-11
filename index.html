@@ -58,6 +58,10 @@
 
             window.herosFBRef = new Firebase('https://g0village-8bit.firebaseio.com/heros');
 
+            window.MoedictWords = [];
+            $.getJSON('data/idioms.json', function(d) {
+                window.MoedictWords = d
+            });
             Crafty.init(640, 440);
             Crafty.canvas.init();
 
