@@ -36,9 +36,9 @@ window.battleClkaoScript = function (btEngine) {
                     break;
                 case 4:
                     btEngine._heroPartnerBG.attr({alpha: 1});
-                    btEngine._heroPartnerName.attr({alpha: 1});
-                    btEngine._heroPartnerHP.attr({alpha: 1});
-                    btEngine._heroPartnerLV.attr({alpha: 1});
+                    btEngine._heroPartnerName.text(HeroPartner.name).attr({alpha: 1});
+                    btEngine._heroPartnerHP.text(HeroPartner.contributions).attr({alpha: 1});
+                    btEngine._heroPartnerLV.text(HeroPartner.followers).attr({alpha: 1});
                     btEngine.setText(HeroPartner.name + "> 我們一起對抗挖坑給人家跳的 " + Boss.name + "吧！");
                     btEngine.animateMessage();
                     counter = 6;
@@ -271,7 +271,7 @@ window.battleClkaoScript = function (btEngine) {
                     break;
             }
 
-        } else if (vnEngine.isWriting()) {
+        } else if (btEngine.isWriting()) {
             console.log("is writing");
             btEngine.forceTextFinish();
         }
