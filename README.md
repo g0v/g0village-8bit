@@ -20,12 +20,12 @@ TODO
 
 Contributors
 ----------
-racklin
-audreyt
-walkingice
-hychen
-yllan
-kcliu
+* racklin
+* audreyt
+* walkingice
+* hychen
+* yllan
+* kcliu
 
 License
 ----------
