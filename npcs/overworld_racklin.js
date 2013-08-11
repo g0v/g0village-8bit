@@ -74,7 +74,7 @@
                         break;
 
                     case 20:
-                        vnEngine.setText("你知道全台灣哪裡目前幅射最高？");
+                        vnEngine.setText("你知道全台灣哪裡目前輻射最高？");
                         var gammas = [];
                         var gammasTitle = [];
                         var highest = null;
