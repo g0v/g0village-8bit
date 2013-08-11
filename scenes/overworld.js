@@ -43,18 +43,18 @@ window.overworldScene = function () {
     ];
 
     var entities = [
-        {type: "tree", x: 9, y: 9},
-        {type: "tree", x: 16, y: 12},
-        {type: "tree", x: 18, y: 12},
-        {type: "tree", x: 18, y: 14},
-        {type: "palmtree", x: 4, y: 5},
-        {type: "palmtree", x: 9, y: 2},
-        {type: "palmtree", x: 6, y: 12},
-        {type: "rock", x: 9, y: 13},
-        {type: "rock", x: 15, y: 13},
-        {type: "rock", x: 13, y: 18},
-        {type: "rock", x: 10, y: 6},
-        {type: "rock", x: 14, y: 4},
+        {type: "tree", x: 9, y: 9, collision: "tree"},
+        {type: "tree", x: 16, y: 12, collision: "tree"},
+        {type: "tree", x: 18, y: 12, collision: "tree"},
+        {type: "tree", x: 18, y: 14, collision: "tree"},
+        {type: "palmtree", x: 4, y: 5, collision: "palmtree"},
+        {type: "palmtree", x: 9, y: 2, collision: "palmtree"},
+        {type: "palmtree", x: 6, y: 12, collision: "palmtree"},
+        {type: "rock", x: 9, y: 13, collision: "rock"},
+        {type: "rock", x: 15, y: 13, collision: "rock"},
+        {type: "rock", x: 13, y: 18, collision: "rock"},
+        {type: "rock", x: 10, y: 6, collision: "rock"},
+        {type: "rock", x: 14, y: 4, collision: "rock"},
         {type: "bush", x: 11, y: 12},
         {type: "bush", x: 11, y: 16},
         {type: "bush", x: 11, y: 10},
@@ -201,19 +201,7 @@ window.overworldScene = function () {
         "rock": function () {
             return new Crafty.polygon([0, 32], [32, 32], [32, 5], [0, 5])
         },
-        "bush": function () {
-            return new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20])
-        },
-        "smalltree": function () {
-            return new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20])
-        },
-        "hole": function () {
-            return new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20])
-        },
-        "smallsign": function () {
-            return new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20])
-        },
-        "bigsign": function () {
+        "normal": function () {
             return new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20])
         }
     };
@@ -231,8 +219,15 @@ window.overworldScene = function () {
 
     var makeEntity = function (data, idx, array) {
         var entity = Crafty.e(componentLists[data.type])
-            .attr(posFunc[data.type](data.x, data.y))
-            .collision(collisionFunc[data.type]());
+            .attr(posFunc[data.type](data.x, data.y));
+
+        /* if entity specify its own collisioin function, use it */
+        if(data.collision) {
+            entity.collision(collisionFunc[data.collision]());
+        } else {
+            entity.collision(collisionFunc['normal']());
+        }
+
         if (data.hooks) {
             data.hooks.forEach(function (val, idx, array) {
                 if (hooks[val]) {
