@@ -29,6 +29,7 @@ window.overworldScene = function () {
         {name:"moeSprite", url: "assets/moesprite.png", region: [1, 0]},            // 萌典
         {name:"kuansimSprite", url: "assets/kuansimsprite.png", region: [1, 0]},    // 鄉民關心你
         {name:"mouinfoSprite", url: "assets/mouinfosprite.png", region: [1, 0]},    // 文化部
+        {name:"listeningSprite", url: "assets/listeningsprite.png", region: [1, 0]},    // 福利請聽
         {name:"shadowSprite", url: "assets/shadowsprite.png", region: [1, 0]},      // 坑...
         {name:"tree", url: "assets/tree.png", region: [0, 0, 2, 3]},
         {name:"palmTree", url: "assets/palmTree.png", tileW: 32, region: [0, 0, 2, 3]},
@@ -133,6 +134,12 @@ window.overworldScene = function () {
         x: 590,
         y: 610
     }).setupScript(overworldMouinfoScript(vnEngine)).wander();
+
+    // 福利請聽
+    var listening = Crafty.e("2D, Canvas, listeningSprite, NPC").attr({
+        x: 400,
+        y: 610
+    }).setupScript(overworldListeningScript(vnEngine)).wander();
 
     var player1 = Crafty.e("Player").attr({
         x: 200,
