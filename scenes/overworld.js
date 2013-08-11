@@ -2,7 +2,10 @@ window.overworldScene = function () {
     var unit = 32;
     var _i = 0;
 
-    var hooks = {setupSign: hookSetupSign};
+    var hooks = {
+        setupSign: hookSetupSign,
+        setupEngineScript: hookSetupEngineScript
+    };
 
     var boundaries = [
         [3, 9, 3, 8],
@@ -68,6 +71,13 @@ window.overworldScene = function () {
     ];
 
     var npcs = [
+        {sprite: "hlbSprite", x: 12, y: 12, script: "overworldHlbScript", hooks: ["setupEngineScript"]},             // g0village 專案發起人
+        {sprite: "racklinSprite", x: 3, y: 7, script: "overworldRacklinScript", hooks: ["setupEngineScript"]},       // g0village-8bit 專案開拓者
+        {sprite: "clkaoSprite", x: 15, y: 6, script: "overworldClkaoScript", hooks: ["setupEngineScript"]},          // 新手村長
+        {sprite: "moeSprite", x: 8, y: 16, script: "overworldMoeScript", hooks: ["setupEngineScript"]},              // 萌典
+        {sprite: "kuansimSprite", x: 7, y: 7, script: "overworldHychenScript", hooks: ["setupEngineScript"]},         // 鄉民關心你
+        {sprite: "mouinfoSprite", x: 18, y: 19, script: "overworldMouinfoScript", hooks: ["setupEngineScript"]},     // 文化部
+        {sprite: "listeningSprite", x: 12, y: 19, script: "overworldListeningScript", hooks: ["setupEngineScript"]}, // 福利請聽
         {sprite: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", wander: false, hooks: ["setupSign"]},
         {sprite: "smallSign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", wander: false, hooks: ["setupSign"]},
         {sprite: "smallSign", x: 19, y: 5, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", wander: false, hooks: ["setupSign"]},
@@ -98,51 +108,6 @@ window.overworldScene = function () {
         y: 0,
         z: -1
     });
-
-    // setup NPCs script
-    // g0village 專案發起人
-    var hlb = Crafty.e("2D, Canvas, hlbSprite, NPC").attr({
-        x: 410,
-        y: 413
-    }).setupScript(overworldHlbScript(vnEngine)).wander();
-
-    // g0village-8bit 專案開拓者
-    var rackliln = Crafty.e("2D, Canvas, racklinSprite, NPC").attr({
-        x: 110,
-        y: 230
-    }).setupScript(overworldRacklinScript(vnEngine)).wander();
-
-    // 新手村長
-    var clkao = Crafty.e("2D, Canvas, clkaoSprite, NPC").attr({
-        x: 510,
-        y: 199
-    }).setupScript(overworldClkaoScript(vnEngine)).wander();
-
-    // 以下開放各專案 NPC 化
-
-    // 萌典
-    var moe = Crafty.e("2D, Canvas, moeSprite, NPC").attr({
-        x: 278,
-        y: 519
-    }).setupScript(overworldMoeScript(vnEngine)).wander();
-
-    // 鄉民關心你
-    var hychen = Crafty.e("2D, Canvas, kuansimSprite, NPC").attr({
-        x: 250,
-        y: 253
-    }).setupScript(overworldHychenScript(vnEngine)).wander();
-
-    // 文化部
-    var mouinfo = Crafty.e("2D, Canvas, mouinfoSprite, NPC").attr({
-        x: 590,
-        y: 610
-    }).setupScript(overworldMouinfoScript(vnEngine)).wander();
-
-    // 福利請聽
-    var listening = Crafty.e("2D, Canvas, listeningSprite, NPC").attr({
-        x: 400,
-        y: 610
-    }).setupScript(overworldListeningScript(vnEngine)).wander();
 
     var player1 = Crafty.e("Player").attr({
         x: 200,
@@ -234,6 +199,17 @@ window.overworldScene = function () {
             });
         }
     };
+
+    /* This hook tries to get interaction object by invoking
+     * specific global method with vnEngine. */
+    function hookSetupEngineScript(data, entity) {
+        var script;
+        // if specify the script that create interaction object
+        if (data.script) {
+            script = window[data.script](vnEngine);
+            entity.setupScript(script);
+        }
+    }
 
     /* create an entity from data then apply this hook */
     function hookSetupSign(data, entity) {
