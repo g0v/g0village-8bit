@@ -2,17 +2,17 @@
 
     // get blog.g0v.tw rss feeds  tumblr
     var blogPosts = [];
-    $.getJSON('http://blog.g0v.tw/api/read/json?num=10&callback=?', function(d) {
+    $.getJSON('http://blog.g0v.tw/api/read/json?num=6&callback=?', function(d) {
         blogPosts = d.posts;
-        console.log(blogPosts);
     });
 
     // aec data
     var gammaMonitors = [];
     $.getJSON('http://pipes.yahoo.com/pipes/pipe.run?_id=de994ac982afa046e89e93135879dba4&_render=json&_callback=?', function(d) {
-        gammaMonitors = d.value.items[0].json;
-        gammaMonitors.sort(function(a,b) { return parseFloat(b.value) - parseFloat(a.value);} );
-        console.log(gammaMonitors);
+        if (d.value.items && d.value.items[0] && d.value.items[0].json) {
+            gammaMonitors = d.value.items[0].json;
+            gammaMonitors.sort(function(a,b) { return parseFloat(b.value) - parseFloat(a.value);} );
+        }
     });
 
     window.overworldRacklinScript = function (vnEngine) {
@@ -52,23 +52,27 @@
                         var postsLink = [];
                         var postsTitle = [];
                         var posts = _.shuffle(blogPosts);
-                        for (var i=0; i<3; i++) {
+                        for (var i=0; i<2; i++) {
                             var post = posts[i];
                             postsTitle.push(post['link-text'] || post['regular-title']);
                             postsLink.push(post['link-url']||post['url']);
                         }
 
                         $.when(vnEngine.animateMessage()).then(function () {
-                            $.when(vnEngine.promptQuestion(postsTitle)).then(function (choice) {
+                            $.when(vnEngine.promptQuestion(postsTitle.concat('不了！ 謝謝！'))).then(function (choice) {
 
-                                Crafty.audio.muteMusic('music');
-                                openUrlInBox(postsLink[choice-1], {
-                                    onClosed: function() {
-                                        Crafty.audio.unmuteMusic('music');
-                                    }
-                                });
+                                if (choice < 3) {
+                                    Crafty.audio.muteMusic('music');
+                                    openUrlInBox(postsLink[choice-1], {
+                                        onClosed: function() {
+                                            Crafty.audio.unmuteMusic('music');
+                                        }
+                                    });
+                                    vnEngine.setText("燃起你的熱情了嗎？");
+                                }else {
+                                    vnEngine.setText("您可以隨時關注 http://blog.g0v.tw/ .");
+                                }
 
-                                vnEngine.setText("燃起你的熱情了嗎？");
                                 vnEngine.animateMessage();
                                 counter = 100;
                             });
