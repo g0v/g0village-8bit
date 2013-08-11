@@ -20,6 +20,8 @@
         var lastConversation = null;
         var space = function () {
             if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
+                // only 1/3 chance ask who am i
+                if (counter == 100 && _.random(0,3) > 0 ) counter++;
                 switch (counter) {
                     case 0:
                         vnEngine.hideInteraction();
