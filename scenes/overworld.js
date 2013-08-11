@@ -236,7 +236,9 @@ window.overworldScene = function () {
         if (data.hooks) {
             data.hooks.forEach(function (val, idx, array) {
                 if (hooks[val]) {
-                    hooks[val](data, entity);
+                    hooks[val].apply(entity, [data, entity]);
+                } else if (entity[val]){
+                    entity[val].call(entity);
                 }
             });
         }
