@@ -341,7 +341,7 @@ Crafty.c("BattleEngine", {
             var lines = self._dialog.split("\n").slice(0,3);
             var line = 0;
             var done = false;
-            
+
             var type = function () {
                 if (self._writing) {
 
