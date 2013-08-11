@@ -17,3 +17,16 @@ DEMO
 TODO
 ----------
 腳本 Parser 和 Editor
+
+Contributors
+----------
+racklin
+audreyt
+walkingice
+hychen
+yllan
+kcliu
+
+License
+----------
+License: http://g0v.mit-license.org/ .
