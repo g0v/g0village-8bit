@@ -43,32 +43,32 @@ window.overworldScene = function () {
     ];
 
     var entities = [
-        {type: "tree", x: 9, y: 9, w:2, h: 3, collision: "tree"},
-        {type: "tree", x: 16, y: 12, w: 2, h: 3, collision: "tree"},
-        {type: "tree", x: 18, y: 12, w:2, h:3, collision: "tree"},
-        {type: "tree", x: 18, y: 14, w: 2, h:3, collision: "tree"},
-        {type: "palmtree", x: 4, y: 5, w:2, h:3, collision: "palmtree"},
-        {type: "palmtree", x: 9, y: 2, w:2, h:3, collision: "palmtree"},
-        {type: "palmtree", x: 6, y: 12, w:2, h:3, collision: "palmtree"},
-        {type: "rock", x: 9, y: 13, collision: "rock"},
-        {type: "rock", x: 15, y: 13, collision: "rock"},
-        {type: "rock", x: 13, y: 18, collision: "rock"},
-        {type: "rock", x: 10, y: 6, collision: "rock"},
-        {type: "rock", x: 14, y: 4, collision: "rock"},
-        {type: "bush", x: 11, y: 12},
-        {type: "bush", x: 11, y: 16},
-        {type: "bush", x: 11, y: 10},
-        {type: "bush", x: 14, y: 10},
-        {type: "bush", x: 14, y: 11},
-        {type: "bush", x: 14, y: 12},
-        {type: "bush", x: 18, y: 8},
-        {type: "bush", x: 20, y: 8},
-        {type: "smalltree", x: 13, y: 9},
-        {type: "smalltree", x: 19, y: 18},
-        {type: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", hooks: ["setupSign"]},
-        {type: "smallsign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", hooks: ["setupSign"]},
-        {type: "smallsign", x: 19, y: 5, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", hooks: ["setupSign"]},
-        {type: "bigsign", x: 10, y: 14, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", hooks: ["setupSign"]}
+        {sprite: "tree", x: 9, y: 9, w:2, h: 3, collision: "tree"},
+        {sprite: "tree", x: 16, y: 12, w: 2, h: 3, collision: "tree"},
+        {sprite: "tree", x: 18, y: 12, w:2, h:3, collision: "tree"},
+        {sprite: "tree", x: 18, y: 14, w: 2, h:3, collision: "tree"},
+        {sprite: "palmTree", x: 4, y: 5, w:2, h:3, collision: "palmtree"},
+        {sprite: "palmTree", x: 9, y: 2, w:2, h:3, collision: "palmtree"},
+        {sprite: "palmTree", x: 6, y: 12, w:2, h:3, collision: "palmtree"},
+        {sprite: "rock", x: 9, y: 13, collision: "rock"},
+        {sprite: "rock", x: 15, y: 13, collision: "rock"},
+        {sprite: "rock", x: 13, y: 18, collision: "rock"},
+        {sprite: "rock", x: 10, y: 6, collision: "rock"},
+        {sprite: "rock", x: 14, y: 4, collision: "rock"},
+        {sprite: "bush", x: 11, y: 12},
+        {sprite: "bush", x: 11, y: 16},
+        {sprite: "bush", x: 11, y: 10},
+        {sprite: "bush", x: 14, y: 10},
+        {sprite: "bush", x: 14, y: 11},
+        {sprite: "bush", x: 14, y: 12},
+        {sprite: "bush", x: 18, y: 8},
+        {sprite: "bush", x: 20, y: 8},
+        {sprite: "smalltree", x: 13, y: 9},
+        {sprite: "smalltree", x: 19, y: 18},
+        {sprite: "hole", x: 7, y: 10, npc: true, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", hooks: ["setupSign"]},
+        {sprite: "smallsign", x: 11, y: 7, npc: true, content: "歡迎到 g0v 新手村！", hooks: ["setupSign"]},
+        {sprite: "smallsign", x: 19, y: 5, npc: true, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", hooks: ["setupSign"]},
+        {sprite: "bigsign", x: 10, y: 14, npc: true, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", hooks: ["setupSign"]}
     ];
 
     var vnEngine = Crafty.e("NovelInterface");
@@ -192,19 +192,17 @@ window.overworldScene = function () {
         }
     };
 
-    var componentLists = {
-        "tree": "2D, Canvas, tree, Collision, RespectZIndex, Collidable",
-        "palmtree": "2D, Canvas, palmTree, Collision, RespectZIndex, Collidable",
-        "rock": "2D, Canvas, rock, Collision, RespectZIndex, Collidable",
-        "bush": "2D, Canvas, bush, Collision, RespectZIndex, Collidable",
-        "smalltree": "2D, Canvas, smallTree, Collision, RespectZIndex, Collidable",
-        "hole": "2D, Canvas, hole, Collision, NPC, Collidable",
-        "smallsign": "2D, Canvas, smallSign, Collision, NPC, Collidable",
-        "bigsign": "2D, Canvas, bigSign, Collision, NPC, Collidable"
-    }
-
     var makeEntity = function (data, idx, array) {
-        var entity = Crafty.e(componentLists[data.type])
+        var components = "2D, Canvas, " + data.sprite,
+            entity;
+
+        if (data.npc) {
+            components += ", Collision, NPC, Collidable";
+        } else {
+            components += ", Collision, RespectZIndex, Collidable";
+        }
+
+        entity = Crafty.e(components)
             .attr(mkPosition(data.x, data.y, data.w, data.h));
 
         /* if entity specify its own collisioin function, use it */
