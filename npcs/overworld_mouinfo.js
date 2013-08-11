@@ -43,12 +43,17 @@ window.overworldMouinfoScript = function (vnEngine) {
                     break;
 
                 case 2:
-                    vnEngine.setText("（微笑以對 x 2）");
-                    $.when(vnEngine.animateMessage()).then(function () {
-                        //derp
-                    });
-                    counter = -1;
-                    break;
+                    if (Hero.interacted_with_mouinfo) {
+                        // Fall Through
+                    }
+                    else {
+                        Hero.followers++;
+                        Hero.contributions += 10;
+                        Hero.interacted_with_mouinfo = true;
+                        vnEngine.setText("你現在認識「文化部」了！ LV+1");
+                        vnEngine.animateMessage();
+                        counter++;
+                    }
                 default:
                     counter = -1;
                     vnEngine.hideDialog();
