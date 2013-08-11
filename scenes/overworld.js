@@ -7,6 +7,21 @@ window.overworldScene = function () {
         setupEngineScript: hookSetupEngineScript
     };
 
+    var collisionFunc = {
+        "tree": function () {
+            return new Crafty.polygon([5, 96], [54, 96], [54, 48], [5, 48])
+        },
+        "palmtree": function () {
+            return new Crafty.polygon([20, 96], [54, 96], [54, 64], [20, 64])
+        },
+        "rock": function () {
+            return new Crafty.polygon([0, 32], [32, 32], [32, 5], [0, 5])
+        },
+        "normal": function () {
+            return new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20])
+        }
+    };
+
     var boundaries = [
         [3, 9, 3, 8],
         [3, 17, 2, 3],
@@ -84,12 +99,7 @@ window.overworldScene = function () {
         {sprite: "bigSign", x: 10, y: 14, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", wander: false, hooks: ["setupSign"]}
     ];
 
-    var vnEngine = Crafty.e("NovelInterface");
-    Crafty.background("#ccc");
-    Crafty.audio.add({
-        "music": ["assets/dq3_bgm.mp3", "assets/dq3_bgm.ogg"]
-    });
-    Crafty.audio.play("music", -1);
+    /** Functions to iterate sprites, entities, npcs and boundries **/
 
     var makeSprite = function (data, idx, array) {
         var tileW = data.tileW || unit, // by default,  use unit
@@ -99,80 +109,6 @@ window.overworldScene = function () {
         map[data.name] = data.region || [0, 0];
         Crafty.sprite(tileW, tileH, data.url, map);
     }
-
-    // create sprites before using them
-    sprites.forEach(makeSprite);
-
-    var background = Crafty.e("2D, Canvas, bg").attr({
-        x: 0,
-        y: 0,
-        z: -1
-    });
-
-    var player1 = Crafty.e("Player").attr({
-        x: 200,
-        y: 223
-    }).centerCamera(background).bind("Moved", function () {
-            //center the camera on the player
-            this.centerCamera(background)
-            if (this._camera_moved) {
-                vnEngine.updatePosition();
-                return;
-            };
-
-        /* cap nonmoving refresh at 10FPS */
-        if (this.__cached_debounce > ((new Date).getTime() - 100)) { return; }
-        this.__cached_debounce = (new Date).getTime();
-
-            //move the  interface
-            vnEngine.updatePosition();
-        });
-
-    var mkPosition = function (x, y, width, height) {
-        // by default, unit=32px
-        if (width && height) {
-            return {
-                x: x * unit,
-                y: y * unit,
-                w: width * unit,
-                h: height * unit
-            };
-        } else {
-           return {
-               x: x * unit,
-               y: y * unit
-           };
-        }
-    }
-
-    var collisionFunc = {
-        "tree": function () {
-            return new Crafty.polygon([5, 96], [54, 96], [54, 48], [5, 48])
-        },
-        "palmtree": function () {
-            return new Crafty.polygon([20, 96], [54, 96], [54, 64], [20, 64])
-        },
-        "rock": function () {
-            return new Crafty.polygon([0, 32], [32, 32], [32, 5], [0, 5])
-        },
-        "normal": function () {
-            return new Crafty.polygon([0, 32], [32, 32], [32, 20], [0, 20])
-        }
-    };
-
-    var createEntity = function (data, components) {
-        var entity = Crafty.e(components)
-            .attr(mkPosition(data.x, data.y, data.w, data.h));
-
-        /* if entity specify its own collisioin function, use it */
-        if(data.collision) {
-            entity.collision(collisionFunc[data.collision]());
-        } else {
-            entity.collision(collisionFunc['normal']());
-        }
-
-        return entity;
-    };
 
     var makeEntity = function (data, idx, array) {
         var components = "2D, Canvas, " + data.sprite
@@ -200,6 +136,62 @@ window.overworldScene = function () {
         }
     };
 
+    var makeBoundary = function (val, idx, array) {
+        if (val.length != 4) {
+            console.log("making boundary with incorrect parameter:" + val.toString());
+            return;
+        }
+
+        Crafty.e("2D, Collision, Collidable").attr({
+            x: val[0] * unit,
+            y: val[1] * unit,
+            w: val[2] * unit,
+            h: val[3] * unit
+        }).collision();
+    };
+
+    /** bootstrap this scene **/
+    var vnEngine = Crafty.e("NovelInterface");
+    Crafty.background("#ccc");
+    Crafty.audio.add({
+        "music": ["assets/dq3_bgm.mp3", "assets/dq3_bgm.ogg"]
+    });
+    Crafty.audio.play("music", -1);
+
+    /** iterates objects from data for this scene **/
+    sprites.forEach(makeSprite);
+    entities.forEach(makeEntity);
+    boundaries.forEach(makeBoundary);
+    npcs.forEach(makeNPC);
+
+    /** create background and player **/
+    var background = Crafty.e("2D, Canvas, bg").attr({
+        x: 0,
+        y: 0,
+        z: -1
+    });
+
+    var player1 = Crafty.e("Player").attr({
+        x: 200,
+        y: 223
+    }).centerCamera(background).bind("Moved", function () {
+            //center the camera on the player
+            this.centerCamera(background)
+            if (this._camera_moved) {
+                vnEngine.updatePosition();
+                return;
+            };
+
+        /* cap nonmoving refresh at 10FPS */
+        if (this.__cached_debounce > ((new Date).getTime() - 100)) { return; }
+        this.__cached_debounce = (new Date).getTime();
+
+            //move the  interface
+            vnEngine.updatePosition();
+        });
+
+    /*** hooks for NPC ***/
+
     /* This hook tries to get interaction object by invoking
      * specific global method with vnEngine. */
     function hookSetupEngineScript(data, entity) {
@@ -211,7 +203,7 @@ window.overworldScene = function () {
         }
     }
 
-    /* create an entity from data then apply this hook */
+    /* To make this NPC acts like a sign - Just stands there and tells your some information */
     function hookSetupSign(data, entity) {
         entity.setupScript({
             state: false,
@@ -243,24 +235,37 @@ window.overworldScene = function () {
                 }
             }
         });
-    };
+    }
 
-    var makeBoundary = function (val, idx, array) {
-        if (val.length != 4) {
-            console.log("making boundary with incorrect parameter:" + val.toString());
-            return;
+    /** Helper functions **/
+    function mkPosition (x, y, width, height) {
+        // by default, unit=32px
+        if (width && height) {
+            return {
+                x: x * unit,
+                y: y * unit,
+                w: width * unit,
+                h: height * unit
+            };
+        } else {
+           return {
+               x: x * unit,
+               y: y * unit
+           };
+        }
+    }
+
+    function createEntity (data, components) {
+        var entity = Crafty.e(components)
+            .attr(mkPosition(data.x, data.y, data.w, data.h));
+
+        /* if entity specify its own collisioin function, use it */
+        if(data.collision) {
+            entity.collision(collisionFunc[data.collision]());
+        } else {
+            entity.collision(collisionFunc['normal']());
         }
 
-        Crafty.e("2D, Collision, Collidable").attr({
-            x: val[0] * unit,
-            y: val[1] * unit,
-            w: val[2] * unit,
-            h: val[3] * unit
-        }).collision();
+        return entity;
     };
-
-
-    entities.forEach(makeEntity);
-    boundaries.forEach(makeBoundary);
-    npcs.forEach(makeNPC);
 };
