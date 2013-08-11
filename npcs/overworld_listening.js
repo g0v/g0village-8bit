@@ -28,13 +28,13 @@ window.overworldListeningScript = function (vnEngine) {
                                             Crafty.audio.unmuteMusic('music');
                                         }
                                     });
-                                    if (Hero.interacted_with_listening) {
+                                    if (Hero.gameFlags.interacted_with_listening) {
                                         break;
                                     }
 
                                     Hero.followers++;
                                     Hero.contributions += 10;
-                                    Hero.interacted_with_listening = true;
+                                    Hero.gameFlags.interacted_with_listening = true;
                                     vnEngine.setText("你現在認識「福利請聽」了！ LV+1");
                                     vnEngine.animateMessage();
                                     break;

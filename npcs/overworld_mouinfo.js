@@ -43,13 +43,13 @@ window.overworldMouinfoScript = function (vnEngine) {
                     break;
 
                 case 2:
-                    if (Hero.interacted_with_mouinfo) {
+                    if (Hero.gameFlags.interacted_with_mouinfo) {
                         // Fall Through
                     }
                     else {
                         Hero.followers++;
                         Hero.contributions += 10;
-                        Hero.interacted_with_mouinfo = true;
+                        Hero.gameFlags.interacted_with_mouinfo = true;
                         vnEngine.setText("你現在認識「文化部」了！ LV+1");
                         vnEngine.animateMessage();
                         counter++;
