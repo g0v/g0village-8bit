@@ -21,7 +21,7 @@ window.overworldScene = function () {
         [16, 17, 3, 2]
     ];
 
-    var sprites = [
+    var entities = [
         {type: "tree", x: 9, y: 9},
         {type: "tree", x: 16, y: 12},
         {type: "tree", x: 18, y: 12},
@@ -250,15 +250,14 @@ window.overworldScene = function () {
         "bigsign": "2D, Canvas, bigSign, Collision, NPC, Collidable"
     }
 
-    var makeSprite = function (sprite, idx, array) {
-        var entity = Crafty.e(componentLists[sprite.type])
-            .attr(posFunc[sprite.type](sprite.x, sprite.y))
-            .collision(collisionFunc[sprite.type]());
-        if (sprite.hooks) {
-            sprite.hooks.forEach(function (val, idx, array) {
-                debugger;
+    var makeEntity = function (data, idx, array) {
+        var entity = Crafty.e(componentLists[data.type])
+            .attr(posFunc[data.type](data.x, data.y))
+            .collision(collisionFunc[data.type]());
+        if (data.hooks) {
+            data.hooks.forEach(function (val, idx, array) {
                 if (hooks[val]) {
-                    hooks[val](sprite, entity);
+                    hooks[val](data, entity);
                 }
             });
         }
@@ -313,6 +312,6 @@ window.overworldScene = function () {
     };
 
 
-    sprites.forEach(makeSprite);
+    entities.forEach(makeEntity);
     boundaries.forEach(makeBoundary);
 };
