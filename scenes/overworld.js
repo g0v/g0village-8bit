@@ -65,10 +65,13 @@ window.overworldScene = function () {
         {sprite: "bush", x: 20, y: 8},
         {sprite: "smalltree", x: 13, y: 9},
         {sprite: "smalltree", x: 19, y: 18},
-        {sprite: "hole", x: 7, y: 10, npc: true, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", hooks: ["setupSign"]},
-        {sprite: "smallsign", x: 11, y: 7, npc: true, content: "歡迎到 g0v 新手村！", hooks: ["setupSign"]},
-        {sprite: "smallsign", x: 19, y: 5, npc: true, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", hooks: ["setupSign"]},
-        {sprite: "bigsign", x: 10, y: 14, npc: true, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", hooks: ["setupSign"]}
+    ];
+
+    var npcs = [
+        {sprite: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", wander: false, hooks: ["setupSign"]},
+        {sprite: "smallSign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", wander: false, hooks: ["setupSign"]},
+        {sprite: "smallSign", x: 19, y: 5, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", wander: false, hooks: ["setupSign"]},
+        {sprite: "bigSign", x: 10, y: 14, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", wander: false, hooks: ["setupSign"]}
     ];
 
     var vnEngine = Crafty.e("NovelInterface");
@@ -192,17 +195,8 @@ window.overworldScene = function () {
         }
     };
 
-    var makeEntity = function (data, idx, array) {
-        var components = "2D, Canvas, " + data.sprite,
-            entity;
-
-        if (data.npc) {
-            components += ", Collision, NPC, Collidable";
-        } else {
-            components += ", Collision, RespectZIndex, Collidable";
-        }
-
-        entity = Crafty.e(components)
+    var createEntity = function (data, components) {
+        var entity = Crafty.e(components)
             .attr(mkPosition(data.x, data.y, data.w, data.h));
 
         /* if entity specify its own collisioin function, use it */
@@ -212,16 +206,34 @@ window.overworldScene = function () {
             entity.collision(collisionFunc['normal']());
         }
 
+        return entity;
+    };
+
+    var makeEntity = function (data, idx, array) {
+        var components = "2D, Canvas, " + data.sprite
+                            + ", Collision, RespectZIndex, Collidable";
+        return createEntity(data, components);
+    };
+
+    var makeNPC = function (data, idx, array) {
+        var components = "2D, Canvas, " + data.sprite
+                            + ", Collision, NPC, Collidable",
+            npc = createEntity(data, components);
+
+        if (data.wander !== false) {
+            npc.wander();
+        }
+
         if (data.hooks) {
             data.hooks.forEach(function (val, idx, array) {
                 if (hooks[val]) {
-                    hooks[val].apply(entity, [data, entity]);
-                } else if (entity[val]){
-                    entity[val].call(entity);
+                    hooks[val].apply(npc, [data, npc]);
+                } else if (npc[val]){
+                    npc[val].call(npc);
                 }
             });
         }
-    }
+    };
 
     /* create an entity from data then apply this hook */
     function hookSetupSign(data, entity) {
@@ -274,4 +286,5 @@ window.overworldScene = function () {
 
     entities.forEach(makeEntity);
     boundaries.forEach(makeBoundary);
+    npcs.forEach(makeNPC);
 };
