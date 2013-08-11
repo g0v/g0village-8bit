@@ -58,10 +58,6 @@
 
             window.herosFBRef = new Firebase('https://g0village-8bit.firebaseio.com/heros');
 
-            window.MoedictWords = [];
-            $.getJSON('datas/lenToRegex.4.json', function(d) {
-                window.MoedictWords = d["4"].split("|");
-            });
             Crafty.init(640, 440);
             Crafty.canvas.init();
 
