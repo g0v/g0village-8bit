@@ -35,6 +35,7 @@ window.overworldListeningScript = function (vnEngine) {
                                     Hero.followers++;
                                     Hero.contributions += 10;
                                     Hero.gameFlags.interacted_with_listening = true;
+                                    Crafty.trigger("HeroObjectChanged");
                                     vnEngine.setText("你現在認識「福利請聽」了！ LV+1");
                                     vnEngine.animateMessage();
                                     break;

@@ -35,6 +35,7 @@
                                 vnEngine.setText("你現在知道 " + w[choice - 1] + " 的意思了！ LV+1");
                                 Hero.followers++;
                                 Hero.contributions += 10;
+                                Crafty.trigger("HeroObjectChanged");
                                 vnEngine.animateMessage();
                             });
                         })

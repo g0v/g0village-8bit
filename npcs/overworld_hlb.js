@@ -27,6 +27,7 @@ window.overworldHlbScript = function (vnEngine) {
                                     Hero.followers += 10;
                                     Hero.contributions += 100;
                                     Hero.gameFlags.hlb_fireapp = true;
+                                    Crafty.trigger("HeroObjectChanged");
                                     counter = 3;
                                     break;
                                 case 2:

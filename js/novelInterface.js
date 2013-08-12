@@ -1,5 +1,6 @@
 Crafty.c("NovelInterface", {
     init: function () {
+        var self = this;
         Crafty.sprite(1, "assets/orangebackground.png", {
             orangebg: [0, 0, 640, 100]
         });
@@ -88,6 +89,14 @@ Crafty.c("NovelInterface", {
         this._choiceSecondText = Crafty.e("2D, Color, Canvas, Text").text(" ").fontColor("white").color("transparent").attr({x: 45, y: 210, h: 25, w: 300, z: 100});
         this._choiceThirdText = Crafty.e("2D, Color, Canvas, Text").text(" ").fontColor("white").color("transparent").attr({x: 45, y: 240, h: 25, w: 300, z: 100});
 
+        this._heroLV = Crafty.e("2D, Color, Canvas, Text").text("LV: "+Hero.followers).fontColor("white").color("transparent").attr({x: 20, y: 20, h: 25, w: 100, z: 10000})
+            .bind("HeroObjectChanged", function(e) {
+                self._heroLV.text("LV: " + Hero.followers)
+            });
+        this._heroHP = Crafty.e("2D, Color, Canvas, Text").text("HP: "+Hero.contributions).fontColor("white").color("transparent").attr({x: 160, y: 20, h: 25, w: 100, z: 10000})
+            .bind("HeroObjectChanged", function(e) {
+                self._heroHP.text("HP: " + Hero.contributions)
+            });
 
         this._oldX = 0;
         this._oldY = 0;
@@ -462,6 +471,8 @@ Crafty.c("NovelInterface", {
             this._choiceSecondText.x += deltaX;
             this._choiceFirstText.x += deltaX;
             this._questionBackground.x += deltaX;
+            this._heroLV.x += deltaX;
+            this._heroHP.x += deltaX;
             this._oldX = x;
         }
         if (y === this._oldY) {
@@ -479,6 +490,8 @@ Crafty.c("NovelInterface", {
             this._choiceSecondText.y += deltaY;
             this._choiceFirstText.y += deltaY;
             this._questionBackground.y += deltaY;
+            this._heroLV.y += deltaY;
+            this._heroHP.y += deltaY;
             this._oldY = y;
         }
     }

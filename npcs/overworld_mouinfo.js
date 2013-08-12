@@ -50,6 +50,7 @@ window.overworldMouinfoScript = function (vnEngine) {
                         Hero.followers++;
                         Hero.contributions += 10;
                         Hero.gameFlags.interacted_with_mouinfo = true;
+                        Crafty.trigger("HeroObjectChanged");
                         vnEngine.setText("你現在認識「文化部」了！ LV+1");
                         vnEngine.animateMessage();
                         counter++;
