@@ -3,7 +3,6 @@ window.overworldScene = function () {
     var _i = 0;
 
     var hooks = {
-        setupSign: hookSetupSign,
         setupEngineScript: hookSetupEngineScript
     };
 
@@ -93,10 +92,10 @@ window.overworldScene = function () {
         {sprite: "kuansimSprite", x: 7, y: 7, script: "overworldHychenScript", hooks: ["setupEngineScript"]},         // 鄉民關心你
         {sprite: "mouinfoSprite", x: 18, y: 19, script: "overworldMouinfoScript", hooks: ["setupEngineScript"]},     // 文化部
         {sprite: "listeningSprite", x: 12, y: 19, script: "overworldListeningScript", hooks: ["setupEngineScript"]}, // 福利請聽
-        {sprite: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", wander: false, hooks: ["setupSign"]},
-        {sprite: "smallSign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", wander: false, hooks: ["setupSign"]},
-        {sprite: "smallSign", x: 19, y: 5, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", wander: false, hooks: ["setupSign"]},
-        {sprite: "bigSign", x: 10, y: 14, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", wander: false, hooks: ["setupSign"]}
+        {sprite: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
+        {sprite: "smallSign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
+        {sprite: "smallSign", x: 19, y: 5, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
+        {sprite: "bigSign", x: 10, y: 14, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]}
     ];
 
     /** Functions to iterate sprites, entities, npcs and boundries **/
@@ -198,44 +197,11 @@ window.overworldScene = function () {
         var script;
         // if specify the script that create interaction object
         if (data.script) {
-            script = window[data.script](vnEngine);
+            script = window[data.script](vnEngine, data, entity);
             entity.setupScript(script);
         }
     }
 
-    /* To make this NPC acts like a sign - Just stands there and tells your some information */
-    function hookSetupSign(data, entity) {
-        entity.setupScript({
-            state: false,
-            count: 0,
-            enterCallback: function () {
-                vnEngine.showInteraction();
-            },
-            leaveCallback: function () {
-                vnEngine.hideInteraction();
-                vnEngine.hideDialog();
-                this.count = 0;
-            },
-            spacebarCallback: function () {
-                if (this.count === 0) {
-                    vnEngine.hideInteraction();
-                    vnEngine.setPortrait("assets/empty.png");
-                    vnEngine.setText("> " + data.content);
-                    vnEngine.setName("");
-                    vnEngine.showDialog();
-                    this.count = 1;
-                } else {
-                    vnEngine.showInteraction();
-                    vnEngine.hideDialog();
-                    if (data.url) {
-                        window.open(data.url)
-                    }
-                    ;
-                    this.count = 0;
-                }
-            }
-        });
-    }
 
     /** Helper functions **/
     function mkPosition (x, y, width, height) {
