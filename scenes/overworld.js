@@ -47,6 +47,7 @@ window.overworldScene = function () {
         {name:"kuansimSprite", url: "assets/kuansimsprite.png", region: [1, 0]},    // 鄉民關心你
         {name:"mouinfoSprite", url: "assets/mouinfosprite.png", region: [1, 0]},    // 文化部
         {name:"listeningSprite", url: "assets/listeningsprite.png", region: [1, 0]},    // 福利請聽
+        {name:"etblueSprite", url: "assets/etbluesprite.png", region: [1, 0]},    // ETBlue
         {name:"shadowSprite", url: "assets/shadowsprite.png", region: [1, 0]},      // 坑...
         {name:"tree", url: "assets/tree.png", region: [0, 0, 2, 3]},
         {name:"palmTree", url: "assets/palmTree.png", tileW: 32, region: [0, 0, 2, 3]},
@@ -92,6 +93,7 @@ window.overworldScene = function () {
         {sprite: "kuansimSprite", x: 7, y: 7, script: "overworldHychenScript", hooks: ["setupEngineScript"]},         // 鄉民關心你
         {sprite: "mouinfoSprite", x: 18, y: 19, script: "overworldMouinfoScript", hooks: ["setupEngineScript"]},     // 文化部
         {sprite: "listeningSprite", x: 12, y: 19, script: "overworldListeningScript", hooks: ["setupEngineScript"]}, // 福利請聽
+        {sprite: "etblueSprite", x: 5, y: 19, script: "overworldETBlueScript", hooks: ["setupEngineScript"]}, // ETBlue
         {sprite: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         {sprite: "smallSign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         {sprite: "smallSign", x: 19, y: 5, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
