@@ -15,10 +15,10 @@ Crafty.c("Player", {
 				newY = oldY;
 			}
 		}
-                if (Math.abs(newX - oldX) > 50) {
+                if (Math.abs(newX - oldX) > 100) {
                     Crafty.viewport.x = newX;
                 }
-                if (Math.abs(newY - oldY) > 50) {
+                if (Math.abs(newY - oldY) > 100) {
                     Crafty.viewport.y = newY;
                 }
                 this._camera_moved = ((oldX != Crafty.viewport.x) || (oldY != Crafty.viewport.y));
