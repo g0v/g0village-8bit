@@ -33,7 +33,6 @@ window.overworldETBlueScript = function (vnEngine) {
                                     break;
                                 case 2:
                                     vnEngine.setText("沒關係，想聽時可以隨時找我！");
-                                    counter = 2;
                                     vnEngine.animateMessage();
                                     break;
                             }
@@ -59,13 +58,12 @@ window.overworldETBlueScript = function (vnEngine) {
                                     break;
                                 case 2:
                                     vnEngine.setText("沒關係，想聽時可以隨時找我！");
-                                    counter = 2;
                                     vnEngine.animateMessage();
                                     break;
                             }
                         });
                     });
-                    counter=2;
+                    counter=3;
                     break;
 
                 default:
