@@ -11,23 +11,24 @@ Crafty.c("Character", {
             alpha: 0.5
         });
 
-      this.oldX = this.x;
-      this.oldY = this.y;
-
       this.requires("2D, Collision, RespectZIndex, Movable, Collidable")
 			.attach(charShadow)
 			.collision(new Crafty.polygon([pad, this._h], [this._w - pad, this._h], [this._w / 2, this.h / 2]))
-			.bind("Moved", function() {
+			.bind("Moved", function(from) {
+        var newY = this.y;
         // TODO: make this better as to not call
         // collision 2 times.
         if (this.hit('Collidable')) {
-          this.y = this.oldY;
+          this.y = from.y;
         }
         if (this.hit('Collidable')) {
-          this.x = this.oldX;
+          this.x = from.x;
+          this.y = newY;
         }
-        this.oldX = this.x;
-        this.oldY = this.y;
+        if (this.hit('Collidable')) {
+          this.x = from.x;
+          this.y = from.y;
+        }
 			});
       return this;
     }
