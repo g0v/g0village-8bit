@@ -10,10 +10,15 @@ Crafty.c("NPC", {
             x: 0,
             y: 0
         };
+        var self = this;
+        this.moveNpcFunction = _.throttle(function(){
+                    self.moveSingleFrame(self._movement);
+                }, 100);
+
         this.requires("2D, Canvas, SpriteAnimation, Movable, Character, Interactable, ")
             .animate("walk_left", 0, 1, 3).animate("walk_right", 0, 2, 3)
             .animate("walk_up", 0, 3, 3).animate("walk_down", 0, 0, 3)
-            .setSpeed(2)
+            .setSpeed(4)
             .bind("PlayerInteracted", function (e) {
                 var player, coorx, coory;
                 player = new Crafty(new Crafty("Player")[0]);
@@ -78,7 +83,7 @@ Crafty.c("NPC", {
                         self = this;
                         setTimeout(function () {
                             self._newDirection = true;
-                        }, Crafty.randRange(50, 250));
+                        }, Crafty.randRange(100, 500));
                     }
                 } else {
                     this._movement.x = 0;
@@ -86,7 +91,8 @@ Crafty.c("NPC", {
                     this.trigger("NewDirection", this._movement);
                 }
                 // move this character
-                this.moveSingleFrame(this._movement);
+                //this.moveSingleFrame(this._movement);
+                this.moveNpcFunction();
 
             }).bind("NewDirection", function (direction) {
                     if (direction.x < 0) {

@@ -22,13 +22,16 @@ Crafty.c("Player", {
     },
     init: function () {
         this._facingDirection = "down";
-		
+
+        var speed = 2.5;
+        if (window.navigator.userAgent.indexOf("Chrome") == -1) speed *= 2;
+
         this.requires("2D, Canvas, playerSprite, SpriteAnimation, Movable, PlayerControl, Character")
 			.animate("walk_left", 0, 1, 3)
 			.animate("walk_right", 0, 2, 3)
 			.animate("walk_up", 0, 3, 3)
 			.animate("walk_down", 0, 0, 3)
-			.setSpeed(2.5)
+			.setSpeed(speed)
 			.bind("NewDirection", function (direction) {
 				if (direction.x < 0) {
 					if (!this.isPlaying("walk_left")) {
