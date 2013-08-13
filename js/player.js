@@ -1,22 +1,29 @@
 Crafty.c("Player", {
-    centerCamera: function (boundingBox) {
+    centerCamera: _.throttle(function (boundingBox) {
         // centers the camera to this entity
 		var oldX, oldY;
         oldX = Crafty.viewport.x;
         oldY = Crafty.viewport.y;
-        Crafty.viewport.x = -this._x + 640 / 2;
-        Crafty.viewport.y = -this._y + 440 / 2;
+        newX = -this._x + 640 / 2;
+        newY = -this._y + 440 / 2;
+
 		if (boundingBox) {
-			if (Crafty.viewport.x > boundingBox.x || -(Crafty.viewport.x) + 640 > boundingBox.x + boundingBox.w) {
-				Crafty.viewport.x = oldX;
+			if (newX > boundingBox.x || -(newX) + 640 > boundingBox.x + boundingBox.w) {
+				newX = oldX;
 			}
-			if (Crafty.viewport.y > boundingBox.y || -Crafty.viewport.y + 440 > boundingBox.y + boundingBox.h) {
-				Crafty.viewport.y = oldY;
+			if (newY > boundingBox.y || -newY + 440 > boundingBox.y + boundingBox.h) {
+				newY = oldY;
 			}
 		}
+                if (Math.abs(newX - oldX) > 50) {
+                    Crafty.viewport.x = newX;
+                }
+                if (Math.abs(newY - oldY) > 50) {
+                    Crafty.viewport.y = newY;
+                }
                 this._camera_moved = ((oldX != Crafty.viewport.x) || (oldY != Crafty.viewport.y));
         return this;
-    },
+    }, 50),
     getFacingDirection: function () {
         return this._facingDirection;
     },
