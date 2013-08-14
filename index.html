@@ -11,6 +11,23 @@
         div.small {
             font-size: 11px;
         }
+
+        .absolute-center,
+        #cr-stage {
+          margin: auto;
+          position: absolute;
+          top: 0; left: 0; bottom: 0; right: 0;
+        }
+
+        #cr-stage {
+          position: absolute !important;
+        }
+
+        #usage {
+          top: auto;
+          bottom: 20px;
+          text-align: center;
+        }
     </style>
     <link type="text/css" rel="stylesheet" media="all" href="colorbox.css"/>
     <script src="js/lib/jquery-1.10.2.min.js"></script>
@@ -139,14 +156,14 @@
     </script>
 </head>
 <body>
-<div>
+<div id="usage" class="absolute-center">
     操作方式：按 Enter 鍵開始，WASD/方向鍵移動，空白鍵互動。
     <div id="effectSwitchContainer">
         點按<button id="derp">這裡</button>可以啟用/停用特效。
         如果您的電腦跑不動或電腦風扇異常轉動，可以試試<a href="noglfx.html">無特效版本</a>。
     </div>
 </div>
-<div id="herp" width="640" height="440" style="position: absolute; z-index: 10; opacity: 0.90"></div>
+<div id="herp" class="absolute-center" style="width: 640px; height: 440px; z-index: 10; opacity: 0.90"></div>
 <a target="_blank" href="https://github.com/g0v/g0village-8bit"><img
         style="position: fixed; top: 0; right: 0; border: 0;"
         src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
