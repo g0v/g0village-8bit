@@ -31,6 +31,8 @@
           top: auto;
           bottom: 20px;
           text-align: center;
+          color: #eee;
+          text-shadow: -1px 1px white, 1px -1px #444;
         }
     </style>
     <link type="text/css" rel="stylesheet" media="all" href="colorbox.css"/>
@@ -160,11 +162,11 @@
     </script>
 </head>
 <body>
-<div id="usage" class="absolute-center">
+<div id="usage" class="absolute-center" style="z-index: 30;">
     操作方式：按 Enter 鍵開始，WASD/方向鍵移動，空白鍵互動。
     <div id="effectSwitchContainer">
         點按<button id="derp">這裡</button>可以啟用/停用特效。
-        如果您的電腦跑不動或電腦風扇異常轉動，可以試試<a href="noglfx.html">無特效版本</a>。
+        <br/>如果您的電腦跑不動或電腦風扇異常轉動，可以試試<a href="noglfx.html">無特效版本</a>。
     </div>
 </div>
 <div id="herp" class="absolute-center" style="width: 640px; height: 440px; z-index: 10; opacity: 0.90"></div>
