@@ -49,6 +49,7 @@ window.overworldScene = function () {
         {name:"listeningSprite", url: "assets/listeningsprite.png", region: [1, 0]},    // 福利請聽
         {name:"etblueSprite", url: "assets/etbluesprite.png", region: [1, 0]},    // ETBlue
         {name:"shadowSprite", url: "assets/shadowsprite.png", region: [1, 0]},      // 坑...
+        {name:"ccwSprite", url: "assets/ccwsprite.png" },      // CCW...
         {name:"tree", url: "assets/tree.png", region: [0, 0, 2, 3]},
         {name:"palmTree", url: "assets/palmTree.png", tileW: 32, region: [0, 0, 2, 3]},
         {name:"smallTree", url: "assets/smalltree.png", tileW: 32, region: [0, 0]},
@@ -97,7 +98,8 @@ window.overworldScene = function () {
         {sprite: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         {sprite: "smallSign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         {sprite: "smallSign", x: 19, y: 5, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
-        {sprite: "bigSign", x: 10, y: 14, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]}
+        {sprite: "bigSign", x: 10, y: 14, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
+        {sprite: "ccwSprite", x: 9, y: 8, content: "第八屆立委評鑑 | 公民監督國會聯盟", url: "http://www.ccw.org.tw/assess/%E7%AC%AC%E5%85%AB%E5%B1%86", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]}
     ];
 
     /** Functions to iterate sprites, entities, npcs and boundries **/
