@@ -22,8 +22,8 @@ window.Boss = {
         {msg: "<%= Boss.name %> 挖了個坑 , <%= Player.name %> 不小心掉下去, 造成了 [ <%= Point %> ] 傷害", type: 'attack', delta: 2},
         {msg: "<%= Boss.name %> 丟出機械鍵盤攻擊 <%= Player.name %>, 造成了 [ <%= Point %> ] 傷害", type: 'attack', delta: 5},
         {msg: "<%= Boss.name %> 丟出 MBPR 攻擊 <%= Player.name %>, 造成了 [ <%= Point %> ] 傷害", type: 'attack', delta: 10},
-        {msg: "<%= Boss.name %> 喝了一瓶咖啡, HP 回復了 [ <%= Point %> ] ", type: 'health', delta: 2},
-        {msg: "<%= Boss.name %> 喝了一瓶馬力夯, HP 回復了 [ <%= Point %> ] ", type: 'health', delta: 5}
+        {msg: "<%= Boss.name %> 喝了一瓶咖啡, HP 回復了 [ <%= Point %> ] ", type: 'health', delta: 2, count: 10, limit_msg: "<%= Boss.name %> 喝完了冰箱中的所有咖啡了。" },
+        {msg: "<%= Boss.name %> 喝了一瓶馬力夯, HP 回復了 [ <%= Point %> ] ", type: 'health', delta: 5, count: 5, limit_msg: "<%= Boss.name %> 喝完了家裡的所有馬力夯了。"}
     ]
 };
 

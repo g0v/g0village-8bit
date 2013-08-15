@@ -168,6 +168,20 @@ window.battleClkaoScript = function (btEngine) {
                             case 'health':
                                 Boss.contributions += bPoint;
                                 btEngine.setBossHP(Boss.contributions);
+
+                                attSkill.currentCount = attSkill.currentCount || 0;
+                                attSkill.currentCount++;
+
+                                var currentCount = attSkill.currentCount;
+                                var count = attSkill.count || -1;
+
+                                if (count != -1 && attSkill.currentCount >= count) {
+                                    btEngine.setText(_.template(attSkill.limit_msg, {Boss: Boss, Player: attPerson, Point: bPoint}));
+                                    Boss.attackSkills.splice(_.indexOf(Boss.attackSkills, attSkill), 1);
+                                    btEngine.animateMessage();
+
+                                }
+
                                 break;
                         }
 
