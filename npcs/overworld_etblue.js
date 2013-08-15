@@ -66,6 +66,31 @@ window.overworldETBlueScript = function (vnEngine) {
                     counter=3;
                     break;
 
+                case 3:
+                    vnEngine.setText("您想聽聽我唱 挖坑獸之歌主旋律 嗎？");
+                    $.when(vnEngine.animateMessage()).then(function () {
+                        $.when(vnEngine.promptQuestion(["想！", "不想耶！"])).then(function (choice) {
+                            switch (choice) {
+                                case 1:
+                                    Crafty.audio.muteMusic('music');
+                                    openUrlInBox('https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F105075512', {
+                                        onClosed: function() {
+                                            Crafty.audio.unmuteMusic('music');
+                                        }
+                                    });
+                                    vnEngine.setText("我的歌聲很美妙吧！");
+                                    vnEngine.animateMessage();
+                                    break;
+                                case 2:
+                                    vnEngine.setText("沒關係，想聽時可以隨時找我！");
+                                    vnEngine.animateMessage();
+                                    break;
+                            }
+                        });
+                    });
+                    counter=4;
+                    break;
+
                 default:
                     counter = -1;
                     vnEngine.hideDialog();
