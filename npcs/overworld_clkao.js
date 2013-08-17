@@ -75,6 +75,7 @@ window.overworldClkaoScript = function (vnEngine) {
                                         });
                                     });
                                     break;
+                                 	
                             }
                         });
                     })
