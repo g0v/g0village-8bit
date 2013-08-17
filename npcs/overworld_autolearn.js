@@ -28,13 +28,13 @@ window.overworldAutolearnScript = function (vnEngine) {
                                             Crafty.audio.unmuteMusic('music');
                                         }
                                     });
-                                    if (Hero.gameFlags.interacted_with_listening) {
+                                    if (Hero.gameFlags.interacted_with_autolearn) {
                                         break;
                                     }
 
                                     Hero.followers++;
                                     Hero.contributions += 10;
-                                    Hero.gameFlags.interacted_with_listening = true;
+                                    Hero.gameFlags.interacted_with_autolearn = true;
                                     Crafty.trigger("HeroObjectChanged");
                                     vnEngine.setText("你現在認識「自學2.0」了！ LV+1");
                                     vnEngine.animateMessage();
@@ -46,13 +46,13 @@ window.overworldAutolearnScript = function (vnEngine) {
                                             Crafty.audio.unmuteMusic('music');
                                         }
                                     });
-                                    if (Hero.gameFlags.interacted_with_listening) {
+                                    if (Hero.gameFlags.interacted_with_autolearn) {
                                         break;
                                     }
 
                                     Hero.followers++;
                                     Hero.contributions += 10;
-                                    Hero.gameFlags.interacted_with_listening = true;
+                                    Hero.gameFlags.interacted_with_autolearn = true;
                                     Crafty.trigger("HeroObjectChanged");
                                     vnEngine.setText("你現在認識「自學地圖」了！ LV+1");
                                     vnEngine.animateMessage();
