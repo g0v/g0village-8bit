@@ -10,7 +10,7 @@ window.overworldAutolearnScript = function (vnEngine) {
                     vnEngine.hideInteraction();
 
                     vnEngine.setName("自學地圖");
-                    vnEngine.setText("嗨! 您好～\n現在自學已經合法了，小學到高中都可以申請自學喔。");
+                    vnEngine.setText("嗨! 您好～\n從來就沒有什麼拼分數，也不靠天天補習--自學是合法的出路。");
                     vnEngine.setPortrait("assets/autolearn.png");
                     vnEngine.showDialog();
                     counter = 1;
