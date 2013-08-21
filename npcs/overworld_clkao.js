@@ -8,9 +8,9 @@ window.overworldClkaoScript = function (vnEngine) {
                     vnEngine.hideInteraction();
 
                     if (window.finishGame) {
-                        vnEngine.setName("(前)高村長");
+                        vnEngine.setName("(前)高挫折村長");
                     } else {
-                        vnEngine.setName("高村長");
+                        vnEngine.setName("高挫折村長");
                     }
                     vnEngine.setText("唷~ " + Hero.name + "!");
                     vnEngine.setPortrait("assets/clkao.png");
@@ -21,7 +21,7 @@ window.overworldClkaoScript = function (vnEngine) {
                         vnEngine.setText("你現在是村長了，帶頭做個專案吧！！");
                     }
                     else {
-                        vnEngine.setText("你看來沒事做，去領個專案寫！！");
+                        vnEngine.setText("你看來是高挫折的人，沒事做就去領個專案寫寫！！");
                     }
 
                     vnEngine.animateMessage();
