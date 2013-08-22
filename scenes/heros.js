@@ -37,9 +37,9 @@ window.HeroPartner = {
 window.GithubPartners = [
     {
         name: 'racklin',
-        contributions: 284,
-        followers: 40,
-        bio: '我是阿土伯，我只是用 POS K 人！'
+        contributions: 396,
+        followers: 45,
+        bio: '我是阿土伯，我是新手村的掃地僧！'
     },
     {
         name: 'hlb',
@@ -82,5 +82,11 @@ window.GithubPartners = [
         contributions: 156,
         followers: 84,
         bio: '我是裝置藝術師！我會丟冰寶！'
+    },
+    {
+        name: 'kcwu',
+        contributions: 2281,
+        followers: 5,
+        bio: '我有黃色眼鏡，可以用電腦用的比你久！'
     }
 ];
