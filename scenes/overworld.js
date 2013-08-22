@@ -35,7 +35,7 @@ window.overworldScene = function () {
         [3, 4, 3, 1],
         [2, 5, 1, 4],
         [15, 15, 3, 3],
-        [16, 17, 3, 2]
+        [16, 17, 3, 2],
     ];
 
     var sprites = [
@@ -75,6 +75,11 @@ window.overworldScene = function () {
         {sprite: "rock", x: 13, y: 18, collision: "rock"},
         {sprite: "rock", x: 10, y: 6, collision: "rock"},
         {sprite: "rock", x: 14, y: 4, collision: "rock"},
+        {sprite: "rock", x: 2, y: 3, collision: "rock"},
+        {sprite: "rock", x: 3, y: 3, collision: "rock"},
+        {sprite: "rock", x: 4, y: 3, collision: "rock"},
+        {sprite: "rock", x: 22, y: 10, collision: "rock"},
+        {sprite: "rock", x: 22, y: 11, collision: "rock"},
         {sprite: "bush", x: 11, y: 12},
         {sprite: "bush", x: 11, y: 16},
         {sprite: "bush", x: 11, y: 10},
@@ -100,7 +105,8 @@ window.overworldScene = function () {
         {sprite: "etblueSprite", x: 5, y: 19, script: "overworldETBlueScript", hooks: ["setupEngineScript"]}, // ETBlue
         {sprite: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         {sprite: "smallSign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
-        {sprite: "smallSign", x: 19, y: 5, content: "施工中！這裡有許多伐木工，新手村隨時都會有變動", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
+        {sprite: "smallSign", x: 20, y: 7, content: "要看海上的牌子嗎？請註冊並登入Github。\n到g0v新手村專案，先按fork，再按clone in desktop。\n至於牌子的內文在哪個檔案呢？呵呵，請自己找找看。", url: "https://github.com/g0v/g0village-8bit" , wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
+        {sprite: "smallSign", x: 21, y: 11, content: "恭喜你使用Github看到了這個海上的牌子!!!\n現在試試看把牌子的內文修改一點點，存檔後再用Github的Commit和Send Pull Request的方法，把你的更動上傳回去，就完成Github初體驗囉!!", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         {sprite: "bigSign", x: 10, y: 14, content: "零時政府首頁：http://g0v.tw/", url: "http://g0v.tw/", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         {sprite: "ccwSprite", x: 9, y: 8, content: "第八屆立委評鑑 | 公民監督國會聯盟", url: "http://www.ccw.org.tw/assess/%E7%AC%AC%E5%85%AB%E5%B1%86", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]}
  
