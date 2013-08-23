@@ -70,12 +70,12 @@ window.overworldClkaoScript = function (vnEngine) {
                                             setTimeout(function () {
                                                 Crafty.audio.mute();
                                                 Crafty.audio.mute();
-                                                loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png", "assets/dq3_battle.mp3", "assets/dq3_battle.ogg"], "battle");
+                                                loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png"], "battle");
                                             }, 1000);
                                         });
                                     });
                                     break;
-                                 	
+
                             }
                         });
                     })

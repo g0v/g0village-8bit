@@ -1,10 +1,25 @@
 (function(){
     var MoedictWords = [];
 
+    /*
+    //這行目前沒有作用? 萌典小精靈目前的資料來源是http://pipes.yahoo.com/pipes/pipe.run?_id=ae8bdfeb413726be8da719b13ab6684e&_render=json&_callback=?'
     $.getJSON('http://pipes.yahoo.com/pipes/pipe.run?_id=ae8bdfeb413726be8da719b13ab6684e&_render=json&_callback=?', function(d) {
         MoedictWords = d.value.items[0].content.split("|");
     });
+   */
 
+    $.getJSON('data/idioms.json', function(d) {
+        alert(d.length);
+        MoedictWords = d;
+    });
+
+    //這行目前沒有作用
+    /*
+    var MoedictWords2 = [];
+    $.getJSON('data/civics.json', function(d) {
+        var MoedictWords2 = d
+    });
+    */
 
     window.overworldMoeScript = function (vnEngine) {
         var counter = 0;

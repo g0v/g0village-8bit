@@ -6,13 +6,13 @@ Crafty.c("AssetLoadManager", {
         Crafty.scene("loadingScreen", this._load);
     },
     _load: function () {
-		var a, t, doIconAnimation, showLoadingIcon, hideLoadingIcon, showing;
-		
-					Crafty.sprite(116, "assets/igorsprite.png", {igorSprite: [0,0,0,0]});
-					var igor = Crafty.e("2D, Canvas, igorSprite, SpriteAnimation");
-					igor.attr({x:10, y:300})
-					.animate("laugh", 0, 0,1).animate("laugh",13,-1);
-					
+        var a, t, doIconAnimation, showLoadingIcon, hideLoadingIcon, showing;
+
+        Crafty.sprite(116, "assets/igorsprite.png", {igorSprite: [0,0,0,0]});
+
+        var igor = Crafty.e("2D, Canvas, igorSprite, SpriteAnimation");
+        igor.attr({x:10, y:300}).animate("laugh", 0, 0,1).animate("laugh",13,-1);
+
         Crafty.sprite(75, "assets/loading.png", {
             loadingIcon: [0, 0]
         });
@@ -55,7 +55,7 @@ Crafty.c("AssetLoadManager", {
                 });
             }, 300);
             return dfd.promise();
-		};
+        };
         // hide the loading icon
         hideLoadingIcon = function () {
             var dfd = $.Deferred();
@@ -94,12 +94,14 @@ Crafty.c("AssetLoadManager", {
             t.text(Math.floor(e.percent) + "/100");
         }, function () {
             // error ?
-            Crafty.scene(this.nextScene);
+            $.when(hideLoadingIcon(), showing).then(function () {
+                Crafty.scene(nextScene);
+            });
         });
     },
     loadScene: function (thingsToLoad, nScene) {
         assetsToLoad = thingsToLoad;
-		nextScene = nScene;
-        Crafty.scene(nScene);
+        nextScene = nScene;
+        Crafty.scene('loadingScreen');
     }
 });
