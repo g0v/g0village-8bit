@@ -47,10 +47,11 @@ window.overworldScene = function () {
         {name:"kuansimSprite", url: "assets/kuansimsprite.png", region: [1, 0]},    // 鄉民關心你
         {name:"mouinfoSprite", url: "assets/mouinfosprite.png", region: [1, 0]},    // 文化部
         {name:"listeningSprite", url: "assets/listeningsprite.png", region: [1, 0]},    // 福利請聽
-        {name:"autolearnSprite", url: "assets/autolearnsprite.png", region: [1, 0]},  //自學2.0
+        {name:"autolearnSprite", url: "assets/autolearnsprite.png", region: [1, 0]},  //自學地圖
         {name:"etblueSprite", url: "assets/etbluesprite.png", region: [1, 0]},    // ETBlue
         {name:"shadowSprite", url: "assets/shadowsprite.png", region: [1, 0]},      // 坑...
         {name:"ccwSprite", url: "assets/ccwsprite.png" },      // CCW...
+        {name:"blacksmithSprite", url: "assets/blacksmithsprite.png", region: [1, 0]},      // 坑...
         {name:"tree", url: "assets/tree.png", region: [0, 0, 2, 3]},
         {name:"palmTree", url: "assets/palmTree.png", tileW: 32, region: [0, 0, 2, 3]},
         {name:"smallTree", url: "assets/smalltree.png", tileW: 32, region: [0, 0]},
@@ -100,10 +101,11 @@ window.overworldScene = function () {
         {sprite: "kuansimSprite", x: 7, y: 7, script: "overworldHychenScript", hooks: ["setupEngineScript"]},         // 鄉民關心你
         {sprite: "mouinfoSprite", x: 18, y: 19, script: "overworldMouinfoScript", hooks: ["setupEngineScript"]},     // 文化部
         {sprite: "listeningSprite", x: 12, y: 19, script: "overworldListeningScript", hooks: ["setupEngineScript"]}, // 福利請聽
-        {sprite: "autolearnSprite", x: 12, y: 16, script: "overworldAutolearnScript", hooks: ["setupEngineScript"]}, // 自學2.0
-        
-        {sprite: "etblueSprite", x: 5, y: 19, script: "overworldETBlueScript", hooks: ["setupEngineScript"]}, // ETBlue
+        {sprite: "autolearnSprite", x: 12, y: 16, script: "overworldAutolearnScript", hooks: ["setupEngineScript"]}, // 自學2.0        
+        {sprite: "etblueSprite", x: 5, y: 19, script: "overworldETBlueScript", hooks: ["setupEngineScript"]}, // ETBlue        
+         {sprite: "blacksmithSprite", x: 6, y: 4, script: "overworldBlacksmithScript", hooks: ["setupEngineScript"]}, // 鐵匠
         {sprite: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
+        
         {sprite: "smallSign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         {sprite: "smallSign", x: 20, y: 7, content: "要看海上的牌子嗎？請註冊並登入Github。\n到g0v新手村專案，先按fork，再按clone in desktop。\n至於牌子的內文在哪個檔案呢？呵呵，請自己找找看。", url: "https://github.com/g0v/g0village-8bit" , wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         {sprite: "smallSign", x: 21, y: 11, content: "恭喜你使用Github看到了這個海上的牌子!!!\n現在試試看把牌子的內文修改一點點，存檔後再用Github的Commit和Send Pull Request的方法，把你的更動上傳回去，就完成Github初體驗囉!!", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
