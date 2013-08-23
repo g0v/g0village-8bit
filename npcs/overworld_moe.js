@@ -9,7 +9,6 @@
    */
 
     $.getJSON('data/idioms.json', function(d) {
-        alert(d.length);
         MoedictWords = d;
     });
 
