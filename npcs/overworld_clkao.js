@@ -21,17 +21,17 @@ window.overworldClkaoScript = function (vnEngine) {
                         vnEngine.setText("你現在是村長了，帶頭做個專案吧！！");
                     }
                     else {
-                        vnEngine.setText("你看來是高挫折的人，沒事做就去領個專案寫寫！！");                        
+                        vnEngine.setText("你看來是高挫折的人，沒事做就去領個專案寫寫！！\n(高挫折: 由於蔡圓仔說「聲援大埔民眾　多數是高挫折的人 」\n導致村長想改名『高挫折』，就可擁有很多「高挫折的人」了)");                        
                     }
 
                     vnEngine.animateMessage();
                     break;
                 case 2:
-	                openUrlInBox('https://g0v.hackpad.com/g0v--MI7fGNIdygb', {
-                                                onClosed: function () {
-                                                    Crafty.audio.unmuteMusic('music');
-                                                }
-                                            })
+	//               openUrlInBox('https://g0v.hackpad.com/g0v--MI7fGNIdygb', {
+   //                                             onClosed: function () {
+  //                                                  Crafty.audio.unmuteMusic('music');
+ //                                               }
+//                                            })
                     vnEngine.setPortrait("assets/clkaoask.png");
                     vnEngine.setText(Hero.name + "! 你想要開始一個專案了嗎?");
                     var choices = ["我很樂意!", "不想耶!", "我要挑戰村長!!!"];
