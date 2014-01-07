@@ -42,7 +42,7 @@
                         $.when(vnEngine.animateMessage()).then(function () {
                             $.when(vnEngine.promptQuestion(w)).then(function (choice) {
                                 Crafty.audio.muteMusic('music');
-                                openUrlInBox('https://moedict.tw/#' + w[choice - 1], {
+                                openUrlInBox('https://www.moedict.tw/' + encodeURIComponent(w[choice - 1]), {
                                     onClosed: function() {
                                         Crafty.audio.unmuteMusic('music');
                                     }
