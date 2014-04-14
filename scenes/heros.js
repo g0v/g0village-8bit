@@ -57,7 +57,7 @@ window.GithubPartners = [
         name: 'Superbil',
         contributions: 42,
         followers: 6,
-        bio: 'Superbil'
+        bio: '我是超級帳單，你還有超級多未付款的帳單，快付錢！'
     },
     {
         name: 'audreyt',
