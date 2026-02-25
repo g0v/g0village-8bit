@@ -146,6 +146,8 @@ Crafty.c("NovelInterface", {
         this._writing = false;
         this._shown = false;
         this._animating = false;
+        this._hiding = false;
+        this._prompting = false;
         this._characterName = "";
         this._dialog = "";
 
@@ -179,6 +181,40 @@ Crafty.c("NovelInterface", {
     },
     isAnimating: function () {
         return this._animating;
+    },
+    isHiding: function () {
+        return this._hiding;
+    },
+    isPrompting: function () {
+        return this._prompting;
+    },
+    /** 觸控用：檢查 (screenX, screenY) 是否點在選項 1/2/3 上，回傳 1/2/3 或 0 */
+    hitTestChoice: function (screenX, screenY) {
+        if (!this._prompting || this._numChoices == null) return 0;
+        var vx = Crafty.viewport.x;
+        var vy = Crafty.viewport.y;
+        var choices = [
+            this._choiceFirstText,
+            this._choiceSecondText,
+            this._choiceThirdText
+        ];
+        for (var i = 0; i < this._numChoices && i < 3; i++) {
+            var c = choices[i];
+            if (c) {
+                var sx = c._x + vx;
+                var sy = c._y + vy;
+                if (screenX >= sx && screenX <= sx + c._w && screenY >= sy && screenY <= sy + c._h) {
+                    return i + 1;
+                }
+            }
+        }
+        return 0;
+    },
+    /** 觸控用：從外部確認選項 (1/2/3)，需在選項選單開啟時呼叫 */
+    confirmChoice: function (choiceIndex) {
+        if (this._confirmChoiceCallback && choiceIndex >= 1 && choiceIndex <= 3) {
+            this._confirmChoiceCallback(choiceIndex);
+        }
     },
     hideDialog: function () {
         var self = this;
@@ -215,6 +251,7 @@ Crafty.c("NovelInterface", {
             }
             self.clearName();
             this._animating = true;
+            this._hiding = true;
             self._characterBG.tween({
                 alpha: 0
             }, 5, function () {
@@ -245,6 +282,13 @@ Crafty.c("NovelInterface", {
                     self._darkBG.alpha = 0;
                     self._animating = false;
                     self._shown = false;
+                    self._hiding = false;
+                    // 對話結束後確保玩家可再次移動（觸控 pathfinding / 鍵盤）
+                    var playerList = Crafty("PlayerControl");
+                    if (playerList.length) {
+                        var player = Crafty(playerList[0]);
+                        if (player.disableControls) player.disableControls = false;
+                    }
                 });
             });
         }
@@ -408,6 +452,7 @@ Crafty.c("NovelInterface", {
         return dfd.promise();
     },
     showInteraction: function () {
+        if (window.MobileControl && window.MobileControl.isMobile) return;
         this._checkDialog.text("CHECK!! [space]");
         this._checkDialog.attr({
             alpha: 0
@@ -418,6 +463,7 @@ Crafty.c("NovelInterface", {
         });
     },
     hideInteraction: function () {
+        if (window.MobileControl && window.MobileControl.isMobile) return;
         this._checkDialog.text(" ");
         this._checkDialog.attr({
             alpha: 0.95
@@ -436,6 +482,9 @@ Crafty.c("NovelInterface", {
         var confirmSelection = function(currentSelection, player, interactable) {
             if (resolved) return;
             resolved = true;
+            self._prompting = false;
+            self._confirmChoiceCallback = null;
+            self._numChoices = null;
             self.unbind("KeyDown");
             self._choiceFirstText.unbind("MouseUp");
             self._choiceSecondText.unbind("MouseUp");
@@ -462,7 +511,13 @@ Crafty.c("NovelInterface", {
         };
 
         this._questionBackground.tween({alpha: 0.75}, 10, function () {
-            var numChoices = choices.length > 3 ? 3 : choices.length
+            var numChoices = choices.length > 3 ? 3 : choices.length;
+            self._prompting = true;
+            self._numChoices = numChoices;
+            self._confirmChoiceCallback = function(choiceIndex) {
+                highlightChoice(choiceIndex);
+                confirmSelection(choiceIndex, player, interactable);
+            };
 
             var player = Crafty(Crafty("PlayerControl")[0]);
             player.disableControls = true;

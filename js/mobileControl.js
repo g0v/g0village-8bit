@@ -83,6 +83,24 @@ function setupMobileControls(playerEntity) {
 }
 
 function handleTap(screenX, screenY, playerEntity) {
+  // 對話顯示中：點擊 = 換下一句（等同空白鍵）；關閉動畫中不攔截，讓點擊可觸發 pathfinding
+  var vnList = Crafty("NovelInterface");
+  if (vnList.length > 0) {
+    var vnEngine = new Crafty(vnList[0]);
+    if (vnEngine.isShowing && vnEngine.isShowing() && (vnEngine.isHiding === undefined || !vnEngine.isHiding())) {
+      // 選項選單中：用座標 hit-test 選項，觸控裝置上 #herp 會攔截事件，選項收不到 MouseUp
+      if (vnEngine.isPrompting && vnEngine.isPrompting()) {
+        var choice = vnEngine.hitTestChoice ? vnEngine.hitTestChoice(screenX, screenY) : 0;
+        if (choice >= 1 && choice <= 3) {
+          vnEngine.confirmChoice(choice);
+          return;
+        }
+      }
+      Crafty.trigger("KeyDown", { key: 32 });
+      return;
+    }
+  }
+
   // Convert screen coords to world coords
   var worldX = screenX - Crafty.viewport.x;
   var worldY = screenY - Crafty.viewport.y;
