@@ -11,6 +11,15 @@ https://github.com/quantsini/Persona-4-8-bit-RPG
 
 
 DEMO
+
+### 本地開發
+
+不必安裝套件，直接於專案目錄運行
+
+``` lite-server ```
+
+或其他server即可。
+
 ==========
 * http://g0v.github.io/g0village-8bit/
 
@@ -34,6 +43,7 @@ Contributors
 * hychen
 * yllan
 * kcliu
+* bestian
 
 License
 ----------
