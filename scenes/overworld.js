@@ -179,6 +179,11 @@ window.overworldScene = function () {
     boundaries.forEach(makeBoundary);
     npcs.forEach(makeNPC);
 
+    // Build pathfinding grid after all collidable entities are placed
+    if (window.Pathfinder) {
+        Pathfinder.buildGrid(768, 768);
+    }
+
     /** create background and player **/
     var background = Crafty.e("2D, Canvas, bg").attr({
         x: 0,
@@ -189,7 +194,14 @@ window.overworldScene = function () {
     var player1 = Crafty.e("Player").attr({
         x: 200,
         y: 223
-    }).centerCamera(background).bind("Moved", function () {
+    });
+
+    // Setup mobile tap-to-move controls
+    if (window.MobileControl) {
+      MobileControl.setup(player1);
+    }
+
+    player1.centerCamera(background).bind("Moved", function () {
             //center the camera on the player
             this.centerCamera(background)
             if (this._camera_moved) {

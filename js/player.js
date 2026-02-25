@@ -4,14 +4,16 @@ Crafty.c("Player", {
 		    var oldX, oldY;
         oldX = Crafty.viewport.x;
         oldY = Crafty.viewport.y;
-        newX = -this._x + 640 / 2;
-        newY = -this._y + 440 / 2;
+        var vpW = Crafty.viewport.width;
+        var vpH = Crafty.viewport.height;
+        newX = -this._x + vpW / 2;
+        newY = -this._y + vpH / 2;
 
 		if (boundingBox) {
-			if (newX > boundingBox.x || -(newX) + 640 > boundingBox.x + boundingBox.w) {
+			if (newX > boundingBox.x || -(newX) + vpW > boundingBox.x + boundingBox.w) {
 				newX = oldX;
 			}
-			if (newY > boundingBox.y || -newY + 440 > boundingBox.y + boundingBox.h) {
+			if (newY > boundingBox.y || -newY + vpH > boundingBox.y + boundingBox.h) {
 				newY = oldY;
 			}
 		}
@@ -33,7 +35,7 @@ Crafty.c("Player", {
         var speed = 2.5;
         if (window.navigator.userAgent.indexOf("Chrome") == -1) speed *= 2;
 
-        this.requires("2D, Canvas, playerSprite, SpriteAnimation, Movable, PlayerControl, Character")
+        this.requires("2D, Canvas, playerSprite, SpriteAnimation, Movable, PlayerControl, Character, AutoWalk")
         .animate("walk_left", 0, 1, 3)
         .animate("walk_right", 0, 2, 3)
         .animate("walk_up", 0, 3, 3)
