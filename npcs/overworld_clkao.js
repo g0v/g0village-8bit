@@ -3,6 +3,7 @@ window.overworldClkaoScript = function (vnEngine) {
     var choice1 = 0;
     var space = function () {
         if (!vnEngine.isWriting() && !vnEngine.isAnimating()) {
+            console.log("[clkao] space pressed, counter=" + counter);
             switch (counter) {
                 case 0:
                     vnEngine.hideInteraction();
@@ -21,7 +22,7 @@ window.overworldClkaoScript = function (vnEngine) {
                         vnEngine.setText("你現在是村長了，帶頭做個專案吧！！");
                     }
                     else {
-                        vnEngine.setText("你看來是高挫折的人，沒事做就去領個專案寫寫！！\n(高挫折: 由於蔡圓仔說「聲援大埔民眾　多數是高挫折的人 」\n導致村長想改名『高挫折』，就可擁有很多「高挫折的人」了)");                        
+                        vnEngine.setText("你看來是高挫折的人，沒事做就去領個專案寫寫！！\n(高挫折 = 化憤怒為力量)");                        
                     }
 
                     vnEngine.animateMessage();
@@ -38,6 +39,7 @@ window.overworldClkaoScript = function (vnEngine) {
                     $.when(vnEngine.animateMessage()).then(function () {
                         $.when(vnEngine.promptQuestion(choices)).then(function (choice) {
                             choice1 = choice;
+                            console.log("[clkao] player choice=" + choice1 + " (1=樂意 2=不想 3=挑戰村長)");
 
                             switch (choice1) {
                                 case 1:
@@ -69,25 +71,25 @@ window.overworldClkaoScript = function (vnEngine) {
                                     } else {
                                         vnEngine.setText(Hero.name + "! 那沒什麼好說的，戰鬥吧！");
                                     }
+                                    console.log("[clkao] 選擇挑戰村長，準備進入戰鬥流程");
                                     $.when(vnEngine.animateMessage()).then(function () {
+                                        console.log("[clkao] animateMessage 完成，準備 startBattle");
                                         var startBattle = function () {
+                                            console.log("[clkao] startBattle 被呼叫");
                                             setTimeout(function () {
                                                 Crafty.audio.mute();
                                                 Crafty.audio.mute();
-                                                loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png"], "battle");
+                                                // 確保 loadManager 存在（切換場景時可能被銷毀）
+                                                if (!window.loadManager) {
+                                                    console.log("[clkao] loadManager 不存在，建立新的 AssetLoadManager");
+                                                    window.loadManager = Crafty.e("AssetLoadManager");
+                                                }
+                                                console.log("[clkao] 呼叫 loadManager.loadScene -> battle");
+                                                window.loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png"], "battle");
                                             }, 1000);
                                         };
-
-                                        // Save hero data to firebase if available, but do not block battle.
-                                        try {
-                                            if (window.herosFBRef) {
-                                                window.herosFBRef.child(Hero.name).update(Hero, startBattle);
-                                            } else {
-                                                startBattle();
-                                            }
-                                        } catch (e) {
-                                            startBattle();
-                                        }
+                                        
+                                        startBattle();
                                     });
                                     break;
 
@@ -126,10 +128,10 @@ window.overworldClkaoScript = function (vnEngine) {
             }
             counter++;
         } else if (vnEngine.isWriting()) {
-            console.log("is writing");
+            console.log("[clkao] isWriting -> forceTextFinish");
             vnEngine.forceTextFinish();
         }
-        console.log(counter);
+        console.log("[clkao] counter 更新後=" + counter);
     }
     var leave = function () {
         counter = 0;

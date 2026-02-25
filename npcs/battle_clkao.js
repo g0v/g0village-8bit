@@ -102,7 +102,7 @@ window.battleClkaoScript = function (btEngine) {
                         Boss.contributions -= hPoint;
                         btEngine.setBossHP(Boss.contributions);
 
-                        if (Boss.contributions < 0) {
+                        if (Boss.contributions <= 0) {
                             counter = 5000;
                         } else {
                             if (HeroPartner.contributions > 0) {
@@ -130,7 +130,7 @@ window.battleClkaoScript = function (btEngine) {
                             if ((Boss.contributions < (window.Boss.contributions/4)) && !crazyMode) counter=2201;
                             else counter = 2200;
                         } else {
-                            counter = 5000;
+                            counter = 5000;  // Boss HP <= 0，戰鬥結束（勝利）
                         }
                     });
 
@@ -142,6 +142,12 @@ window.battleClkaoScript = function (btEngine) {
                     var aliveList = [];
                     if (Hero.contributions > 0) aliveList.push(Hero);
                     if (HeroPartner.contributions > 0) aliveList.push(HeroPartner);
+
+                    // 雙方 HP 之一方 <= 0 時直接結束戰鬥（敗北）
+                    if (aliveList.length === 0) {
+                        counter = 5100;
+                        return;
+                    }
 
                     // 倒楣鬼
                     var attPerson = aliveList[_.random(0,aliveList.length-1)];
@@ -185,7 +191,7 @@ window.battleClkaoScript = function (btEngine) {
                                 break;
                         }
 
-                        if (attPerson.contributions < 0) {
+                        if (attPerson.contributions <= 0) {
                             lastAttPerson = attPerson;
                             counter = 2300;
                         } else {
@@ -216,9 +222,9 @@ window.battleClkaoScript = function (btEngine) {
                     btEngine.setText(lastAttPerson.name + " 倒地不起了！");
                     $.when(btEngine.animateMessage()).then(function () {
 
-                        if (Hero.contributions < 0 && HeroPartner.contributions < 0) {
-                            counter = 5100;
-                        }else {
+                        if (Hero.contributions <= 0 || HeroPartner.contributions <= 0) {
+                            counter = 5100;  // 雙方 HP 皆 <= 0，戰鬥結束（敗北）
+                        } else {
                             counter = 1000;
                         }
 

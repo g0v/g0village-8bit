@@ -150,7 +150,10 @@
         } else {
             document.getElementById('monitor').style.width = '920px';
             document.getElementById('monitor').style.height = '720px';
-            document.getElementById('effectSwitchContainer').parentNode.style.display = '';
+            var effectSwitchEl = document.getElementById('effectSwitchContainer');
+            if (effectSwitchEl && effectSwitchEl.parentNode) {
+                effectSwitchEl.parentNode.style.display = '';
+            }
         }
 
         if (window.navigator.userAgent.indexOf("Chrome") != -1) {
