@@ -70,14 +70,24 @@ window.overworldClkaoScript = function (vnEngine) {
                                         vnEngine.setText(Hero.name + "! 那沒什麼好說的，戰鬥吧！");
                                     }
                                     $.when(vnEngine.animateMessage()).then(function () {
-                                        // save hero data to firebase
-                                        heroFBRef.update(Hero, function () {
+                                        var startBattle = function () {
                                             setTimeout(function () {
                                                 Crafty.audio.mute();
                                                 Crafty.audio.mute();
                                                 loadManager.loadScene(["assets/background_taiwan.png", "assets/pushenter.png", "assets/heroinfobox.png"], "battle");
                                             }, 1000);
-                                        });
+                                        };
+
+                                        // Save hero data to firebase if available, but do not block battle.
+                                        try {
+                                            if (window.herosFBRef) {
+                                                window.herosFBRef.child(Hero.name).update(Hero, startBattle);
+                                            } else {
+                                                startBattle();
+                                            }
+                                        } catch (e) {
+                                            startBattle();
+                                        }
                                     });
                                     break;
 

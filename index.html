@@ -199,19 +199,25 @@
                 }
 
                 animloop();
-            }else {
+            } else {
                 jQuery("#effectSwitchContainer").hide();
             }
         });
     </script>
+    <style>
+        /* hide the monitor overlay when the viewport is very wide so the underlying canvas layout isn't disrupted */
+        #monitor {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
-<div id="usage" class="absolute-center" style="z-index: 30; display: none;">
+<!-- <div id="usage" class="absolute-center" style="z-index: 30; display: none;">
     <div id="effectSwitchContainer">
         點按<button id="derp">這裡</button>可以啟用/停用特效。
         <br/>如果您的電腦跑不動或電腦風扇異常轉動，可以試試<a href="noglfx.html">無特效版本</a>。
     </div>
-</div>
+</div> -->
 <div id="herp" class="absolute-center" style="width: 100vw; height: 100vh; z-index: 10; opacity: 0.90"></div>
 <div id="monitor" class="absolute-center" style="z-index: 20; background: url('./images/monitor.gif'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
 <a target="_blank" href="https://github.com/g0v/g0village-8bit"><img
