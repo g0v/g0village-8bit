@@ -191,8 +191,6 @@ Crafty.c("NovelInterface", {
     /** 觸控用：檢查 (screenX, screenY) 是否點在選項 1/2/3 上，回傳 1/2/3 或 0 */
     hitTestChoice: function (screenX, screenY) {
         if (!this._prompting || this._numChoices == null) return 0;
-        var vx = Crafty.viewport.x;
-        var vy = Crafty.viewport.y;
         var choices = [
             this._choiceFirstText,
             this._choiceSecondText,
@@ -201,9 +199,8 @@ Crafty.c("NovelInterface", {
         for (var i = 0; i < this._numChoices && i < 3; i++) {
             var c = choices[i];
             if (c) {
-                var sx = c._x + vx;
-                var sy = c._y + vy;
-                if (screenX >= sx && screenX <= sx + c._w && screenY >= sy && screenY <= sy + c._h) {
+                // 對話選項已用 updatePosition 維持在螢幕座標，c._x/_y 即為 canvas 座標
+                if (screenX >= c._x && screenX <= c._x + c._w && screenY >= c._y && screenY <= c._y + c._h) {
                     return i + 1;
                 }
             }
