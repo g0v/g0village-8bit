@@ -23,7 +23,7 @@ window.overworldAutolearnScript = function (vnEngine) {
                             switch (choice) {
                                 case 1:
                                     Crafty.audio.muteMusic('music');
-                                    openUrlInBox('http://we.alearn.org.tw/', {
+                                    openUrlInBox('https://we.alearn.org.tw/', {
                                         onClosed: function() {
                                             Crafty.audio.unmuteMusic('music');
                                         }
@@ -41,7 +41,7 @@ window.overworldAutolearnScript = function (vnEngine) {
                                     break;
                                 case 2:
                                     Crafty.audio.muteMusic('music');
-                                    openUrlInBox('http://map.alearn.org.tw/', {
+                                    openUrlInBox('https://map.alearn.org.tw/', {
                                         onClosed: function() {
                                             Crafty.audio.unmuteMusic('music');
                                         }

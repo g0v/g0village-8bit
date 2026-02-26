@@ -25,9 +25,61 @@ window.battleScene = function () {
 
 
     var clkao = Crafty.e("2D, Canvas, NPC").setupScript(battleClkaoScript(btEngine));
+    setupBattleTouchControls(btEngine, clkao);
     btEngine.addBoss(clkao);
 
     window.vt = btEngine;
 
 
 };
+
+function setupBattleTouchControls(btEngine, boss) {
+    var isMobile = !!(Crafty.mobile || ('ontouchstart' in window) || navigator.maxTouchPoints > 0 || window.innerWidth < 900);
+    if (!isMobile) return;
+
+    if (window.BattleTouchControl && window.BattleTouchControl.teardown) {
+        window.BattleTouchControl.teardown();
+    }
+
+    var lastTouchAt = 0;
+    var handleTap = function (clientX, clientY) {
+        if (Crafty._current !== "battle") return;
+
+        if (btEngine && btEngine.isPrompting && btEngine.isPrompting()) {
+            var pos = Crafty.DOM.translate(clientX, clientY);
+            var choice = btEngine.hitTestChoice ? btEngine.hitTestChoice(pos.x, pos.y) : 0;
+            if (choice >= 1 && choice <= 3) {
+                btEngine.confirmChoice(choice);
+                return;
+            }
+        }
+
+        if (boss && !boss._destroyed) {
+            boss.trigger("PlayerInteracted");
+        } else {
+            Crafty.trigger("KeyDown", { key: 32 });
+        }
+    };
+
+    var onClick = function (e) {
+        if (Date.now() - lastTouchAt < 500) return;
+        handleTap(e.clientX, e.clientY);
+    };
+
+    var onTouchEnd = function (e) {
+        lastTouchAt = Date.now();
+        if (!e.changedTouches || e.changedTouches.length === 0) return;
+        var touch = e.changedTouches[0];
+        handleTap(touch.clientX, touch.clientY);
+    };
+
+    document.addEventListener('click', onClick);
+    document.addEventListener('touchend', onTouchEnd);
+
+    window.BattleTouchControl = {
+        teardown: function () {
+            document.removeEventListener('click', onClick);
+            document.removeEventListener('touchend', onTouchEnd);
+        }
+    };
+}

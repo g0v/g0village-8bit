@@ -1,5 +1,9 @@
 (function(){
     var MoedictWords = [];
+    var FixedWords = ["協作", "公民", "科技", "自由", "權利", 
+        "開源", "文化",
+        "媒體", "網路", "多元", "開放", "透明", "參與", "創新", 
+        "共享", "民主", "平等", "正義", "永續", "共好", "自發", "互動", "社群"];
 
     /*
     //這行目前沒有作用? 萌典小精靈目前的資料來源是http://pipes.yahoo.com/pipes/pipe.run?_id=ae8bdfeb413726be8da719b13ab6684e&_render=json&_callback=?'
@@ -35,9 +39,18 @@
                         break;
                     case 1:
                         var w = [];
-                        w[0] = MoedictWords[_.random(0, MoedictWords.length-1)];
-                        w[1] = MoedictWords[_.random(0, MoedictWords.length-1)];
-                        w[2] = MoedictWords[_.random(0, MoedictWords.length-1)];
+                        var fixedPool = FixedWords.slice(0);
+                        var firstFixedIndex = _.random(0, fixedPool.length - 1);
+                        var firstFixedWord = fixedPool.splice(firstFixedIndex, 1)[0];
+                        var secondFixedWord = fixedPool[_.random(0, fixedPool.length - 1)];
+
+                        if (MoedictWords.length > 0) {
+                            w[0] = MoedictWords[_.random(0, MoedictWords.length - 1)];
+                        } else {
+                            w[0] = firstFixedWord;
+                        }
+                        w[1] = firstFixedWord;
+                        w[2] = secondFixedWord;
                         vnEngine.setText("你想要利用「萌典」學習什麼？");
                         $.when(vnEngine.animateMessage()).then(function () {
                             $.when(vnEngine.promptQuestion(w)).then(function (choice) {

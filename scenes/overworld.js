@@ -40,13 +40,10 @@ window.overworldScene = function () {
 
     var sprites = [
         {name:"playerSprite", url: "assets/soujisprite.png", region: [1, 0]},       // Player
-        {name:"hlbSprite", url: "assets/hlbsprite.png", region: [1, 0]},            // 專案發起人
-        {name:"racklinSprite", url: "assets/racklinsprite.png", region: [1, 0]},    // g0village-8bit 專案開拓者
+       // {name:"hlbSprite", url: "assets/hlbsprite.png", region: [1, 0]},            // 售票員 HLB
         {name:"clkaoSprite", url: "assets/clkaosprite.png", region: [1, 0]},        // 新手村長
         {name:"moeSprite", url: "assets/moesprite.png", region: [1, 0]},            // 萌典
         {name:"kuansimSprite", url: "assets/kuansimsprite.png", region: [1, 0]},    // 鄉民關心你
-        {name:"mouinfoSprite", url: "assets/mouinfosprite.png", region: [1, 0]},    // 文化部
-        {name:"listeningSprite", url: "assets/listeningsprite.png", region: [1, 0]},    // 福利請聽
         {name:"autolearnSprite", url: "assets/autolearnsprite.png", region: [1, 0]},  //自學地圖
         {name:"etblueSprite", url: "assets/etbluesprite.png", region: [1, 0]},    // ETBlue
         {name:"shadowSprite", url: "assets/shadowsprite.png", region: [1, 0]},      // 坑...
@@ -94,16 +91,13 @@ window.overworldScene = function () {
     ];
 
     var npcs = [
-        {sprite: "hlbSprite", x: 12, y: 12, script: "overworldHlbScript", hooks: ["setupEngineScript"]},             // g0village 專案發起人
-        {sprite: "racklinSprite", x: 3, y: 7, script: "overworldRacklinScript", hooks: ["setupEngineScript"]},       // g0village-8bit 專案開拓者
+        // {sprite: "hlbSprite", x: 12, y: 12, script: "overworldHlbScript", hooks: ["setupEngineScript"]},             // 售票員 HLB
         {sprite: "clkaoSprite", x: 15, y: 6, script: "overworldClkaoScript", hooks: ["setupEngineScript"]},          // 新手村長
         {sprite: "moeSprite", x: 8, y: 16, script: "overworldMoeScript", hooks: ["setupEngineScript"]},              // 萌典
         {sprite: "kuansimSprite", x: 7, y: 7, script: "overworldHychenScript", hooks: ["setupEngineScript"]},         // 鄉民關心你
-        {sprite: "mouinfoSprite", x: 18, y: 19, script: "overworldMouinfoScript", hooks: ["setupEngineScript"]},     // 文化部
-        {sprite: "listeningSprite", x: 12, y: 19, script: "overworldListeningScript", hooks: ["setupEngineScript"]}, // 福利請聽
         {sprite: "autolearnSprite", x: 12, y: 16, script: "overworldAutolearnScript", hooks: ["setupEngineScript"]}, // 自學2.0        
         {sprite: "etblueSprite", x: 5, y: 19, script: "overworldETBlueScript", hooks: ["setupEngineScript"]}, // ETBlue        
-         {sprite: "blacksmithSprite", x: 6, y: 4, script: "overworldBlacksmithScript", hooks: ["setupEngineScript"]}, // 鐵匠
+        {sprite: "blacksmithSprite", x: 6, y: 4, script: "overworldBlacksmithScript", hooks: ["setupEngineScript"]}, // 鍛造師傅
         {sprite: "hole", x: 7, y: 10, content: "這裡有個大小剛好的坑，讓人有跳進去的衝動...", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
         
         {sprite: "smallSign", x: 11, y: 7, content: "歡迎到 g0v 新手村！", wander: false, script: "overworldSignScript", hooks: ["setupEngineScript"]},
@@ -179,6 +173,11 @@ window.overworldScene = function () {
     boundaries.forEach(makeBoundary);
     npcs.forEach(makeNPC);
 
+    // Build pathfinding grid after all collidable entities are placed
+    if (window.Pathfinder) {
+        Pathfinder.buildGrid(768, 768);
+    }
+
     /** create background and player **/
     var background = Crafty.e("2D, Canvas, bg").attr({
         x: 0,
@@ -189,7 +188,14 @@ window.overworldScene = function () {
     var player1 = Crafty.e("Player").attr({
         x: 200,
         y: 223
-    }).centerCamera(background).bind("Moved", function () {
+    });
+
+    // Setup mobile tap-to-move controls
+    if (window.MobileControl) {
+      MobileControl.setup(player1);
+    }
+
+    player1.centerCamera(background).bind("Moved", function () {
             //center the camera on the player
             this.centerCamera(background)
             if (this._camera_moved) {
@@ -213,6 +219,10 @@ window.overworldScene = function () {
         var script;
         // if specify the script that create interaction object
         if (data.script) {
+            if (typeof window[data.script] !== 'function') {
+                entity.destroy(); // 不存在的 script，從地圖移除
+                return;
+            }
             script = window[data.script](vnEngine, data, entity);
             entity.setupScript(script);
         }

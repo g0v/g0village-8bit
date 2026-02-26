@@ -2464,7 +2464,9 @@ Crafty.c("DOM", {
 	* Removes the element from the stage.
 	*/
 	undraw: function() {
-		Crafty.stage.inner.removeChild(this._element);
+		if (this._element && this._element.parentNode) {
+			this._element.parentNode.removeChild(this._element);
+		}
 		return this;
 	},
 	

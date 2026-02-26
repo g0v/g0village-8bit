@@ -1,5 +1,46 @@
 Crafty.c("BattleEngine", {
     init: function() {
+        var vw = Crafty.viewport.width;
+        var vh = Crafty.viewport.height;
+
+        // Responsive dialog dimensions
+        var dialogH = Math.max(88, Math.min(120, Math.floor(vh * 0.22)));
+        var dialogY = vh - dialogH;
+        var dialogOrangeY = dialogY - 40;
+        var offScreenY = vh + 110;
+        var textMarginLeft = Math.floor(vw * 0.04);
+        var textLineH = Math.floor(dialogH * 0.25);
+        var textStartY = dialogY + Math.floor(dialogH * 0.12);
+        var textW = Math.floor(vw * 0.85);
+        var maxLineUnits = Math.max(18, Math.floor(textW / 10));
+        var nameY = dialogY - Math.floor(dialogH * 0.25);
+        var isSmallScreen = vw < 500;
+
+        // Portrait
+        var portraitW = isSmallScreen ? 0 : Math.min(512, Math.floor(vw * 0.5));
+        var portraitH = isSmallScreen ? 0 : Math.floor(portraitW * 0.5);
+        var portraitX = isSmallScreen ? vw : Math.floor(vw * 0.45);
+        var portraitShowX = isSmallScreen ? vw : Math.floor(vw * 0.40);
+
+        // Question/choice dimensions
+        var qBgX = Math.floor(vw * 0.05);
+        var qBgY = Math.floor(vh * 0.25);
+        var qBgW = Math.floor(vw * 0.90);
+        var qBgH = Math.floor(vh * 0.40);
+        var choiceX = Math.floor(vw * 0.08);
+        var choiceY1 = qBgY + Math.floor(qBgH * 0.10);
+        var choiceSpacing = Math.floor(qBgH * 0.25);
+        var choiceH = Math.max(30, Math.floor(qBgH * 0.20));
+        var choiceW = Math.floor(qBgW * 0.85);
+
+        // Info box responsive layout - 3 boxes across the top
+        var infoBoxW = Math.min(150, Math.floor(vw * 0.28));
+        var infoBoxGap = Math.floor((vw - infoBoxW * 3) / 4);
+        var heroBoxX = infoBoxGap;
+        var partnerBoxX = infoBoxGap * 2 + infoBoxW;
+        var bossBoxX = infoBoxGap * 3 + infoBoxW * 2;
+        var infoTextOffset = Math.floor(infoBoxW * 0.10);
+        var infoValOffset = Math.floor(infoBoxW * 0.47);
 
         Crafty.sprite(1, "assets/heroinfobox.png", {
             heroinfoboxbg: [0, 0, 150, 120]
@@ -15,73 +56,75 @@ Crafty.c("BattleEngine", {
 		this._orangeBG = Crafty.e("2D, Canvas, orangebg, Tween")
 			.attr({
 				x: 50,
-				y: 285, //325 => 550, 285
-				rotation: 0, // 5
-				alpha: 0, // 1
-				z: 100
+				y: dialogOrangeY,
+				rotation: 0,
+				alpha: 0,
+				z: 100,
+				w: vw
 			});
 		this._darkBG = Crafty.e("2D, Canvas, darkbg, Tween")
 			.attr({
 				x: 50,
-				y: 550, //, 325
-				rotation: -8, // 0
-				alpha: 0, // 1
-				z: 102
+				y: offScreenY,
+				rotation: -8,
+				alpha: 0,
+				z: 102,
+				w: vw
 			});
 		this._characterBG = Crafty.e("2D, Canvas, charPortrait, Tween")
 			.attr({
-				x: 325, // 250
+				x: portraitX,
 				y: 69,
-				w: 512,
-				h: 256,
-				alpha: 0, // 0
+				w: portraitW,
+				h: portraitH,
+				alpha: 0,
 				z: 101
 			});
 		this._dialogText = Crafty.e("2D, Color, Canvas, Text")
 			.attr( {
-				x: 65,
-				y: 330,
-				h: 90,
-				w: 540,
+				x: textMarginLeft,
+				y: textStartY,
+				h: textLineH,
+				w: textW,
 				z: 103
 			})
 			.color("transparent")
 			.fontColor("white");
         this._dialogText2 = Crafty.e("2D, Color, Canvas, Text")
             .attr({
-                x: 65,
-                y: 360,
-                h: 90,
-                w: 540,
+                x: textMarginLeft,
+                y: textStartY + textLineH,
+                h: textLineH,
+                w: textW,
                 z: 103
             })
             .color("transparent")
             .fontColor("white");
         this._dialogText3 = Crafty.e("2D, Color, Canvas, Text")
             .attr({
-                x: 65,
-                y: 390,
-                h: 90,
-                w: 540,
+                x: textMarginLeft,
+                y: textStartY + textLineH * 2,
+                h: textLineH,
+                w: textW,
                 z: 103
             })
             .color("transparent")
             .fontColor("white");
 		this._dialogName = Crafty.e("2D, Color, Canvas, Text")
 			.attr({
-				x: 55,
-				y: 300,
+				x: textMarginLeft,
+				y: nameY,
 				h: 25,
-				w: 570,
+				w: textW,
                 alpha: 0,
 				z: 103
 			}).color("transparent").fontColor("black");
 		this._checkDialog = Crafty.e("2D, Color, Canvas, Text")
 			.attr({
-				x: 250,
-				y: 325,
+				x: Math.floor(vw * 0.35),
+				y: dialogY,
 				h: 25,
-				w: 150,
+				w: Math.floor(vw * 0.30),
 				alpha: 0,
 				z: 103
 			})
@@ -89,64 +132,68 @@ Crafty.c("BattleEngine", {
 			.fontColor("white");
 		this._questionBackground = Crafty.e("2D, Color, Canvas, Tween")
 			.color("black")
-			.attr({x: 30, y: 170, w: 550, h: 230, z: 99, alpha: 0});
-		this._choiceFirstText = Crafty.e("2D, Color, Canvas, Text").text(" ").fontColor("white").color("transparent").attr({x:45, y:180, h: 25, w: 300, z: 100});
-		this._choiceSecondText = Crafty.e("2D, Color, Canvas, Text").text(" ").fontColor("white").color("transparent").attr({x:45, y:210, h: 25, w: 300, z: 100});
-		this._choiceThirdText = Crafty.e("2D, Color, Canvas, Text").text(" ").fontColor("white").color("transparent").attr({x:45, y:240, h: 25, w: 300, z: 100});
+			.attr({x: qBgX, y: qBgY, w: qBgW, h: qBgH, z: 99, alpha: 0});
+		this._choiceFirstText = Crafty.e("2D, Color, Canvas, Text, Mouse").text(" ").fontColor("white").color("transparent").attr({x: choiceX, y: choiceY1, h: choiceH, w: choiceW, z: 100});
+		this._choiceSecondText = Crafty.e("2D, Color, Canvas, Text, Mouse").text(" ").fontColor("white").color("transparent").attr({x: choiceX, y: choiceY1 + choiceSpacing, h: choiceH, w: choiceW, z: 100});
+		this._choiceThirdText = Crafty.e("2D, Color, Canvas, Text, Mouse").text(" ").fontColor("white").color("transparent").attr({x: choiceX, y: choiceY1 + choiceSpacing * 2, h: choiceH, w: choiceW, z: 100});
 
+        // Hero info box
         this._heroBG = Crafty.e("2D, Canvas, heroinfoboxbg, Tween")
             .attr({
-                x: 50,
+                x: heroBoxX,
                 y: 5,
-                rotation: 0, // 5
-                alpha: 1, // 1
+                w: infoBoxW,
+                rotation: 0,
+                alpha: 1,
                 z: 200
             });
         this._heroName = Crafty.e("2D, Color, Canvas, Text")
             .attr( {
-                x: 65,
+                x: heroBoxX + infoTextOffset,
                 y: 20,
                 h: 30,
-                w: 100,
+                w: infoBoxW - infoTextOffset * 2,
                 z: 203
             })
             .color("transparent")
             .fontColor("white").text(Hero.name);
         this._heroHP = Crafty.e("2D, Color, Canvas, Text")
             .attr( {
-                x: 120,
+                x: heroBoxX + infoValOffset,
                 y: 55,
                 h: 30,
-                w: 100,
+                w: infoBoxW - infoValOffset,
                 z: 203
             })
             .color("transparent")
             .fontColor("white").text(Hero.contributions);
         this._heroLV = Crafty.e("2D, Color, Canvas, Text")
             .attr( {
-                x: 120,
+                x: heroBoxX + infoValOffset,
                 y: 85,
                 h: 30,
-                w: 100,
+                w: infoBoxW - infoValOffset,
                 z: 203
             })
             .color("transparent")
             .fontColor("white").text(Hero.followers);
 
+        // Hero partner info box
         this._heroPartnerBG = Crafty.e("2D, Canvas, heroinfoboxbg, Tween")
             .attr({
-                x: 250,
+                x: partnerBoxX,
                 y: 5,
-                rotation: 0, // 5
-                alpha: 0, // 1
+                w: infoBoxW,
+                rotation: 0,
+                alpha: 0,
                 z: 200
             });
         this._heroPartnerName = Crafty.e("2D, Color, Canvas, Text")
             .attr( {
-                x: 270,
+                x: partnerBoxX + infoTextOffset,
                 y: 20,
                 h: 30,
-                w: 100,
+                w: infoBoxW - infoTextOffset * 2,
                 alpha: 0,
                 z: 203
             })
@@ -155,10 +202,10 @@ Crafty.c("BattleEngine", {
 
         this._heroPartnerHP = Crafty.e("2D, Color, Canvas, Text")
             .attr( {
-                x: 310,
+                x: partnerBoxX + infoValOffset,
                 y: 55,
                 h: 30,
-                w: 100,
+                w: infoBoxW - infoValOffset,
                 alpha: 0,
                 z: 203
             })
@@ -166,30 +213,32 @@ Crafty.c("BattleEngine", {
             .fontColor("white").text(HeroPartner.contributions);
         this._heroPartnerLV = Crafty.e("2D, Color, Canvas, Text")
             .attr( {
-                x: 310,
+                x: partnerBoxX + infoValOffset,
                 y: 85,
                 h: 30,
-                w: 100,
+                w: infoBoxW - infoValOffset,
                 alpha: 0,
                 z: 203
             })
             .color("transparent")
             .fontColor("white").text(HeroPartner.followers);
 
+        // Boss info box
         this._bossBG = Crafty.e("2D, Canvas, heroinfoboxbg, Tween")
             .attr({
-                x: 450,
+                x: bossBoxX,
                 y: 5,
-                rotation: 0, // 5
-                alpha: 1, // 1
+                w: infoBoxW,
+                rotation: 0,
+                alpha: 1,
                 z: 200
             });
         this._bossName = Crafty.e("2D, Color, Canvas, Text")
             .attr( {
-                x: 470,
+                x: bossBoxX + infoTextOffset,
                 y: 20,
                 h: 30,
-                w: 100,
+                w: infoBoxW - infoTextOffset * 2,
                 z: 203
             })
             .color("transparent")
@@ -197,37 +246,85 @@ Crafty.c("BattleEngine", {
 
         this._bossHP = Crafty.e("2D, Color, Canvas, Text")
             .attr( {
-                x: 510,
+                x: bossBoxX + infoValOffset,
                 y: 55,
                 h: 30,
-                w: 100,
+                w: infoBoxW - infoValOffset,
                 z: 203
             })
             .color("transparent")
             .fontColor("white").text(Boss.contributions);
         this._bossLV = Crafty.e("2D, Color, Canvas, Text")
             .attr( {
-                x: 510,
+                x: bossBoxX + infoValOffset,
                 y: 85,
                 h: 30,
-                w: 100,
+                w: infoBoxW - infoValOffset,
                 z: 203
             })
             .color("transparent")
             .fontColor("white").text(Boss.followers);
+
+        // Store responsive layout values
+        this._layout = {
+            vw: vw, vh: vh,
+            dialogH: dialogH, dialogY: dialogY,
+            dialogOrangeY: dialogOrangeY, offScreenY: offScreenY,
+            portraitX: portraitX, portraitShowX: portraitShowX,
+            isSmallScreen: isSmallScreen
+        };
 
 		this._oldX = 0;
 		this._oldY = 0;
 		this._writing = false;
 		this._shown = false;
 		this._animating = false;
+		this._prompting = false;
+		this._numChoices = null;
+		this._confirmChoiceCallback = null;
 		this._characterName = "";
 		this._dialog = "";
+		this._maxLineUnits = maxLineUnits;
 
 		return this;
 	},
 	setText: function (text) {
-		this._dialog = text;
+		this._dialog = this._wrapDialogText(text, 3);
+	},
+	_wrapDialogText: function (text, maxLines) {
+		if (text == null) return "";
+		var limit = this._maxLineUnits || 24;
+		var lines = [];
+		var line = "";
+		var units = 0;
+		var str = String(text);
+
+		for (var i = 0; i < str.length; i++) {
+			var ch = str.charAt(i);
+			if (ch === '\n') {
+				lines.push(line);
+				line = "";
+				units = 0;
+				if (lines.length >= maxLines) break;
+				continue;
+			}
+
+			var w = /[ -~]/.test(ch) ? 1 : 2;
+			if (units + w > limit && line.length > 0) {
+				lines.push(line);
+				line = ch;
+				units = w;
+				if (lines.length >= maxLines) break;
+			} else {
+				line += ch;
+				units += w;
+			}
+		}
+
+		if (lines.length < maxLines && line.length > 0) {
+			lines.push(line);
+		}
+		return lines.slice(0, maxLines).join("\n");
 	},
 	setName: function(name) {
 		this._characterName = name;
@@ -255,9 +352,35 @@ Crafty.c("BattleEngine", {
 	isAnimating: function() {
 		return this._animating;
 	},
+	isPrompting: function () {
+		return this._prompting;
+	},
+	hitTestChoice: function (screenX, screenY) {
+		if (!this._prompting || this._numChoices == null) return 0;
+		var choices = [
+			this._choiceFirstText,
+			this._choiceSecondText,
+			this._choiceThirdText
+		];
+		for (var i = 0; i < this._numChoices && i < 3; i++) {
+			var c = choices[i];
+			if (c) {
+				if (screenX >= c._x && screenX <= c._x + c._w && screenY >= c._y && screenY <= c._y + c._h) {
+					return i + 1;
+				}
+			}
+		}
+		return 0;
+	},
+	confirmChoice: function (choiceIndex) {
+		if (this._confirmChoiceCallback && choiceIndex >= 1 && choiceIndex <= 3) {
+			this._confirmChoiceCallback(choiceIndex);
+		}
+	},
 	hideDialog: function () {
 		var self = this;
 		var dfd = $.Deferred();
+		var L = this._layout;
 
 		if (this._animating) {
 			self._darkBG.unbind("EnterFrame");
@@ -276,13 +399,13 @@ Crafty.c("BattleEngine", {
 			if (!this._animating) {
 				self._darkBG.attr( {
 					x: 50 - Crafty.viewport._x,
-					y: 325 - Crafty.viewport._y,
+					y: L.dialogY - Crafty.viewport._y,
 					rotation: 0,
 					alpha: 1
 				});
 				self._orangeBG.attr( {
 					x: (50 - Crafty.viewport._x),
-					y: (285 - Crafty.viewport._y),
+					y: (L.dialogOrangeY - Crafty.viewport._y),
 					rotation: 5,
 					alpha: 1
 				});
@@ -300,19 +423,19 @@ Crafty.c("BattleEngine", {
 				});
 				self._orangeBG.tween( {
 					rotation: 0,
-					y: (325 - Crafty.viewport._y)
+					y: (L.dialogY - Crafty.viewport._y)
 					}, 5, function() {
 					self._orangeBG.attr( {
 						alpha: 0
 					});
 					self._darkBG.tween( {
 						rotation: -8,
-						y: (550 - Crafty.viewport._y),
+						y: (L.offScreenY - Crafty.viewport._y),
 						alpha: 0
 					}, 10);
 					self._orangeBG.tween( {
 						rotation: -8,
-						y: (550 - Crafty.viewport._y),
+						y: (L.offScreenY - Crafty.viewport._y),
 						alpha: 0
 					}, 10, function() {
 						dfd.resolve();
@@ -394,6 +517,7 @@ Crafty.c("BattleEngine", {
 		// the defered object to return
 		var dfd = $.Deferred();
 		var self = this;
+		var L = this._layout;
 
 		if (this._writing) {
 			this._writing = false;
@@ -414,17 +538,17 @@ Crafty.c("BattleEngine", {
 					rotation: -8,
 					alpha: 0,
 					x: (50 - Crafty.viewport._x),
-					y: (550 - Crafty.viewport._y)
+					y: (L.offScreenY - Crafty.viewport._y)
 				});
 			self._orangeBG.attr( {
 					rotation: -8,
 					alpha: 0,
 					x: (50 - Crafty.viewport._x),
-					y: (550 - Crafty.viewport._y)
+					y: (L.offScreenY - Crafty.viewport._y)
 				});
 			 self._characterBG.attr( {
 					alpha: 0,
-					x: 325 - Crafty.viewport._x
+					x: L.portraitX - Crafty.viewport._x
 				});
 		}
 
@@ -432,36 +556,36 @@ Crafty.c("BattleEngine", {
 			this._shown = true;
 			self._darkBG.tween( {
 					rotation: 0,
-					y: 325 - Crafty.viewport._y,
+					y: L.dialogY - Crafty.viewport._y,
 					alpha: 1
 				}, 10, function() {
 			self._darkBG.attr( {
 						x: 50 - Crafty.viewport._x,
-						y: 325 - Crafty.viewport._y,
+						y: L.dialogY - Crafty.viewport._y,
 						rotation: 0,
 						alpha: 1
 					});
 				});
 			 self._characterBG.attr( {
 					alpha: 0,
-					x: 325 - Crafty.viewport._x
+					x: L.portraitX - Crafty.viewport._x
 				});
 
 			self._orangeBG.tween( {
 					rotation: 0,
-					y: (325 - Crafty.viewport._y),
+					y: (L.dialogY - Crafty.viewport._y),
 					alpha: 0
 				}, 10, function() {
 				self._orangeBG.attr( {
 						alpha: 0
 					});
 				self._characterBG.tween( {
-						alpha: 1,
-						x: 285 - Crafty.viewport._x
+						alpha: L.isSmallScreen ? 0 : 1,
+						x: L.portraitShowX - Crafty.viewport._x
 					}, 5);
 				self._orangeBG.tween( {
 						rotation: 5,
-						y: (285 - Crafty.viewport._y),
+						y: (L.dialogOrangeY - Crafty.viewport._y),
 						alpha: 1
 					}, 5, function() {
 				self._orangeBG.attr( {
@@ -469,7 +593,7 @@ Crafty.c("BattleEngine", {
 							alpha: 1
 						});
 					self._orangeBG.x = (50 - Crafty.viewport._x);
-					self._orangeBG.y = (285 - Crafty.viewport._y);
+					self._orangeBG.y = (L.dialogOrangeY - Crafty.viewport._y);
 					self._dialogName.text(self._characterName);
 						console.log(self._dialog);
 						// append the text
@@ -509,9 +633,44 @@ Crafty.c("BattleEngine", {
 	promptQuestion: function (choices) {
 	this._animating = true;
 		var dfd = $.Deferred();
-		self = this;
-			this._questionBackground.tween({alpha: 0.75}, 10, function() {
-				var numChoices = choices.length > 3 ? 3 : choices.length
+		var self = this;
+		var resolved = false;
+
+		var confirmSelection = function(currentSelection, player, interactable) {
+			if (resolved) return;
+			resolved = true;
+			self._prompting = false;
+			self._confirmChoiceCallback = null;
+			self._numChoices = null;
+			self.unbind("KeyDown");
+			self._choiceFirstText.unbind("MouseUp");
+			self._choiceSecondText.unbind("MouseUp");
+			self._choiceThirdText.unbind("MouseUp");
+			self._choiceFirstText.color("transparent").fontColor("white").text(" ");
+			self._choiceSecondText.color("transparent").fontColor("white").text(" ");
+			self._choiceThirdText.color("transparent").fontColor("white").text(" ");
+			self._questionBackground.tween({alpha: 0}, 10, function () {
+				self._questionBackground.alpha = 0;
+				player.disableControls = false;
+				self._animating = false;
+				$.each(interactable, function(index, item) {
+					Crafty(item).disableInteraction = false;
+				});
+				dfd.resolve(currentSelection);
+			});
+			dfd.resolve(currentSelection);
+		};
+
+		var highlightChoice = function(sel) {
+			self._choiceFirstText.color(sel === 1 ? "white" : "transparent").fontColor(sel === 1 ? "black" : "white");
+			self._choiceSecondText.color(sel === 2 ? "white" : "transparent").fontColor(sel === 2 ? "black" : "white");
+			self._choiceThirdText.color(sel === 3 ? "white" : "transparent").fontColor(sel === 3 ? "black" : "white");
+		};
+
+		this._questionBackground.tween({alpha: 0.75}, 10, function() {
+				var numChoices = choices.length > 3 ? 3 : choices.length;
+				self._prompting = true;
+				self._numChoices = numChoices;
 
 				var player = Crafty(Crafty("PlayerControl")[0]);
 				player.disableControls = true;
@@ -521,15 +680,41 @@ Crafty.c("BattleEngine", {
 					Crafty(item).disableInteraction = true;
 				});
 
-
 				self._choiceFirstText.text(choices[0]);
 				self._choiceSecondText.text(choices[1] || " ");
 				self._choiceThirdText.text(choices[2] || " ");
 
 				var currentSelection = 1;
-							self._choiceFirstText.color("white").fontColor("black");
-							self._choiceSecondText.color("transparent").fontColor("white");
-							self._choiceThirdText.color("transparent").fontColor("white");
+				highlightChoice(currentSelection);
+				self._confirmChoiceCallback = function(choiceIndex) {
+					highlightChoice(choiceIndex);
+					confirmSelection(choiceIndex, player, interactable);
+				};
+
+				// Touch/click support for each choice
+				self._choiceFirstText.bind('MouseUp', function() {
+					if (numChoices >= 1) {
+						currentSelection = 1;
+						highlightChoice(currentSelection);
+						confirmSelection(currentSelection, player, interactable);
+					}
+				});
+				self._choiceSecondText.bind('MouseUp', function() {
+					if (numChoices >= 2) {
+						currentSelection = 2;
+						highlightChoice(currentSelection);
+						confirmSelection(currentSelection, player, interactable);
+					}
+				});
+				self._choiceThirdText.bind('MouseUp', function() {
+					if (numChoices >= 3) {
+						currentSelection = 3;
+						highlightChoice(currentSelection);
+						confirmSelection(currentSelection, player, interactable);
+					}
+				});
+
+				// Keyboard support (preserved for desktop)
 				self.bind("KeyDown", function(e) {
 					if (e.key === 87 || e.key === 38) {
 						currentSelection = currentSelection === 1 ? numChoices : currentSelection - 1;
@@ -537,40 +722,11 @@ Crafty.c("BattleEngine", {
 					if (e.key == 83 || e.key === 40) {
 						currentSelection = currentSelection === numChoices ? 1 : currentSelection + 1;
 					}
-					switch (currentSelection) {
-						case 1:
-							self._choiceFirstText.color("white").fontColor("black");
-							self._choiceSecondText.color("transparent").fontColor("white");
-							self._choiceThirdText.color("transparent").fontColor("white");
-							break;
-						case 2:
-							self._choiceFirstText.color("transparent").fontColor("white");
-							self._choiceSecondText.color("white").fontColor("black");
-							self._choiceThirdText.color("transparent").fontColor("white");
-							break;
-						case 3:
-							self._choiceFirstText.color("transparent").fontColor("white");
-							self._choiceSecondText.color("transparent").fontColor("white");
-							self._choiceThirdText.color("white").fontColor("black");
-							break;
-					}
+					highlightChoice(currentSelection);
 
 					//use an array instead
 					if (e.key === 13 || e.key === 32) {
-						self.unbind("KeyDown");
-							self._choiceFirstText.color("transparent").fontColor("white").text(" ");
-							self._choiceSecondText.color("transparent").fontColor("white").text(" ");
-							self._choiceThirdText.color("transparent").fontColor("white").text(" ");
-							self._questionBackground.tween({alpha: 0}, 10, function () {
-								self._questionBackground.alpha = 0;
-								player.disableControls = false;
-								self._animating = false;
-									$.each(interactable, function(index, item) {
-										Crafty(item).disableInteraction = false;
-									});
-								dfd.resolve(currentSelection);
-							});
-						dfd.resolve(currentSelection);
+						confirmSelection(currentSelection, player, interactable);
 					}
 					console.log(currentSelection);
 				});

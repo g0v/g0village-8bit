@@ -30,7 +30,7 @@ window.Boss = {
 
 window.HeroPartner = {
     name: 'unnamed2',
-    contributions: 100,
+    contributions: 1000,
     followers: 10
 };
 

@@ -17,65 +17,22 @@ window.overworldBlacksmithScript = function (vnEngine) {
                     break;
 
                 case 1:
-                    vnEngine.setText("資訊不對等，小心受騙上當~\n來點裝備吧！");
+                    vnEngine.setText("資訊不對等，小心受騙上當~\n來看看「求職小幫手」吧！");
                     $.when(vnEngine.animateMessage()).then(function () {
-                        $.when(vnEngine.promptQuestion(["求職小幫手！", "新聞小幫手！", "法規亦毒氣！"])).then(function (choice) {
-                            switch (choice) {
-                                case 1:
-                                    Crafty.audio.muteMusic('music');
-                                    openUrlInBox('http://jobhelper.g0v.ronny.tw/', {
-                                        onClosed: function() {
-                                            Crafty.audio.unmuteMusic('music');
-                                        }
-                                    });
-                                    if (Hero.gameFlags.interacted_with_blacksmith) {
-                                        break;
-                                    }
-
-                                    Hero.followers++;
-                                    Hero.contributions += 10;
-                                    Hero.gameFlags.interacted_with_blacksmith = true;
-                                    Crafty.trigger("HeroObjectChanged");
-                                    vnEngine.setText("你現在認識「求職小幫手！」了！ LV+1");
-                                    vnEngine.animateMessage();
-                                    break;
-                                case 2:
-                                    Crafty.audio.muteMusic('music');
-                                    openUrlInBox('http://newshelper.g0v.tw/', {
-                                        onClosed: function() {
-                                            Crafty.audio.unmuteMusic('music');
-                                        }
-                                    });
-                                    if (Hero.gameFlags.interacted_with_blacksmith) {
-                                        break;
-                                    }
-
-                                    Hero.followers++;
-                                    Hero.contributions += 10;
-                                    Hero.gameFlags.interacted_with_blacksmith = true;
-                                    Crafty.trigger("HeroObjectChanged");
-                                    vnEngine.setText("你現在認識「新聞小幫手」了！ LV+1");
-                                    vnEngine.animateMessage();
-                                case 3:
-                                    Crafty.audio.muteMusic('music');
-                                    openUrlInBox('http://blog.g0v.tw/post/58402599490', {
-                                        onClosed: function() {
-                                            Crafty.audio.unmuteMusic('music');
-                                        }
-                                    });
-                                    if (Hero.gameFlags.interacted_with_blacksmith) {
-                                        break;
-                                    }
-
-                                    Hero.followers++;
-                                    Hero.contributions += 10;
-                                    Hero.gameFlags.interacted_with_blacksmith = true;
-                                    Crafty.trigger("HeroObjectChanged");
-                                    vnEngine.setText("你現在認識「法規亦毒氣！」了！ LV+1");
-                                    vnEngine.animateMessage();
-                                    break;
+                        Crafty.audio.muteMusic('music');
+                        openUrlInBox('http://jobhelper.g0v.ronny.tw/', {
+                            onClosed: function() {
+                                Crafty.audio.unmuteMusic('music');
                             }
                         });
+                        if (!Hero.gameFlags.interacted_with_blacksmith) {
+                            Hero.followers++;
+                            Hero.contributions += 10;
+                            Hero.gameFlags.interacted_with_blacksmith = true;
+                            Crafty.trigger("HeroObjectChanged");
+                            vnEngine.setText("你現在認識「求職小幫手！」了！ LV+1");
+                            vnEngine.animateMessage();
+                        }
                     });
                     counter=2;
                     break;
@@ -95,10 +52,8 @@ window.overworldBlacksmithScript = function (vnEngine) {
                     break;
             }
         } else if (vnEngine.isWriting()) {
-            console.log("is writing");
             vnEngine.forceTextFinish();
         }
-        console.log(counter);
     }
     var leave = function () {
         if (counter == 3 || counter == 4) counter = 4;

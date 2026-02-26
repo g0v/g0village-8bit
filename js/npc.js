@@ -42,11 +42,11 @@ Crafty.c("NPC", {
                 }
             })
             .bind("PlayerCanInteract", function () {
-                this._interactionObj.enterCallback();
+                if (this._interactionObj) this._interactionObj.enterCallback();
                 this._wandering = false;
             })
             .bind("PlayerCannotInteract", function () {
-                this._interactionObj.leaveCallback();
+                if (this._interactionObj) this._interactionObj.leaveCallback();
                 this._wandering = true;
             });
 
@@ -129,6 +129,10 @@ Crafty.c("NPC", {
         return this;
     },
     setupScript: function (interactionObj) {
+        if (!interactionObj) {
+            this.destroy(); // 不存在的 script，從地圖移除
+            return this;
+        }
         this._interactionObj = interactionObj;
         return this;
     }
