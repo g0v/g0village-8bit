@@ -29,8 +29,14 @@
 - 文件與維護
   - README 新增 mobile 重構協作說明與本地啟動方式。
 
+## Demo
+
+- demo頁：
+  - https://bestian.github.io/g0village-8bit/
+
 ## 後續展望
 
 - 目前重構後僅為MVP
   - 可由社群共同協作，加入新的角色和對應的專案介紹與超連結
   - 程式碼與AI協作生成，可能尚有一些細微的UI/UX bugs待細修
+
