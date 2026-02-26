@@ -284,7 +284,14 @@ window.battleClkaoScript = function (btEngine) {
                     counter=6001;
                     Crafty.audio.mute();
                     Crafty.audio.mute();
-                    loadManager.loadScene(["assets/background.png", "assets/pushenter.png", "assets/dq3_bgm.mp3", "assets/dq3_bgm.ogg"], "overworld");
+                    if (window.BattleTouchControl && window.BattleTouchControl.teardown) {
+                        window.BattleTouchControl.teardown();
+                    }
+                    if (!window.loadManager) {
+                        window.loadManager = Crafty.e("AssetLoadManager");
+                    }
+                    // Avoid reloading bgm files here; audio decode/load can stall and freeze loading at 50%.
+                    window.loadManager.loadScene(["assets/background.png", "assets/pushenter.png"], "overworld");
                     break;
                 case 6001:
                     // dummy
@@ -292,11 +299,8 @@ window.battleClkaoScript = function (btEngine) {
             }
 
         } else if (btEngine.isWriting()) {
-            console.log("is writing");
             btEngine.forceTextFinish();
         }
-
-        console.log(counter);
 
     };
     var leave = function () {

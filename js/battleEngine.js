@@ -12,6 +12,7 @@ Crafty.c("BattleEngine", {
         var textLineH = Math.floor(dialogH * 0.25);
         var textStartY = dialogY + Math.floor(dialogH * 0.12);
         var textW = Math.floor(vw * 0.85);
+        var maxLineUnits = Math.max(18, Math.floor(textW / 10));
         var nameY = dialogY - Math.floor(dialogH * 0.25);
         var isSmallScreen = vw < 500;
 
@@ -278,13 +279,52 @@ Crafty.c("BattleEngine", {
 		this._writing = false;
 		this._shown = false;
 		this._animating = false;
+		this._prompting = false;
+		this._numChoices = null;
+		this._confirmChoiceCallback = null;
 		this._characterName = "";
 		this._dialog = "";
+		this._maxLineUnits = maxLineUnits;
 
 		return this;
 	},
 	setText: function (text) {
-		this._dialog = text;
+		this._dialog = this._wrapDialogText(text, 3);
+	},
+	_wrapDialogText: function (text, maxLines) {
+		if (text == null) return "";
+		var limit = this._maxLineUnits || 24;
+		var lines = [];
+		var line = "";
+		var units = 0;
+		var str = String(text);
+
+		for (var i = 0; i < str.length; i++) {
+			var ch = str.charAt(i);
+			if (ch === '\n') {
+				lines.push(line);
+				line = "";
+				units = 0;
+				if (lines.length >= maxLines) break;
+				continue;
+			}
+
+			var w = /[ -~]/.test(ch) ? 1 : 2;
+			if (units + w > limit && line.length > 0) {
+				lines.push(line);
+				line = ch;
+				units = w;
+				if (lines.length >= maxLines) break;
+			} else {
+				line += ch;
+				units += w;
+			}
+		}
+
+		if (lines.length < maxLines && line.length > 0) {
+			lines.push(line);
+		}
+		return lines.slice(0, maxLines).join("\n");
 	},
 	setName: function(name) {
 		this._characterName = name;
@@ -311,6 +351,31 @@ Crafty.c("BattleEngine", {
 	},
 	isAnimating: function() {
 		return this._animating;
+	},
+	isPrompting: function () {
+		return this._prompting;
+	},
+	hitTestChoice: function (screenX, screenY) {
+		if (!this._prompting || this._numChoices == null) return 0;
+		var choices = [
+			this._choiceFirstText,
+			this._choiceSecondText,
+			this._choiceThirdText
+		];
+		for (var i = 0; i < this._numChoices && i < 3; i++) {
+			var c = choices[i];
+			if (c) {
+				if (screenX >= c._x && screenX <= c._x + c._w && screenY >= c._y && screenY <= c._y + c._h) {
+					return i + 1;
+				}
+			}
+		}
+		return 0;
+	},
+	confirmChoice: function (choiceIndex) {
+		if (this._confirmChoiceCallback && choiceIndex >= 1 && choiceIndex <= 3) {
+			this._confirmChoiceCallback(choiceIndex);
+		}
 	},
 	hideDialog: function () {
 		var self = this;
@@ -568,12 +633,15 @@ Crafty.c("BattleEngine", {
 	promptQuestion: function (choices) {
 	this._animating = true;
 		var dfd = $.Deferred();
-		self = this;
+		var self = this;
 		var resolved = false;
 
 		var confirmSelection = function(currentSelection, player, interactable) {
 			if (resolved) return;
 			resolved = true;
+			self._prompting = false;
+			self._confirmChoiceCallback = null;
+			self._numChoices = null;
 			self.unbind("KeyDown");
 			self._choiceFirstText.unbind("MouseUp");
 			self._choiceSecondText.unbind("MouseUp");
@@ -600,7 +668,9 @@ Crafty.c("BattleEngine", {
 		};
 
 		this._questionBackground.tween({alpha: 0.75}, 10, function() {
-				var numChoices = choices.length > 3 ? 3 : choices.length
+				var numChoices = choices.length > 3 ? 3 : choices.length;
+				self._prompting = true;
+				self._numChoices = numChoices;
 
 				var player = Crafty(Crafty("PlayerControl")[0]);
 				player.disableControls = true;
@@ -616,6 +686,10 @@ Crafty.c("BattleEngine", {
 
 				var currentSelection = 1;
 				highlightChoice(currentSelection);
+				self._confirmChoiceCallback = function(choiceIndex) {
+					highlightChoice(choiceIndex);
+					confirmSelection(choiceIndex, player, interactable);
+				};
 
 				// Touch/click support for each choice
 				self._choiceFirstText.bind('MouseUp', function() {

@@ -1,5 +1,6 @@
 // Mobile touch controls - tap-to-move with pathfinding
 var isMobile = Crafty.mobile || ('ontouchstart' in window) || window.innerWidth < 900;
+var lastTouchAt = 0;
 
 Crafty.c('AutoWalk', {
   _waypoints: [],
@@ -142,16 +143,24 @@ function setupMobileControls(playerEntity) {
   // Bind to document — #herp WebGL canvas sits above #cr-stage and
   // intercepts all touch events, so we must listen at document level.
   document.addEventListener('click', function(e) {
+    // Ignore synthetic click fired shortly after touchend on mobile browsers.
+    if (Date.now() - lastTouchAt < 500) return;
     handleTap(e.clientX, e.clientY, playerEntity);
   });
 
   document.addEventListener('touchend', function(e) {
+    lastTouchAt = Date.now();
     var touch = e.changedTouches[0];
     handleTap(touch.clientX, touch.clientY, playerEntity);
   });
 }
 
 function handleTap(screenX, screenY, playerEntity) {
+  // Convert client coordinates to Crafty stage/world coordinates.
+  var pos = Crafty.DOM.translate(screenX, screenY);
+  var stageX = pos.x;
+  var stageY = pos.y;
+
   // 對話顯示中：點擊 = 換下一句（等同空白鍵）；關閉動畫中不攔截，讓點擊可觸發 pathfinding
   var vnList = Crafty("NovelInterface");
   if (vnList.length > 0) {
@@ -159,7 +168,7 @@ function handleTap(screenX, screenY, playerEntity) {
     if (vnEngine.isShowing && vnEngine.isShowing() && (vnEngine.isHiding === undefined || !vnEngine.isHiding())) {
       // 選項選單中：用座標 hit-test 選項，觸控裝置上 #herp 會攔截事件，選項收不到 MouseUp
       if (vnEngine.isPrompting && vnEngine.isPrompting()) {
-        var choice = vnEngine.hitTestChoice ? vnEngine.hitTestChoice(screenX, screenY) : 0;
+        var choice = vnEngine.hitTestChoice ? vnEngine.hitTestChoice(stageX, stageY) : 0;
         if (choice >= 1 && choice <= 3) {
           vnEngine.confirmChoice(choice);
           return;
@@ -190,9 +199,9 @@ function handleTap(screenX, screenY, playerEntity) {
   // 對話框不在顯示狀態時，清掉上一次對話中的 NPC
   if (window.MobileControl) window.MobileControl._activeNPC = null;
 
-  // Convert screen coords to world coords
-  var worldX = screenX - Crafty.viewport.x;
-  var worldY = screenY - Crafty.viewport.y;
+  // stageX/stageY are already in world coordinate space.
+  var worldX = stageX;
+  var worldY = stageY;
 
   // Check if tapped on an NPC
   var tappedNPC = null;

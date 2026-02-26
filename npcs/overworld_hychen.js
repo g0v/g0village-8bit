@@ -64,7 +64,7 @@ window.overworldHychenScript = function (vnEngine) {
                 case 5:
                     switch (choice1) {
                         case 1:
-                            vnEngine.setText("歡迎到 g0v Slack 或 IRC 找值日生報到！\nhttps://g0v.tw/join.html");
+                            vnEngine.setText("歡迎到 g0v Slack 或 IRC 找值日生報到！\nhttps://g0v.tw/intl/zh-TW/novice/");
                             vnEngine.animateMessage();
                             counter = -4;
                             break;
