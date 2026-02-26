@@ -100,7 +100,7 @@ window.overworldClkaoScript = function (vnEngine) {
                 case 3:
                     switch (choice1) {
                         case 1:
-                            vnEngine.setText("那你先到 http://g0v.tw/intl/zh-TW/novice/ 看完加入我們文案.");
+                            vnEngine.setText("那你先到 https://g0v.tw/intl/zh-TW/novice/ 看完加入我們文案.");
 
                             vnEngine.animateMessage();
                             break;
@@ -114,7 +114,7 @@ window.overworldClkaoScript = function (vnEngine) {
                     break;
                 case 4:
                     Crafty.audio.muteMusic('music');
-                    window.openUrlInBox("http://g0v.tw/intl/zh-TW/novice/", {
+                    window.openUrlInBox("https://g0v.tw/intl/zh-TW/novice/", {
                         onClosed: function () {
                             Crafty.audio.unmuteMusic('music');
                         }
