@@ -38,6 +38,13 @@
           height: 100vh !important;
         }
 
+        canvas, #cr-stage {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          user-select: none;
+          touch-action: none;
+        }
+
         #usage {
           top: auto;
           bottom: 20px;
@@ -49,7 +56,6 @@
     <link type="text/css" rel="stylesheet" media="all" href="colorbox.css"/>
     <script src="js/lib/jquery-1.10.2.min.js"></script>
     <script src="js/lib/lodash.min.js"></script>
-    <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
     <script src="js/lib/colorbox.js"></script>
     <script src="js/lib/glfx.js"></script>
     <script src="js/lib/crafty.js"></script>
@@ -74,13 +80,10 @@
     <script src="scenes/introduction.js"></script>
     <script src="scenes/dungeon.js"></script>
     <script src="scenes/heros.js"></script>
-    <script src="npcs/overworld_racklin.js"></script>
     <script src="npcs/overworld_hlb.js"></script>
     <script src="npcs/overworld_moe.js"></script>
     <script src="npcs/overworld_clkao.js"></script>
     <script src="npcs/overworld_hychen.js"></script>
-    <script src="npcs/overworld_mouinfo.js"></script>
-    <script src="npcs/overworld_listening.js"></script>
     <script src="npcs/overworld_autolearn.js"></script>
     <script src="npcs/overworld_blacksmith.js"></script>
     <script src="npcs/overworld_sign.js"></script>
@@ -96,8 +99,6 @@
         };
 
         $(function () {
-
-            window.herosFBRef = new Firebase('https://g0village-8bit.firebaseio.com/heros');
 
             window.MoedictWords = [];
             $.getJSON('data/idioms.json', function(d) {
@@ -123,6 +124,12 @@
               GAME_W = window.innerWidth;
               GAME_H = window.innerHeight;
               Crafty.viewport.init(GAME_W, GAME_H);
+            });
+
+            window.addEventListener('orientationchange', function() {
+              setTimeout(function() {
+                Crafty.viewport.init();
+              }, 300);
             });
 
             // this scene preloads the loading assets, so we can start loading the title screen

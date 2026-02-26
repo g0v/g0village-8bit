@@ -64,8 +64,7 @@ window.overworldHychenScript = function (vnEngine) {
                 case 5:
                     switch (choice1) {
                         case 1:
-                            setTimeout(openUrlInBox('https://g0v.hackpad.com/--1OaXIxVVPSd'), 1500);
-                            vnEngine.setText("有問題的話就在IRC上問值日生吧!");
+                            vnEngine.setText("歡迎到 g0v Slack 或 IRC 找值日生報到！\nhttps://g0v.tw/join.html");
                             vnEngine.animateMessage();
                             counter = -4;
                             break;
@@ -89,10 +88,8 @@ window.overworldHychenScript = function (vnEngine) {
             }
             counter++;
         } else if (vnEngine.isWriting()) {
-            console.log("is writing");
             vnEngine.forceTextFinish();
         }
-        console.log(counter);
     }
     var leave = function () {
         vnEngine.hideDialog();

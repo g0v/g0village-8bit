@@ -41,12 +41,9 @@ window.overworldScene = function () {
     var sprites = [
         {name:"playerSprite", url: "assets/soujisprite.png", region: [1, 0]},       // Player
         {name:"hlbSprite", url: "assets/hlbsprite.png", region: [1, 0]},            // 專案發起人
-        {name:"racklinSprite", url: "assets/racklinsprite.png", region: [1, 0]},    // g0village-8bit 專案開拓者
         {name:"clkaoSprite", url: "assets/clkaosprite.png", region: [1, 0]},        // 新手村長
         {name:"moeSprite", url: "assets/moesprite.png", region: [1, 0]},            // 萌典
         {name:"kuansimSprite", url: "assets/kuansimsprite.png", region: [1, 0]},    // 鄉民關心你
-        {name:"mouinfoSprite", url: "assets/mouinfosprite.png", region: [1, 0]},    // 文化部
-        {name:"listeningSprite", url: "assets/listeningsprite.png", region: [1, 0]},    // 福利請聽
         {name:"autolearnSprite", url: "assets/autolearnsprite.png", region: [1, 0]},  //自學地圖
         {name:"etblueSprite", url: "assets/etbluesprite.png", region: [1, 0]},    // ETBlue
         {name:"shadowSprite", url: "assets/shadowsprite.png", region: [1, 0]},      // 坑...
@@ -95,12 +92,9 @@ window.overworldScene = function () {
 
     var npcs = [
         {sprite: "hlbSprite", x: 12, y: 12, script: "overworldHlbScript", hooks: ["setupEngineScript"]},             // g0village 專案發起人
-        {sprite: "racklinSprite", x: 3, y: 7, script: "overworldRacklinScript", hooks: ["setupEngineScript"]},       // g0village-8bit 專案開拓者
         {sprite: "clkaoSprite", x: 15, y: 6, script: "overworldClkaoScript", hooks: ["setupEngineScript"]},          // 新手村長
         {sprite: "moeSprite", x: 8, y: 16, script: "overworldMoeScript", hooks: ["setupEngineScript"]},              // 萌典
         {sprite: "kuansimSprite", x: 7, y: 7, script: "overworldHychenScript", hooks: ["setupEngineScript"]},         // 鄉民關心你
-        {sprite: "mouinfoSprite", x: 18, y: 19, script: "overworldMouinfoScript", hooks: ["setupEngineScript"]},     // 文化部
-        {sprite: "listeningSprite", x: 12, y: 19, script: "overworldListeningScript", hooks: ["setupEngineScript"]}, // 福利請聽
         {sprite: "autolearnSprite", x: 12, y: 16, script: "overworldAutolearnScript", hooks: ["setupEngineScript"]}, // 自學2.0        
         {sprite: "etblueSprite", x: 5, y: 19, script: "overworldETBlueScript", hooks: ["setupEngineScript"]}, // ETBlue        
          {sprite: "blacksmithSprite", x: 6, y: 4, script: "overworldBlacksmithScript", hooks: ["setupEngineScript"]}, // 鐵匠
